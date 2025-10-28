@@ -8,7 +8,9 @@ import CurtainProvider from "./context/CurtainProvider";
 import { TransitionProvider } from "./context/TransitionProvider";
 import PageLoader from "./components/Loader";
 import Menu from "./components/Menu";
-
+/* import PinExample from "./pages/Example";
+import PinDebugFixed from "./pages/Example";
+ */
 export default function App() {
   const location = useLocation();
 
@@ -23,9 +25,9 @@ export default function App() {
       <CurtainProvider>
         <LayoutGroup>
           <AnimatePresence mode="wait" initial={false}>
-            {isLoading ? (
+            {/* {isLoading ? (
               <PageLoader onComplete={handleLoadComplete} />
-            ) : (
+            ) : ( */}
               <Menu>
                 <AnimatePresence mode="wait" initial={false}>
                   <div
@@ -39,7 +41,7 @@ export default function App() {
                   </div>
                 </AnimatePresence>
              </Menu>
-            )}
+            {/* )} */}
           </AnimatePresence>
         </LayoutGroup>
       </CurtainProvider>

@@ -34,9 +34,9 @@ export default function About() {
 
   return (
     <PageWrapper>
-      <div ref={ref} className="max-w-3xl mx-auto space-y-6">
+      <div ref={ref} className="max-w-3xl mx-auto space-y-6 pt-24">
         <header className="flex items-center justify-between">
-          <h2 className="text-3xl font-semibold about-item">Sobre mí</h2>
+          <h2 className="text-3xl font-semibold about-item font-crimson">Sobre mí g</h2>
           <nav>
             <CustomLink to="/" className="about-item underline">Home</CustomLink>
           </nav>
