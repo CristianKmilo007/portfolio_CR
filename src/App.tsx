@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { LayoutGroup, AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
-import About from "./pages/About";
 import CurtainProvider from "./context/CurtainProvider";
 import { TransitionProvider } from "./context/TransitionProvider";
 import PageLoader from "./components/Loader";
 import Menu from "./components/Menu";
+import { Skills } from "./pages/Skills";
 /* import PinExample from "./pages/Example";
 import PinDebugFixed from "./pages/Example";
  */
@@ -25,9 +25,9 @@ export default function App() {
       <CurtainProvider>
         <LayoutGroup>
           <AnimatePresence mode="wait" initial={false}>
-            {/* {isLoading ? (
+            {isLoading ? (
               <PageLoader onComplete={handleLoadComplete} />
-            ) : ( */}
+            ) : (
               <Menu>
                 <AnimatePresence mode="wait" initial={false}>
                   <div
@@ -36,12 +36,12 @@ export default function App() {
                   >
                     <Routes location={location} key={location.pathname}>
                       <Route path="/" element={<Home />} />
-                      <Route path="/about" element={<About />} />
+                      <Route path="/skills" element={<Skills />} />
                     </Routes>
                   </div>
                 </AnimatePresence>
              </Menu>
-            {/* )} */}
+            )}
           </AnimatePresence>
         </LayoutGroup>
       </CurtainProvider>

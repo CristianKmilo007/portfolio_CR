@@ -91,7 +91,7 @@ export const CurtainProvider: React.FC<{ children: React.ReactNode }> = ({
         <motion.div
           initial={{ x: "-100%" }}
           animate={layoutA}
-          className="fixed top-0 right-0 bottom-0 w-screen h-screen z-30 bg-[#2e2257]"
+          className="fixed top-0 right-0 bottom-0 w-screen h-screen z-30 bg-[#040404]"
           aria-hidden
         />
 
@@ -99,7 +99,7 @@ export const CurtainProvider: React.FC<{ children: React.ReactNode }> = ({
         <motion.div
           initial={{ x: "-100%" }}
           animate={layoutB}
-          className="fixed top-0 right-0 bottom-0 w-screen h-screen z-20 bg-[#3b2d71]"
+          className="fixed top-0 right-0 bottom-0 w-screen h-screen z-20 bg-[#111]"
           aria-hidden
         />
 
@@ -107,7 +107,7 @@ export const CurtainProvider: React.FC<{ children: React.ReactNode }> = ({
         <motion.div
           initial={{ x: "-100%" }}
           animate={layoutC}
-          className="fixed top-0 right-0 bottom-0 w-screen h-screen z-10 bg-[#4b3792]"
+          className="fixed top-0 right-0 bottom-0 w-screen h-screen z-10 bg-[#1f1f1f]"
           aria-hidden
         />
       </div>

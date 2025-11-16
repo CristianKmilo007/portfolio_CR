@@ -33,4 +33,12 @@ body::-webkit-scrollbar{
 
 .circular-text-home span {
   @apply text-base
+} 
+
+.icon-ts path{
+  fill: #fff
+}
+
+.img-logos-filter-white {
+  filter: brightness(0) invert(1);
 }
