@@ -112,7 +112,7 @@ const MenuOverlay = ({
 
               <div className="menu-link overflow-hidden">
                 <CustomLink
-                  to="/"
+                  to="/experience"
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >

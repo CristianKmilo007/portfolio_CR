@@ -8,6 +8,7 @@ import { TransitionProvider } from "./context/TransitionProvider";
 import PageLoader from "./components/Loader";
 import Menu from "./components/Menu";
 import { Skills } from "./pages/Skills";
+import CircleScroll from "./pages/Experience";
 /* import PinExample from "./pages/Example";
 import PinDebugFixed from "./pages/Example";
  */
@@ -32,11 +33,12 @@ export default function App() {
                 <AnimatePresence mode="wait" initial={false}>
                   <div
                     key={location.pathname}
-                    className="min-h-screen bg-white text-slate-900 w-full"
+                    className="min-h-screen bg-[#111] text-slate-900 w-full"
                   >
                     <Routes location={location} key={location.pathname}>
                       <Route path="/" element={<Home />} />
                       <Route path="/skills" element={<Skills />} />
+                      <Route path="/experience" element={<CircleScroll />} />
                     </Routes>
                   </div>
                 </AnimatePresence>

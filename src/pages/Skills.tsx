@@ -676,7 +676,7 @@ export const Skills: React.FC = () => {
       <FadeContent
         blur={true}
         duration={5000}
-        delay={2500}
+        delay={1500}
         easing="ease-out"
         initialOpacity={0}
         className="w-full h-[600px] relative"
