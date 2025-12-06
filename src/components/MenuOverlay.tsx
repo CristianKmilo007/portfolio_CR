@@ -122,11 +122,11 @@ const MenuOverlay = ({
 
               <div className="menu-link overflow-hidden">
                 <CustomLink
-                  to="/"
+                  to="/projects"
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >
-                  Servicios
+                  Proyectos
                 </CustomLink>
               </div>
 

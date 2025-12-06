@@ -1,44 +1,79 @@
 // src/pages/Experience.tsx
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { createPortal } from "react-dom";
+import LiquidEther from "../components/LiquidEther";
+import { createRoot, type Root } from "react-dom/client";
+import TimelineCard, { type TimelineEvent } from "../components/TimelineCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const TIMELINE_EVENTS: Array<
-  { year: string; title: string; desc: string; side: "left" | "right" } & (
+  {
+    year: string;
+    title: string;
+    desc: string;
+    side: "left" | "right";
+    type: "education" | "job";
+    img?: string;
+  } & (
     | { y?: never; progress?: never }
     | { y: number; progress?: never }
     | { progress: number; y?: never }
   )
 > = [
   {
-    year: "2015",
-    title: "Curso X",
-    desc: "Descripción corta del curso X",
-    side: "left",
-    y: 750,
-  },
-  {
-    year: "2016",
-    title: "Práctica Y",
-    desc: "Descripción corta de la práctica Y",
+    year: "2018 - 2020",
+    title: "Tecnico en Sistemas",
+    desc: "Instituto Politecnico Agroindustrial",
     side: "right",
-    progress: 0.25,
+    img: "../../public/experience/cert_1.jpg",
+    type: "education",
+    progress: 0.50,
   },
   {
-    year: "2018",
-    title: "Trabajo Z",
-    desc: "Descripción corta del trabajo Z",
+    year: "2020 - 2021",
+    title: "Web Designer",
+    desc: "Udemy",
     side: "left",
-    progress: 0.5,
+    img: "../../public/experience/cert_2.jpg",
+    type: "education",
+    progress: 0.56,
   },
   {
-    year: "2021",
-    title: "Bootcamp W",
-    desc: "Descripción corta del bootcamp W",
+    year: "2021 - 2022",
+    title: "Frontend Developer Freelance",
+    desc: "Villavicencio",
+    type: "job",
+    side: "left",
+    progress: 0.62,
+  },
+  {
+    year: "2021 - 2022",
+    title: "Web Developer Full Stack",
+    desc: "Universidad Iberoamericana",
+    side: "left",
+    img: "../../public/experience/cert_3.jpg",
+    type: "education",
+    progress: 0.68,
+  },
+  {
+    year: "2022 - 2023",
+    title: "Backend Developer Freelance",
+    desc: "Villavicencio",
+    type: "job",
     side: "right",
-    progress: 0.75,
+    progress: 0.74,
+  },
+  {
+    year: "2025",
+    title: "Backend Dev. Nest JS",
+    desc: "DevTalles",
+    type: "education",
+    img: "../../public/experience/cert_4.jpg",
+    side: "right",
+    progress: 0.80,
   },
 ];
 
@@ -50,21 +85,36 @@ function easeInOutQuad(t: number) {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
-// Catmull-Rom -> cubic Bézier (genera 'd' string)
-function catmullRomToBezier(points: Pt[]) {
+function catmullRomToBezier(points: Pt[], handleLen = 80) {
   if (points.length < 2) return "";
   const dParts: string[] = [`M ${points[0].x} ${points[0].y}`];
+
   for (let i = 0; i < points.length - 1; i++) {
     const p0 = points[i - 1] ?? points[i];
     const p1 = points[i];
     const p2 = points[i + 1];
     const p3 = points[i + 2] ?? p2;
-    const cp1x = p1.x + (p2.x - p0.x) / 6;
-    const cp1y = p1.y + (p2.y - p0.y) / 6;
-    const cp2x = p2.x - (p3.x - p1.x) / 6;
-    const cp2y = p2.y - (p3.y - p1.y) / 6;
+
+    const t1x = p2.x - p0.x;
+    const t1y = p2.y - p0.y;
+    const t2x = p3.x - p1.x;
+    const t2y = p3.y - p1.y;
+
+    const len1 = Math.hypot(t1x, t1y) || 1;
+    const len2 = Math.hypot(t2x, t2y) || 1;
+    const u1x = t1x / len1;
+    const u1y = t1y / len1;
+    const u2x = t2x / len2;
+    const u2y = t2y / len2;
+
+    const cp1x = p1.x + u1x * handleLen;
+    const cp1y = p1.y + u1y * handleLen;
+    const cp2x = p2.x - u2x * handleLen;
+    const cp2y = p2.y - u2y * handleLen;
+
     dParts.push(`C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${p2.x} ${p2.y}`);
   }
+
   return dParts.join(" ");
 }
 
@@ -86,7 +136,6 @@ function findLengthAtY(
   return mid;
 }
 
-// asegurar separación mínima por longitud (simple)
 function enforceMinSpacingByLength(
   lengths: number[],
   minGap: number,
@@ -98,7 +147,6 @@ function enforceMinSpacingByLength(
       out[i] = out[i - 1] + minGap;
     }
   }
-  // empujar hacia atrás si se sale
   for (let i = out.length - 1; i >= 0; i--) {
     const maxAllowed = maxLen - (out.length - 1 - i) * minGap;
     if (out[i] > maxAllowed) {
@@ -108,7 +156,6 @@ function enforceMinSpacingByLength(
   return out;
 }
 
-// forzar separación vertical mínima (intenta empujar hacia abajo)
 function enforceMinVerticalSpacing(
   pathEl: SVGPathElement,
   lengths: number[],
@@ -119,9 +166,8 @@ function enforceMinVerticalSpacing(
     const prevPt = pathEl.getPointAtLength(out[i - 1]);
     let curPt = pathEl.getPointAtLength(out[i]);
     if (curPt.y - prevPt.y < minYGap) {
-      // intenta incrementar length hasta cumplir gap
       let attempt = out[i];
-      const step = Math.max(3, Math.floor(pathEl.getTotalLength() / 200)); // step adaptativo
+      const step = Math.max(3, Math.floor(pathEl.getTotalLength() / 200));
       while (true) {
         attempt += step;
         if (attempt > pathEl.getTotalLength()) break;
@@ -190,8 +236,8 @@ const CircleScroll: React.FC = () => {
           }
 
           // --- SVG create/ensure ---
-          const SVG_HEIGHT = 4000;
-          const amplitude = 120;
+          const SVG_HEIGHT = 10000;
+          const amplitude = 150;
 
           let svgEl = document.getElementById(SVG_ID) as SVGSVGElement | null;
           if (!svgEl) {
@@ -212,6 +258,11 @@ const CircleScroll: React.FC = () => {
             );
             svgEl.setAttribute("preserveAspectRatio", "none");
 
+            svgEl.style.opacity = "0";
+            svgEl.style.visibility = "visible"; // importante: no usar hidden
+            svgEl.style.willChange = "opacity";
+            svgRef.current = svgEl;
+
             const defs = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "defs"
@@ -227,7 +278,6 @@ const CircleScroll: React.FC = () => {
             grad.setAttribute("x2", "0");
             grad.setAttribute("y2", `${SVG_HEIGHT}`);
 
-            // stop 0%: naranja
             const stop1 = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "stop"
@@ -236,7 +286,6 @@ const CircleScroll: React.FC = () => {
             stop1.setAttribute("stop-color", "#ae38ff");
             stop1.setAttribute("stop-opacity", "1");
 
-            // stop 60%: rosa
             const stop2 = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "stop"
@@ -250,33 +299,30 @@ const CircleScroll: React.FC = () => {
             defs.appendChild(grad);
             svgEl.appendChild(defs);
 
-            // --- crear grupo y paths ---
             const g = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "g"
             );
             g.setAttribute("id", "trace-group");
 
-            // fondo (más ancho)
             const bgPath = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "path"
             );
             bgPath.setAttribute("class", "stroke-current text-gray-200");
-            bgPath.setAttribute("stroke-width", "5"); // <- grosor fondo (ajusta) // color fondo (fallback)
+            bgPath.setAttribute("stroke-width", "5");
             bgPath.setAttribute("fill", "none");
             bgPath.setAttribute("stroke-linecap", "round");
             bgPath.setAttribute("stroke-linejoin", "round");
-            const BG_COLOR = "#333"; // <- cámbialo aquí
+            const BG_COLOR = "#333";
             bgPath.style.stroke = BG_COLOR;
 
-            // línea revelada (usa gradiente)
             const revealPath = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "path"
             );
-            revealPath.setAttribute("stroke-width", "5"); // ancho deseado
-            revealPath.setAttribute("stroke", "url(#traceGradient)"); // usa el gradient
+            revealPath.setAttribute("stroke-width", "5");
+            revealPath.setAttribute("stroke", "url(#traceGradient)");
             revealPath.setAttribute("fill", "none");
             revealPath.setAttribute("stroke-linecap", "round");
             revealPath.setAttribute("stroke-linejoin", "round");
@@ -297,34 +343,61 @@ const CircleScroll: React.FC = () => {
             "g#trace-group"
           ) as SVGGElement | null;
 
-          // build anchors and path with Catmull-Rom
+          // build anchors equiespaciados
           const cx = window.innerWidth / 2;
-          const anchors: Pt[] = [];
-          const anchorYs = [0, 420, 980, 1500, 1960, 2600, 3300, SVG_HEIGHT];
-          let noiseFn: any = null;
-          try {
-            const simplexMod = await import("simplex-noise");
-            const SimplexCtor =
-              (simplexMod as any).default ??
-              (simplexMod as any).SimplexNoise ??
-              simplexMod;
-            noiseFn = new (SimplexCtor as any)();
-          } catch {
-            noiseFn = null;
+          const NUM_ANCHORS = 8;
+          const ZIG_MULTIPLIER = 0.6;
+          const JITTER_ENABLED = false;
+          const JITTER_MAG = 8;
+          const HANDLE_FACTOR = 0.9;
+          const HANDLE_CLAMP_MIN = 60;
+          const HANDLE_CLAMP_MAX = 500;
+          const SMOOTH_KERNEL = 0;
+
+          function smoothPoints(pts: Pt[], kernel = 1) {
+            if (kernel <= 0) return pts;
+            const out: Pt[] = pts.map((p) => ({ x: p.x, y: p.y }));
+            for (let k = 0; k < kernel; k++) {
+              for (let i = 1; i < pts.length - 1; i++) {
+                out[i].x = (pts[i - 1].x + pts[i].x + pts[i + 1].x) / 3;
+                out[i].y = (pts[i - 1].y + pts[i].y + pts[i + 1].y) / 3;
+              }
+            }
+            return out;
           }
-          for (let i = 0; i < anchorYs.length; i++) {
-            const y = Math.min(SVG_HEIGHT, Math.max(0, anchorYs[i]));
-            const zig =
-              (i % 2 === 0 ? 1 : -1) *
-              (amplitude * (0.25 + (i / anchorYs.length) * 0.9));
-            const jitter = noiseFn
-              ? noiseFn.noise2D(i * 0.12, 0.5) * 40
-              : (Math.random() - 0.5) * 24;
+
+          const anchors: Pt[] = [];
+          for (let i = 0; i < NUM_ANCHORS; i++) {
+            const t = i / Math.max(1, NUM_ANCHORS - 1);
+            const y = Math.round(t * SVG_HEIGHT);
+            const zig = (i % 2 === 0 ? 1 : -1) * amplitude * ZIG_MULTIPLIER;
+            const jitter = JITTER_ENABLED
+              ? (Math.random() - 0.5) * JITTER_MAG
+              : 0;
             const x = cx + zig + jitter;
             anchors.push({ x, y });
           }
 
-          const d = catmullRomToBezier(anchors);
+          const anchorsSmoothed =
+            SMOOTH_KERNEL > 0 ? smoothPoints(anchors, SMOOTH_KERNEL) : anchors;
+
+          let totalSeg = 0;
+          for (let i = 0; i < anchorsSmoothed.length - 1; i++) {
+            const dx = anchorsSmoothed[i + 1].x - anchorsSmoothed[i].x;
+            const dy = anchorsSmoothed[i + 1].y - anchorsSmoothed[i].y;
+            totalSeg += Math.hypot(dx, dy);
+          }
+          const avgSeg = Math.max(
+            1,
+            totalSeg / Math.max(1, anchorsSmoothed.length - 1)
+          );
+          const handleLength = Math.max(
+            HANDLE_CLAMP_MIN,
+            Math.min(HANDLE_CLAMP_MAX, avgSeg * HANDLE_FACTOR)
+          );
+
+          const d = catmullRomToBezier(anchorsSmoothed, handleLength);
+
           const gEl = groupRef.current!;
           const bgPathEl = gEl.querySelectorAll("path")[0] as
             | SVGPathElement
@@ -333,10 +406,35 @@ const CircleScroll: React.FC = () => {
           if (bgPathEl) bgPathEl.setAttribute("d", d);
           revealPathEl.setAttribute("d", d);
 
-          // eliminar nodos previos para evitar duplicados
+          // eliminar nodos previos (desmontar roots si hay)
           const prevNodes = gEl.querySelectorAll(".timeline-node");
-          if (prevNodes && prevNodes.length)
-            prevNodes.forEach((n) => n.remove());
+          if (prevNodes && prevNodes.length) {
+            prevNodes.forEach((n) => {
+              try {
+                const foEl = (n as Element).querySelector("foreignObject") as
+                  | any
+                  | null;
+                if (foEl) {
+                  const root = foEl.__reactRoot as Root | undefined;
+                  if (root && typeof root.unmount === "function") {
+                    try {
+                      root.unmount();
+                    } catch (e) {
+                      /* ignore */
+                    }
+                  }
+                }
+              } catch (err) {
+                /* ignore */
+              } finally {
+                try {
+                  n.remove();
+                } catch (e) {
+                  /* ignore */
+                }
+              }
+            });
+          }
 
           // compute lengths + center
           const pathLen = revealPathEl.getTotalLength();
@@ -348,14 +446,12 @@ const CircleScroll: React.FC = () => {
             viewportCenter
           );
 
-          // stroke initial state + center group
           revealPathEl.setAttribute("stroke-dasharray", `${pathLen}`);
           const ptCenter = revealPathEl.getPointAtLength(lenAtCenter);
           const initialTranslateY = viewportCenter - ptCenter.y;
           gEl.setAttribute("transform", `translate(0, ${initialTranslateY})`);
           revealPathEl.setAttribute("stroke-dashoffset", `${pathLen}`);
 
-          // spacer
           const requiredHeight = Math.ceil(SVG_HEIGHT + viewportCenter + 200);
           let spacer = content.querySelector(
             ".circle-spacer"
@@ -369,16 +465,11 @@ const CircleScroll: React.FC = () => {
             spacer.style.height = `${requiredHeight}px`;
           }
 
-          // -------------------------
-          // Aquí: calcular lengthsForEvents usando y/progress/fallback + evitar solapes
-          // -------------------------
           const startLenForItems = lenAtCenter + 20;
           const endLenForItems = pathLen - 20;
           const nEvents = TIMELINE_EVENTS.length;
 
-          // 1) primer pase: generar según y/progress/fallback
           let lengthsForEvents = TIMELINE_EVENTS.map((ev, i) => {
-            // si y proporcionado -> convertir a longitud
             const anyEv = ev as any;
             if (typeof anyEv.y === "number") {
               const desiredY = Math.max(0, Math.min(anyEv.y, SVG_HEIGHT));
@@ -388,21 +479,18 @@ const CircleScroll: React.FC = () => {
               const p = Math.max(0, Math.min(1, anyEv.progress));
               return startLenForItems + p * (endLenForItems - startLenForItems);
             }
-            // fallback: uniform con easing
             const t = i / Math.max(1, nEvents - 1);
             const tt = easeInOutQuad(t);
             return startLenForItems + tt * (endLenForItems - startLenForItems);
           });
 
-          // 2) forzar separación mínima por longitud
-          const MIN_GAP_LEN = 90; // ajusta si tus cards son más altas o más pequeñas
+          const MIN_GAP_LEN = 90;
           lengthsForEvents = enforceMinSpacingByLength(
             lengthsForEvents,
             MIN_GAP_LEN,
             pathLen
           );
 
-          // 3) opcional: forzar separación vertical para evitar solape de foreignObject visual
           lengthsForEvents = enforceMinVerticalSpacing(
             revealPathEl,
             lengthsForEvents,
@@ -418,28 +506,27 @@ const CircleScroll: React.FC = () => {
             ringReveal: SVGCircleElement;
             fo: SVGForeignObjectElement;
             visible: boolean;
+            reactRoot?: Root;
+            side?: "left" | "right";
           };
           const nodes: Node[] = [];
 
-          // ------------------ creación del nodo (borde cambia solo con opacity) ------------------
+          // creación de nodos
           lengthsForEvents.forEach((len, idx) => {
             const ev = TIMELINE_EVENTS[idx];
             const pt = revealPathEl.getPointAtLength(len);
 
-            // parámetros visuales — ajústalos si quieres otro tamaño
-            const dotR = 5; // radio del punto relleno
-            const ringStroke = 4; // grosor del borde
-            const ringR = dotR + Math.max(1, Math.floor(ringStroke / 1.7)); // radio del anillo
-            const BG_COLOR = "#333"; // color del borde base (igual que la línea fija)
+            const dotR = 5;
+            const ringStroke = 4;
+            const ringR = dotR + Math.max(1, Math.floor(ringStroke / 1.7));
+            const BG_COLOR = "#333";
 
-            // grupo por nodo (facilita transformaciones si fuese necesario)
             const nodeGroup = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "g"
             );
             nodeGroup.setAttribute("class", "timeline-node");
 
-            // 1) base: círculo relleno (#111)
             const baseCircle = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "circle"
@@ -450,7 +537,6 @@ const CircleScroll: React.FC = () => {
             baseCircle.setAttribute("fill", "#111");
             baseCircle.setAttribute("stroke", "none");
 
-            // 2) ringBg: borde inicial (BG_COLOR) — permanece visible debajo
             const ringBg = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "circle"
@@ -465,7 +551,6 @@ const CircleScroll: React.FC = () => {
             ringBg.setAttribute("stroke", BG_COLOR);
             ringBg.style.opacity = "1";
 
-            // 3) ringReveal: stroke con gradiente (invisible inicialmente, se mostrará por opacity)
             const ringReveal = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "circle"
@@ -478,50 +563,53 @@ const CircleScroll: React.FC = () => {
             ringReveal.setAttribute("stroke-linejoin", "round");
             ringReveal.setAttribute("stroke-width", `${ringStroke}`);
             ringReveal.setAttribute("stroke", "url(#traceGradient)");
-            // **Importante**: NO strokeDash ni animación de trazo — solo opacity
             ringReveal.style.opacity = "0";
             ringReveal.style.visibility = "visible";
 
-            // añadir en orden (base debajo, ringBg encima, ringReveal encima)
             nodeGroup.appendChild(baseCircle);
             nodeGroup.appendChild(ringBg);
             nodeGroup.appendChild(ringReveal);
             gEl.appendChild(nodeGroup);
 
-            // foreignObject (igual que antes)
+            // foreignObject
             const fo = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "foreignObject"
             ) as SVGForeignObjectElement;
             fo.setAttribute("class", "timeline-node");
-            const boxW = 260;
-            const boxH = 84;
+            const boxW = 500;
+            const boxH = 500;
             const offsetX = 14;
             let foX =
               ev.side === "left" ? pt.x - offsetX - boxW : pt.x + offsetX;
             foX = Math.max(6, Math.min(window.innerWidth - boxW - 6, foX));
-            const foY = pt.y - boxH / 2;
+
+            // --- aquí: top align (la card inicia al mismo nivel del punto) ---
+            // antes: const foY = pt.y - boxH / 2;
+            const foY = pt.y; // top-aligned
+
             fo.setAttribute("x", `${foX}`);
             fo.setAttribute("y", `${foY}`);
             fo.setAttribute("width", `${boxW}`);
             fo.setAttribute("height", `${boxH}`);
-            fo.setAttribute("pointer-events", "all");
-            fo.innerHTML = `
-              <div xmlns="http://www.w3.org/1999/xhtml" class="${
-                ev.side === "left"
-                  ? "flex justify-end pr-3 items-center h-full"
-                  : "flex justify-start pl-3 items-center h-full"
-              }">
-                <div class="bg-white border border-gray-100 shadow rounded-lg p-3 text-left">
-                  <div class="text-xs font-semibold text-gray-900">${ev.year}</div>
-                  <div class="text-sm font-semibold">${ev.title}</div>
-                  <div class="text-sm text-gray-600 mt-1">${ev.desc}</div>
-                </div>
-              </div>
-            `;
-            (fo.style as any).opacity = "0";
+            fo.setAttribute("tabindex", "-1");
+            fo.setAttribute("focusable", "false");
+            (fo as any).style.outline = "none";
+
+            // Inicialmente invisible y sin pointer-events
+            (fo as any).style.opacity = "0";
+            (fo as any).style.visibility = "visible";
+            (fo as any).style.pointerEvents = "none";
+
             gEl.appendChild(fo);
 
+            // Mount React component inside foreignObject using createRoot
+            const reactRoot: Root = createRoot(fo as any);
+            reactRoot.render(<TimelineCard ev={ev as TimelineEvent} />);
+
+            (fo as any).__reactRoot = reactRoot;
+
+            // push node including reactRoot and side
             nodes.push({
               len,
               pt: { x: pt.x, y: pt.y },
@@ -530,9 +618,10 @@ const CircleScroll: React.FC = () => {
               ringReveal,
               fo,
               visible: false,
+              reactRoot,
+              side: ev.side,
             });
           });
-          // ------------------ fin creación del nodo ------------------
 
           // proxy + update
           const proxy: { len: number } = { len: lenAtCenter };
@@ -556,12 +645,31 @@ const CircleScroll: React.FC = () => {
                 if (delta >= 0 && curLen >= node.len - activationOffset) {
                   node.visible = true;
 
-                  // mostrar foreignObject
+                  // mostrar foreignObject + animar progress bar desde 0->100%
                   gsap.killTweensOf(node.fo);
                   gsap.to(node.fo, {
                     autoAlpha: 1,
                     duration: 0.28,
                     ease: "power2.out",
+                    onStart: () => {
+                      try {
+                        node.fo.style.pointerEvents = "all";
+                      } catch {}
+                      try {
+                        const bar = (node.fo as Element).querySelector(
+                          ".timeline-progress-bar"
+                        ) as HTMLElement | null;
+                        if (bar) {
+                          gsap.killTweensOf(bar);
+                          // animación de la barra: width 0% -> 100%
+                          gsap.fromTo(
+                            bar,
+                            { width: "0%" },
+                            { width: "100%", duration: 0.6, ease: "power2.out" }
+                          );
+                        }
+                      } catch {}
+                    },
                   });
 
                   // Mostrar gradiente del borde mediante opacity (fade-in)
@@ -571,20 +679,78 @@ const CircleScroll: React.FC = () => {
                     duration: 0.35,
                     ease: "power2.out",
                   });
-
-                  // NOTE: no ocultamos ringBg — lo dejamos como base visible.
                 }
               } else {
+                // ---------------- ocultado de nodo (reemplaza tu bloque existente) ----------------
                 if (delta < 0 && curLen < node.len - hideThreshold) {
                   node.visible = false;
 
-                  // ocultar foreignObject
-                  gsap.killTweensOf(node.fo);
-                  gsap.to(node.fo, {
-                    autoAlpha: 0,
-                    duration: 0.22,
-                    ease: "power2.out",
-                  });
+                  // Primero animamos la barra de progreso 100% -> 0% (si existe),
+                  // y *al completar* ocultamos la foreignObject.
+                  try {
+                    const bar = (node.fo as Element).querySelector(
+                      ".timeline-progress-bar"
+                    ) as HTMLElement | null;
+
+                    if (bar) {
+                      // asegurarnos de no tener animaciones previas
+                      gsap.killTweensOf(bar);
+                      // animamos la barra hacia 0%
+                      gsap.to(bar, {
+                        width: "0%",
+                        duration: 0.35,
+                        ease: "power2.inOut",
+                        onStart: () => {
+                          // opcional: si quieres que la barra se vea aún al empezar el reverse
+                          // bar.style.willChange = 'width';
+                        },
+                        onComplete: () => {
+                          // al terminar la barra, ocultamos la foreignObject
+                          try {
+                            gsap.killTweensOf(node.fo);
+                            gsap.to(node.fo, {
+                              autoAlpha: 0,
+                              duration: 0.22,
+                              ease: "power2.out",
+                              onComplete: () => {
+                                try {
+                                  node.fo.style.pointerEvents = "none";
+                                } catch {}
+                              },
+                            });
+                          } catch {}
+                        },
+                      });
+                    } else {
+                      // fallback: si no hay barra, ocultar directamente
+                      gsap.killTweensOf(node.fo);
+                      gsap.to(node.fo, {
+                        autoAlpha: 0,
+                        duration: 0.22,
+                        ease: "power2.out",
+                        onComplete: () => {
+                          try {
+                            node.fo.style.pointerEvents = "none";
+                          } catch {}
+                        },
+                      });
+                    }
+                  } catch (e) {
+                    // fallback robusto
+                    try {
+                      gsap.killTweensOf(node.fo);
+                      gsap.to(node.fo, {
+                        autoAlpha: 0,
+                        duration: 0.22,
+                        ease: "power2.out",
+                        onComplete: () => {
+                          try {
+                            node.fo.style.pointerEvents = "none";
+                          } catch {}
+                        },
+                      });
+                    } catch {}
+                  }
 
                   // Ocultar gradiente del borde mediante opacity (fade-out)
                   gsap.killTweensOf(node.ringReveal);
@@ -594,7 +760,7 @@ const CircleScroll: React.FC = () => {
                     ease: "power2.inOut",
                   });
 
-                  // ringBg permanece
+                  // -------------------------------------------------------------------------------
                 }
               }
             });
@@ -782,19 +948,126 @@ const CircleScroll: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div
-      ref={wrapperRef}
-      className="relative w-full min-h-screen overflow-auto bg-[#111]"
-    >
-      <div ref={contentRef} className="relative w-full" />
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-      <style>{`
+  const raysRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!raysRef.current || !contentRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const blurVh = 3; // 200vh
+      const fadeVh = 2; // 200vh after blur
+      const maxBlur = 64;
+      const totalVh = blurVh + fadeVh;
+      const blurFrac = blurVh / totalVh;
+
+      // hint para el rays
+      raysRef.current!.style.willChange = "filter";
+
+      // una pequeña bandera para inicializar el SVG solo una vez
+      let svgInitialized = false;
+
+      const st = ScrollTrigger.create({
+        trigger: contentRef.current,
+        start: "top top",
+        end: () => "+=" + Math.round(window.innerHeight * totalVh),
+        scrub: true,
+        onUpdate: (self) => {
+          const p = Math.max(0, Math.min(1, self.progress));
+
+          // BLUR PHASE (progresivo)
+          const blurPhaseProgress =
+            blurFrac > 0 ? Math.min(1, p / blurFrac) : 1;
+          const blurPx = maxBlur * blurPhaseProgress;
+          if (raysRef.current)
+            raysRef.current.style.filter = `blur(${blurPx}px)`;
+
+          // FADE-IN PHASE (progresivo, sin gsap.autoAlpha)
+          const svgPhaseProgress =
+            p <= blurFrac ? 0 : Math.min(1, (p - blurFrac) / (1 - blurFrac));
+
+          // resolver el SVG (se crea dinámicamente en tu build)
+          const svgEl: Element | null =
+            svgRef.current ?? document.getElementById(SVG_ID);
+          if (!svgEl) return;
+
+          // inicializar el svg (una sola vez) para evitar flashes si se crea después
+          if (!svgInitialized) {
+            svgInitialized = true;
+            // NO usar visibility:hidden; simplemente opacidad 0
+            (svgEl as HTMLElement | SVGElement).style.opacity = "0";
+            (svgEl as HTMLElement | SVGElement).style.willChange = "opacity";
+            // asegurarnos que esté visible en el flujo (no hidden)
+            (svgEl as HTMLElement | SVGElement).style.visibility = "visible";
+          }
+
+          // aplicar opacidad progresiva (0..1) — esto maneja show/hide progresivo en ambas direcciones
+          (svgEl as HTMLElement | SVGElement).style.opacity =
+            String(svgPhaseProgress);
+
+          // si llegó a 1, remover will-change y (opcional) fijar estado final
+          if (svgPhaseProgress >= 1) {
+            // ya está completamente visible; limpiar hint de will-change
+            (svgEl as HTMLElement | SVGElement).style.willChange = "";
+            (svgEl as HTMLElement | SVGElement).style.opacity = "1";
+          }
+        },
+      });
+
+      return () => {
+        st.kill();
+      };
+    }, contentRef);
+
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, [mounted]);
+
+  const raysPortal = (
+    <div
+      ref={raysRef}
+      className="fixed inset-0 bg-[#111] pointer-events-none z-0"
+      style={{ filter: "blur(0px)", willChange: "filter" }}
+    >
+      <LiquidEther
+        colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+        mouseForce={15}
+        cursorSize={50}
+        isViscous={false}
+        viscous={30}
+        iterationsViscous={32}
+        iterationsPoisson={32}
+        resolution={0.2}
+        isBounce={false}
+        autoDemo={true}
+        autoSpeed={0.25}
+        autoIntensity={4}
+        takeoverDuration={1}
+        autoRampDuration={1}
+      />
+    </div>
+  );
+
+  return (
+    <>
+      {mounted && createPortal(raysPortal, document.body)}
+      <div
+        ref={wrapperRef}
+        className="relative w-full min-h-screen overflow-auto"
+      >
+        <div ref={contentRef} className="relative w-full" />
+
+        <style>{`
         @keyframes scroll { 0% { transform: translateY(0); } 100% { transform: translateY(10px); } }
         .animate-scroll { animation: scroll 0.95s ease-in-out alternate infinite; fill: none; stroke: #000; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 1; }
         .circle { will-change: transform, opacity; width: 4px; height: 4px; border-radius: 50%; background: transparent; }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 };
 
