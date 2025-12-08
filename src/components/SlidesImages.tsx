@@ -220,6 +220,7 @@ const SlideImagesComponent = ({
             />
           </div>
         </div>
+        
       </>
     );
   }
@@ -305,7 +306,7 @@ const SlideImagesComponent = ({
             {slides.map((slide, i) => (
               <SwiperSlide key={i}>
                 <div
-                  className={`w-full h-full flex justify-center items-center cursor-zoom-in ${slide?.type === 'video' ? 'bg-[#010101]' : ''}`}
+                  className={`w-full h-full flex justify-center items-center cursor-zoom-in ${slide?.type === 'video' ? 'bg-[#010101]' : ''} ${slide?.isContain && 'bg-[#01010133]'}`}
                 >
                   {slide.src ? (
                     slide.type === 'image' ? (
@@ -314,7 +315,7 @@ const SlideImagesComponent = ({
                         alt={`slide-${i}`}
                         loading="lazy"
                         decoding="async"
-                        className="object-cover w-full h-full"
+                        className={`${slide?.isContain ? 'object-contain' : 'object-cover'} w-full h-full`}
                       />
                     ) : (
                       <video

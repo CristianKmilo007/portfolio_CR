@@ -8,6 +8,9 @@ import React, {
 } from "react";
 import type { JSX } from "react";
 import SlideImages from "../components/SlidesImages";
+import { Button } from "@heroui/react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { PiLinkBold } from "react-icons/pi";
 
 /* ----------------------------
   Data & config (con metadata)
@@ -17,52 +20,83 @@ type Project = {
   description: string;
   technologies: string[];
   image?: string;
-  slides?: Array<{ type: "image" | "video"; src: string; thumb?: string }>;
+  slides?: Array<{ type: "image" | "video"; src: string; thumb?: string, isContain?: boolean }>;
+  link?: string;
 };
 
 const projectData: Project[] = [
   {
-    name: "Portfolio Website",
+    name: "TodoServy",
     description:
-      "Diseño moderno con transiciones fluidas y microinteracciones.",
-    technologies: ["React", "TypeScript", "Tailwind", "GSAP"],
-    slides: [
-      { type: "image", src: "/projects/img_1.jpg" },
-      { type: "image", src: "/projects/img_2.jpg" },
-      { type: "image", src: "/projects/img_3.jpg" },
+      "¿Todos los servicios, profesionales y empresas cerca de mí? TodoServy es el directorio verificado más grande y confiable.",
+    technologies: [
+      "HTML",
+      "CSS",
+      "Javascript",
+      "Laravel",
+      "Bootstrap",
+      "PHP",
+      "MySQL",
     ],
-    image: "/projects/img_1.jpg",
+    slides: [
+      { type: "image", src: "/projects/todoservy/img2.png" },
+      { type: "image", src: "/projects/todoservy/img1.png" },
+      { type: "image", src: "/projects/todoservy/img3.png" },
+      { type: "image", src: "/projects/todoservy/img4.png" },
+      { type: "image", src: "/projects/todoservy/img5.png" },
+      { type: "image", src: "/projects/todoservy/img6.png" },
+      { type: "image", src: "/projects/todoservy/img7.png" },
+      { type: "image", src: "/projects/todoservy/img8.png" },
+      { type: "image", src: "/projects/todoservy/img9.png" },
+      { type: "image", src: "/projects/todoservy/img10.png", isContain: true },
+      { type: "image", src: "/projects/todoservy/img11.png", isContain: true }
+    ],
+    image: "/projects/todoservy/img2.png",
+    link: "https://todoservy.com.co/",
   },
   {
-    name: "Dashboard Analytics",
-    description: "Dashboard interactivo con visualizaciones en tiempo real.",
-    technologies: ["React", "Zustand", "ChartJS"],
+    name: "TodoDomi",
+    description: "Conoce a Todo Domi, la primera app delivery de la historia de Galápagos, diseñada para mayor comodidad de turistas extranjeros, nacionales y comunidad local.",
+    technologies: ["React js", "Javascript", "SASS", "Bootstrap", "Rubi"],
     slides: [
-      { type: "image", src: "/projects/img_2.jpg" },
-      {
-        type: "video",
-        src: "/projects/proj2/clip_1.mp4",
-        thumb: "/projects/proj2/clip_1_poster.jpg",
-      },
-      { type: "image", src: "/projects/img_3.jpg" },
-      { type: "image", src: "/projects/img_4.jpg" },
+      { type: "image", src: "/projects/tododomi/img1.png" },
+      { type: "image", src: "/projects/tododomi/img2.png" },
+      { type: "image", src: "/projects/tododomi/img3.png" },
+      { type: "image", src: "/projects/tododomi/img4.png" },
+      { type: "image", src: "/projects/tododomi/img5.png" },
+      { type: "image", src: "/projects/tododomi/img6.png" },
+      { type: "image", src: "/projects/tododomi/img7.png" },
+      { type: "image", src: "/projects/tododomi/img8.png" },
+      { type: "image", src: "/projects/tododomi/img9.png", isContain: true },
+      { type: "image", src: "/projects/tododomi/img10.png", isContain: true },
+      { type: "image", src: "/projects/tododomi/img11.png", isContain: true },
+      { type: "image", src: "/projects/tododomi/img12.png", isContain: true },
+      { type: "image", src: "/projects/tododomi/img13.png", isContain: true }
     ],
-    image: "/projects/img_2.jpg",
+    image: "/projects/tododomi/img1.png",
+    link: "https://customer.tododomi.com/",
   },
   {
-    name: "E-commerce Store",
-    description: "Catálogo animado con soporte de video y filtros en vivo.",
-    technologies: ["Next.js", "Framer Motion", "Stripe"],
+    name: "Shepwashi",
+    description: "Soluciones digitales para empresas. Personaliza la experiencia del cliente, reduce costos y crece tu negocio con herramientas para fidelizar clientes y optimizar procesos.",
+    technologies: ["Next Js", "Javascript", "Tailwind CSS", "SASS", "Gsap", "Framer Motion"],
     slides: [
-      {
-        type: "video",
-        src: "/projects/proj3/hero.mp4",
-        thumb: "/projects/proj3/hero_poster.jpg",
-      },
-      { type: "image", src: "/projects/img_3.jpg" },
-      { type: "image", src: "/projects/img_4.jpg" },
+      { type: "image", src: "/projects/shepwashi/img1.png" },
+      { type: "image", src: "/projects/shepwashi/img2.png" },
+      { type: "image", src: "/projects/shepwashi/img3.png" },
+      { type: "image", src: "/projects/shepwashi/img4.png" },
+      { type: "image", src: "/projects/shepwashi/img5.png" },
+      { type: "image", src: "/projects/shepwashi/img6.png" },
+      { type: "image", src: "/projects/shepwashi/img7.png" },
+      { type: "image", src: "/projects/shepwashi/img8.png", isContain: true },
+      { type: "image", src: "/projects/shepwashi/img9.png", isContain: true },
+      { type: "image", src: "/projects/shepwashi/img10.png", isContain: true },
+      { type: "image", src: "/projects/shepwashi/img11.png", isContain: true },
+      { type: "image", src: "/projects/shepwashi/img12.png", isContain: true },
+      { type: "image", src: "/projects/shepwashi/img13.png", isContain: true },
     ],
-    image: "/projects/img_3.jpg",
+    image: "/projects/shepwashi/img1.png",
+    link: "https://www.shepwashi.com/"
   },
   {
     name: "Landing Page Motion",
@@ -96,9 +130,10 @@ const config = {
   BUFFER_SIZE: 5,
   MAX_VELOCITY: 150,
   SNAP_DURATION: 500,
+  FADE_MS: 300, // fade duration for info/panels
 };
 
-/* minimal CSS to help rendering */
+/* minimal CSS to help rendering (still injected for media performance) */
 const injectedSmallCss = `
 .projects-root .mySwiper .swiper-slide img,
 .projects-root .mySwiper .swiper-slide video,
@@ -112,14 +147,13 @@ const injectedSmallCss = `
 }
 `;
 
-/* Static overlay controls (unchanged) */
+/* Static overlay controls (unchanged visually, converted to Tailwind) */
 function MinimapStaticControls({
   onPrev,
   onNext,
   bullets,
   activeIndex,
   onBulletClick,
-  counterText,
   innerRef,
 }: {
   onPrev: () => void;
@@ -133,29 +167,23 @@ function MinimapStaticControls({
   return (
     <div className="absolute inset-0 pointer-events-none z-[9] minimap-static-controls">
       <div ref={innerRef} className="absolute inset-0 pointer-events-none">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onPrev();
-          }}
-          className="pointer-events-auto absolute -left-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 flex items-center justify-center"
-          aria-label="Anterior"
-          title="Anterior"
+        <Button
+          isIconOnly
+          radius="full"
+          onPress={onPrev}
+          className={`pointer-events-auto absolute -left-12 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 min-w-9 flex items-center justify-center`}
         >
-          ‹
-        </button>
+          <FaArrowLeft className="text-white" size={14} />
+        </Button>
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onNext();
-          }}
-          className="pointer-events-auto absolute -right-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 flex items-center justify-center"
-          aria-label="Siguiente"
-          title="Siguiente"
+        <Button
+          isIconOnly
+          radius="full"
+          onPress={onNext}
+          className={`pointer-events-auto absolute -right-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 min-w-9 flex items-center justify-center`}
         >
-          ›
-        </button>
+          <FaArrowRight className="text-white" size={14} />
+        </Button>
 
         <div className="pointer-events-auto absolute -bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
           {Array.from({ length: bullets }).map((_, i) => (
@@ -173,9 +201,9 @@ function MinimapStaticControls({
           ))}
         </div>
 
-        <div className="pointer-events-auto absolute -top-8 left-1/2 -translate-x-1/2 bg-black/60 text-white px-2 py-0.5 rounded-full text-xs">
+        {/* <div className="pointer-events-auto absolute -top-8 left-1/2 -translate-x-1/2 bg-black/60 text-white px-2 py-0.5 rounded-full text-xs">
           {counterText}
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -193,7 +221,6 @@ export default function Projects(): JSX.Element {
   const rafRef = useRef<number | null>(null);
   const animTimersRef = useRef<number[]>([]);
 
-  // mutable state kept in ref (same approach as tu implementación original)
   const stateRef = useRef<any>({
     currentY: 0,
     targetY: 0,
@@ -216,12 +243,10 @@ export default function Projects(): JSX.Element {
     visibleRange: { min: -config.BUFFER_SIZE, max: config.BUFFER_SIZE },
   });
 
-  // reactive viewport height (used as panel height = 100vh)
   const [viewportH, setViewportH] = useState<number>(
     typeof window !== "undefined" ? window.innerHeight : 800
   );
 
-  // React-driven visible range (triggers JSX updates)
   const [visibleRangeState, setVisibleRangeState] = useState<{
     min: number;
     max: number;
@@ -230,7 +255,6 @@ export default function Projects(): JSX.Element {
     max: config.BUFFER_SIZE,
   });
 
-  // Swiper controls state
   const currentSwiperRef = useRef<any>(null);
   const [controlsState, setControlsState] = useState({
     bullets: 0,
@@ -238,10 +262,8 @@ export default function Projects(): JSX.Element {
     counterText: "0 / 0",
   });
 
-  // active index (normalized)
   const activeIndexRef = useRef<number>(0);
 
-  // inject helper css once
   useEffect(() => {
     const s = document.createElement("style");
     s.setAttribute("data-injected-minimap-small", "1");
@@ -250,7 +272,6 @@ export default function Projects(): JSX.Element {
     return () => s.remove();
   }, []);
 
-  // keep viewportH / projectHeight in sync on resize
   useEffect(() => {
     const onResize = () => {
       const h = window.innerHeight;
@@ -262,9 +283,6 @@ export default function Projects(): JSX.Element {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  /* -----------------------
-     Parallax helper (optimized)
-  ------------------------*/
   const createParallax = useCallback(
     (container: HTMLElement | null, height: number) => {
       let current = 0;
@@ -313,7 +331,6 @@ export default function Projects(): JSX.Element {
     []
   );
 
-  /* ---------- helpers ---------- */
   const getProjectData = useCallback((index: number) => {
     const i =
       ((Math.abs(index) % projectData.length) + projectData.length) %
@@ -351,14 +368,12 @@ export default function Projects(): JSX.Element {
       state.panels.set(index, { elRef: React.createRef<HTMLDivElement>() });
   }, []);
 
-  /* build initial buffer refs */
   useEffect(() => {
     for (let i = -config.BUFFER_SIZE; i <= config.BUFFER_SIZE; i++)
       ensureMapsHaveIndex(i);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* attach parallax for visible range */
   useEffect(() => {
     const state = stateRef.current;
     const { min, max } = state.visibleRange;
@@ -410,7 +425,6 @@ export default function Projects(): JSX.Element {
     []
   );
 
-  /* ---------- main loop: sync + update positions ---------- */
   useEffect(() => {
     const state = stateRef.current;
 
@@ -440,7 +454,6 @@ export default function Projects(): JSX.Element {
         setVisibleRangeState({ min, max });
       }
 
-      // update active index normalized
       const normalized =
         ((current % projectData.length) + projectData.length) %
         projectData.length;
@@ -485,15 +498,15 @@ export default function Projects(): JSX.Element {
 
       // PANEL COLUMN SYNC (100vh blocks)
       try {
-        // panelOffset: how much we translate the entire column so panels align per viewport
-        // since each panel is exactly projectHeight (viewportH), we simply apply state.currentY
         const panelOffset = state.currentY; // px
         state.panels.forEach((p: any, index: number) => {
           const targetY = index * viewportH + panelOffset;
           if (p.elRef?.current) {
+            // position
             p.elRef.current.style.transform = `translate3d(0, ${targetY}px, 0)`;
             p.elRef.current.style.willChange = "transform, opacity";
-            // highlight only the panel whose index matches the visible project
+
+            // determine which panel is the "active" visible one
             const currentIndex = Math.round(
               -state.targetY / state.projectHeight
             );
@@ -503,12 +516,15 @@ export default function Projects(): JSX.Element {
             const panelNorm =
               ((index % projectData.length) + projectData.length) %
               projectData.length;
+
+            // use class toggles for smooth fade in/out (Tailwind utilities)
+            const el = p.elRef.current;
             if (normalized === panelNorm) {
-              p.elRef.current.style.opacity = "1";
-              p.elRef.current.style.pointerEvents = "auto";
+              el.classList.remove("opacity-0", "pointer-events-none");
+              el.classList.add("opacity-100", "pointer-events-auto");
             } else {
-              p.elRef.current.style.opacity = "0.45";
-              p.elRef.current.style.pointerEvents = "none";
+              el.classList.remove("opacity-100", "pointer-events-auto");
+              el.classList.add("opacity-0", "pointer-events-none");
             }
           }
         });
@@ -612,7 +628,6 @@ export default function Projects(): JSX.Element {
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    // input handlers
     const wheelHandler = (e: WheelEvent) => {
       if (rootRef.current && !(e.target as Element).closest?.(".projects-root"))
         return;
@@ -654,7 +669,6 @@ export default function Projects(): JSX.Element {
 
     const onResize = () => {
       state.projectHeight = window.innerHeight;
-      // force sync
       syncElements();
       updatePositions();
     };
@@ -680,7 +694,6 @@ export default function Projects(): JSX.Element {
     viewportH,
   ]);
 
-  /* overlay controls */
   const handlePrev = useCallback(() => {
     try {
       currentSwiperRef.current?.slidePrev?.();
@@ -711,23 +724,14 @@ export default function Projects(): JSX.Element {
   return (
     <div ref={rootRef} className="w-full projects-root">
       <div className="content fixed w-full h-screen overflow-hidden pointer-events-none">
-        {/* LEFT PANELS COLUMN (INSIDE content but OUTSIDE minimap)
-            Each panel now has height = viewportH (100vh) and its content is centered vertically.
-            Panels are positioned absolutely and moved imperatively so they behave like vertical slider blocks.
-        */}
-        <div
-          className="left-panels absolute left-6 top-0 z-[20] pointer-events-none"
-          style={{ width: 320, height: "100vh", overflow: "visible" }}
-        >
-          {/** Use indicesToRender (virtual indices range), not projectData.length */}
+        {/* LEFT PANELS COLUMN */}
+        <div className="left-panels absolute left-6 top-0 z-[20] pointer-events-none w-[calc(50%-150px)] h-screen overflow-visible">
           {indicesToRender.map((index) => {
-            // ensure panel ref exists for this virtual index
             const panelEntry = stateRef.current.panels.get(index);
             const elRef =
               panelEntry?.elRef ?? React.createRef<HTMLDivElement>();
             if (!panelEntry) stateRef.current.panels.set(index, { elRef });
 
-            // map virtual index to the project object (handles looping)
             const project = getProjectData(index);
 
             return (
@@ -736,55 +740,40 @@ export default function Projects(): JSX.Element {
                 key={`left-panel-${index}`}
                 aria-hidden="false"
                 style={{
-                  position: "absolute",
-                  left: 0,
-                  width: "100%",
-                  height: viewportH, // 100vh block
                   transform: `translate3d(0, ${index * viewportH}px, 0)`,
-                  transition: "transform 0.12s linear, opacity 0.12s linear",
-                  pointerEvents: "none",
-                  opacity: 0.6,
                 }}
-                className="bg-transparent backdrop-blur-sm rounded"
+                className="absolute left-0 w-full h-screen transform transition-opacity duration-300 ease-out will-change-transform opacity-0 pointer-events-none"
               >
-                {/* centered content */}
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 24,
-                    boxSizing: "border-box",
-                    color: "white",
-                  }}
-                >
-                  <div style={{ maxWidth: 320 }}>
-                    <h3
-                      style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}
-                    >
-                      {project.name}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: 14,
-                        color: "rgba(255,255,255,0.9)",
-                        marginBottom: 12,
-                      }}
-                    >
+                <div className="w-full h-full flex items-center justify-end p-6 box-border text-white text-right">
+                  <div className="max-w-[400px] flex flex-col gap-2">
+                    <div className="w-full flex gap-2 justify-end items-center">
+                      <h3 className="text-4xl font-semibold">{project.name}</h3>
+                      {project.link && (
+                        <a
+                          href={project?.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Abrir ${project.name} en nueva pestaña`}
+                        >
+                          <Button
+                            isIconOnly
+                            size="sm"
+                            radius="full"
+                            className="bg-[#00000036] mt-1"
+                          >
+                            <PiLinkBold color="#fff" size={18} />
+                          </Button>
+                        </a>
+                      )}
+                    </div>
+                    <p className="text-lg leading-6 text-[#aaa]">
                       {project.description}
                     </p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    <div className="flex justify-end flex-wrap gap-2 mt-2">
                       {project.technologies.map((t) => (
                         <span
                           key={t}
-                          style={{
-                            fontSize: 12,
-                            padding: "6px 10px",
-                            background: "rgba(255,255,255,0.06)",
-                            borderRadius: 999,
-                          }}
+                          className="text-sm px-3 py-1 bg-[#ffffff1c] rounded-full"
                         >
                           {t}
                         </span>
@@ -819,7 +808,7 @@ export default function Projects(): JSX.Element {
                 <img
                   src={data.image}
                   alt={`bg-${index}`}
-                  className="w-full h-full object-cover filter blur-[50px] brightness-20"
+                  className="w-full h-full object-cover filter blur-[50px] brightness-40"
                   decoding="async"
                 />
               </li>
@@ -829,15 +818,12 @@ export default function Projects(): JSX.Element {
 
         {/* minimap */}
         <div
-          className="minimap fixed"
+          className="minimap fixed top-1/2 z-30 pointer-events-auto"
           style={{
-            top: "50%",
             left: "65%",
             transform: "translate(-50%, -50%)",
-            width: "30%",
+            width: "32%",
             height: 400,
-            zIndex: 30,
-            pointerEvents: "auto",
           }}
         >
           <div
