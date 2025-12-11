@@ -20,7 +20,12 @@ type Project = {
   description: string;
   technologies: string[];
   image?: string;
-  slides?: Array<{ type: "image" | "video"; src: string; thumb?: string, isContain?: boolean }>;
+  slides?: Array<{
+    type: "image" | "video";
+    src: string;
+    thumb?: string;
+    isContain?: boolean;
+  }>;
   link?: string;
 };
 
@@ -49,14 +54,15 @@ const projectData: Project[] = [
       { type: "image", src: "/projects/todoservy/img8.png" },
       { type: "image", src: "/projects/todoservy/img9.png" },
       { type: "image", src: "/projects/todoservy/img10.png", isContain: true },
-      { type: "image", src: "/projects/todoservy/img11.png", isContain: true }
+      { type: "image", src: "/projects/todoservy/img11.png", isContain: true },
     ],
     image: "/projects/todoservy/img2.png",
     link: "https://todoservy.com.co/",
   },
   {
     name: "TodoDomi",
-    description: "Conoce a Todo Domi, la primera app delivery de la historia de Galápagos, diseñada para mayor comodidad de turistas extranjeros, nacionales y comunidad local.",
+    description:
+      "Conoce a Todo Domi, la primera app delivery de la historia de Galápagos, diseñada para mayor comodidad de turistas extranjeros, nacionales y comunidad local.",
     technologies: ["React js", "Javascript", "SASS", "Bootstrap", "Rubi"],
     slides: [
       { type: "image", src: "/projects/tododomi/img1.png" },
@@ -71,15 +77,23 @@ const projectData: Project[] = [
       { type: "image", src: "/projects/tododomi/img10.png", isContain: true },
       { type: "image", src: "/projects/tododomi/img11.png", isContain: true },
       { type: "image", src: "/projects/tododomi/img12.png", isContain: true },
-      { type: "image", src: "/projects/tododomi/img13.png", isContain: true }
+      { type: "image", src: "/projects/tododomi/img13.png", isContain: true },
     ],
     image: "/projects/tododomi/img1.png",
     link: "https://customer.tododomi.com/",
   },
   {
     name: "Shepwashi",
-    description: "Soluciones digitales para empresas. Personaliza la experiencia del cliente, reduce costos y crece tu negocio con herramientas para fidelizar clientes y optimizar procesos.",
-    technologies: ["Next Js", "Javascript", "Tailwind CSS", "SASS", "Gsap", "Framer Motion"],
+    description:
+      "Soluciones digitales para empresas. Personaliza la experiencia del cliente, reduce costos y crece tu negocio con herramientas para fidelizar clientes y optimizar procesos.",
+    technologies: [
+      "Next Js",
+      "Javascript",
+      "Tailwind CSS",
+      "SASS",
+      "Gsap",
+      "Framer Motion",
+    ],
     slides: [
       { type: "image", src: "/projects/shepwashi/img1.png" },
       { type: "image", src: "/projects/shepwashi/img2.png" },
@@ -96,31 +110,235 @@ const projectData: Project[] = [
       { type: "image", src: "/projects/shepwashi/img13.png", isContain: true },
     ],
     image: "/projects/shepwashi/img1.png",
-    link: "https://www.shepwashi.com/"
+    link: "https://www.shepwashi.com/",
   },
   {
-    name: "Landing Page Motion",
-    description: "Landing con parallax y microanimaciones para conversión.",
-    technologies: ["GSAP", "React"],
-    slides: [
-      { type: "image", src: "/projects/img_5.jpg" },
-      { type: "image", src: "/projects/img_1.jpg" },
+    name: "Shepwashi Dashboard",
+    description:
+      "Dashboard para gestionar proyectos, empleados, comisiones, gastos, tipos de contrato y rentabilidad",
+    technologies: [
+      "React",
+      "Vite",
+      "Typescript",
+      "Tailwind CSS",
+      "Hero UI",
+      "Ant Design",
+      "Framer Motion",
+      "Apexcharts",
+      "Recharts",
+      "Swiper js",
+      "Zustand",
+      "Axios",
+      "Tanstack Query",
+      "Nest js"
     ],
-    image: "/projects/img_5.jpg",
-  },
-  {
-    name: "Mobile App UI",
-    description: "Prototipo UI/UX para app móvil con animaciones inmersivas.",
-    technologies: ["React Native", "Expo"],
     slides: [
-      { type: "image", src: "/projects/img_1.jpg" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img1.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img2.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img3.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img4.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img5.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img6.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img8.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img9.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img10.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img11.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img12.png" },
+      { type: "image", src: "/projects/shepwashi-dashboard/img13.png" },
       {
-        type: "video",
-        src: "/projects/proj5/demo.mp4",
-        thumb: "/projects/proj5/demo_poster.jpg",
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img14.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img15.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img16.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img17.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img18.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img19.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/shepwashi-dashboard/img20.png",
+        isContain: true,
       },
     ],
-    image: "/projects/img_1.jpg",
+    image: "/projects/shepwashi-dashboard/img13.png",
+  },
+  {
+    name: "Ecuasuiza Ventas",
+    description:
+      "¿Buscas proteger tu vida y la de los tuyos? En Ecuasuiza te brindamos un servicio de seguros contra todo riesgo, ¡cuidamos tus bienes mas preciados!",
+    technologies: [
+      "React",
+      "Vite",
+      "Typescript",
+      "Tailwind CSS",
+      "Hero UI",
+      "Ant Design",
+      "Framer Motion",
+      "Recharts",
+      "Zustand",
+      "Axios",
+    ],
+    slides: [
+      { type: "image", src: "/projects/ecuasuiza-ventas/img1.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img2.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img3.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img4.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img5.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img6.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img7.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img8.png" },
+      { type: "image", src: "/projects/ecuasuiza-ventas/img9.png" },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-ventas/img10.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-ventas/img11.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-ventas/img12.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-ventas/img13.png",
+        isContain: true,
+      },
+    ],
+    image: "/projects/ecuasuiza-ventas/img1.png",
+  },
+  {
+    name: "Ecuasuiza Agentes",
+    description:
+      "Modulo administrativo para gestionar usuarios, coorporaciones, compañias, campañas, productos, planes y ordenes",
+    technologies: [
+      "React",
+      "Vite",
+      "Typescript",
+      "Tailwind CSS",
+      "Hero UI",
+      "Ant Design",
+      "Framer Motion",
+      "Dnd kit",
+      "Zustand",
+      "Axios",
+    ],
+    slides: [
+      { type: "image", src: "/projects/ecuasuiza-agentes/img1.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img2.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img3.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img4.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img5.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img6.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img7.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img8.png" },
+      { type: "image", src: "/projects/ecuasuiza-agentes/img9.png" },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-agentes/img10.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-agentes/img11.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-agentes/img12.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-agentes/img13.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-agentes/img14.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/ecuasuiza-agentes/img15.png",
+        isContain: true,
+      },
+    ],
+    image: "/projects/ecuasuiza-agentes/img1.png",
+  },
+  {
+    name: "Banco Bolivariano",
+    description:
+      "Dashboard para gestionar polizas, usuarios, oficinas, clientes mediante formularios, estadisticas y modulos informativos para tener un mejor control de las ventas",
+    technologies: [
+      "React",
+      "Vite",
+      "Typescript",
+      "Tailwind CSS",
+      "Hero UI",
+      "Ant Design",
+      "Framer Motion",
+      "Apexcharts",
+      "Recharts",
+      "Zustand",
+      "Axios",
+    ],
+    slides: [
+      { type: "image", src: "/projects/banco-bolivariano/img1.png" },
+      { type: "image", src: "/projects/banco-bolivariano/img2.png" },
+      { type: "image", src: "/projects/banco-bolivariano/img3.png" },
+      { type: "image", src: "/projects/banco-bolivariano/img4.png" },
+      { type: "image", src: "/projects/banco-bolivariano/img5.jpg" },
+      { type: "image", src: "/projects/banco-bolivariano/img6.png" },
+      { type: "image", src: "/projects/banco-bolivariano/img7.png" },
+      { type: "image", src: "/projects/banco-bolivariano/img8.png" },
+      {
+        type: "image",
+        src: "/projects/banco-bolivariano/img9.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/banco-bolivariano/img10.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/banco-bolivariano/img11.png",
+        isContain: true,
+      },
+      {
+        type: "image",
+        src: "/projects/banco-bolivariano/img12.png",
+        isContain: true,
+      },
+    ],
+    image: "/projects/banco-bolivariano/img2.png",
   },
 ];
 

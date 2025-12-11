@@ -44,3 +44,65 @@ body::-webkit-scrollbar{
 .img-logos-filter-white {
   filter: brightness(0) invert(1);
 }
+
+.lg-thumb-item {
+  width: 80px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  opacity: 0.6 !important;
+  margin-right: 10px !important;
+}
+
+.lg-thumb-item.active {
+  opacity: 1 !important;
+}
+
+.lg-backdrop {
+  background-color: #121212 !important;
+}
+
+.lg-outer .lg-thumb-outer {
+  background-color: #121212 !important;
+}
+
+.lg-object.lg-image {
+  border-radius: 15px;
+}
+
+.lg-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50rem !important;
+}
+
+.lg-video-cont {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.lg-progress-bar .lg-progress {
+  @apply !bg-primary rounded-sm;
+  height: 2px !important;
+}
+
+.lg-progress-bar {
+  height: 2px !important;
+}
+
+@media (max-width: 640px) {
+  .lg-thumb-item {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 7px !important;
+    margin-right: 5px !important;
+  }
+
+  .lg-object.lg-image,
+  .lg-video-cont {
+    border-radius: 0;
+  }
+
+  .lg-icon {
+    width: 35px !important;
+  }
+}
