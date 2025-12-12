@@ -11,11 +11,10 @@ import SlideImages from "../components/SlidesImages";
 import { Button } from "@heroui/react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { PiLinkBold } from "react-icons/pi";
+import { projectData } from "./data";
 
-/* ----------------------------
-  Data & config (con metadata)
----------------------------- */
-type Project = {
+/* ---------------------------- Config ---------------------------- */
+export type Project = {
   name: string;
   description: string;
   technologies: string[];
@@ -28,319 +27,6 @@ type Project = {
   }>;
   link?: string;
 };
-
-const projectData: Project[] = [
-  {
-    name: "TodoServy",
-    description:
-      "¿Todos los servicios, profesionales y empresas cerca de mí? TodoServy es el directorio verificado más grande y confiable.",
-    technologies: [
-      "HTML",
-      "CSS",
-      "Javascript",
-      "Laravel",
-      "Bootstrap",
-      "PHP",
-      "MySQL",
-    ],
-    slides: [
-      { type: "image", src: "/projects/todoservy/img2.png" },
-      { type: "image", src: "/projects/todoservy/img1.png" },
-      { type: "image", src: "/projects/todoservy/img3.png" },
-      { type: "image", src: "/projects/todoservy/img4.png" },
-      { type: "image", src: "/projects/todoservy/img5.png" },
-      { type: "image", src: "/projects/todoservy/img6.png" },
-      { type: "image", src: "/projects/todoservy/img7.png" },
-      { type: "image", src: "/projects/todoservy/img8.png" },
-      { type: "image", src: "/projects/todoservy/img9.png" },
-      { type: "image", src: "/projects/todoservy/img10.png", isContain: true },
-      { type: "image", src: "/projects/todoservy/img11.png", isContain: true },
-    ],
-    image: "/projects/todoservy/img2.png",
-    link: "https://todoservy.com.co/",
-  },
-  {
-    name: "TodoDomi",
-    description:
-      "Conoce a Todo Domi, la primera app delivery de la historia de Galápagos, diseñada para mayor comodidad de turistas extranjeros, nacionales y comunidad local.",
-    technologies: ["React js", "Javascript", "SASS", "Bootstrap", "Rubi"],
-    slides: [
-      { type: "image", src: "/projects/tododomi/img1.png" },
-      { type: "image", src: "/projects/tododomi/img2.png" },
-      { type: "image", src: "/projects/tododomi/img3.png" },
-      { type: "image", src: "/projects/tododomi/img4.png" },
-      { type: "image", src: "/projects/tododomi/img5.png" },
-      { type: "image", src: "/projects/tododomi/img6.png" },
-      { type: "image", src: "/projects/tododomi/img7.png" },
-      { type: "image", src: "/projects/tododomi/img8.png" },
-      { type: "image", src: "/projects/tododomi/img9.png", isContain: true },
-      { type: "image", src: "/projects/tododomi/img10.png", isContain: true },
-      { type: "image", src: "/projects/tododomi/img11.png", isContain: true },
-      { type: "image", src: "/projects/tododomi/img12.png", isContain: true },
-      { type: "image", src: "/projects/tododomi/img13.png", isContain: true },
-    ],
-    image: "/projects/tododomi/img1.png",
-    link: "https://customer.tododomi.com/",
-  },
-  {
-    name: "Shepwashi",
-    description:
-      "Soluciones digitales para empresas. Personaliza la experiencia del cliente, reduce costos y crece tu negocio con herramientas para fidelizar clientes y optimizar procesos.",
-    technologies: [
-      "Next Js",
-      "Javascript",
-      "Tailwind CSS",
-      "SASS",
-      "Gsap",
-      "Framer Motion",
-    ],
-    slides: [
-      { type: "image", src: "/projects/shepwashi/img1.png" },
-      { type: "image", src: "/projects/shepwashi/img2.png" },
-      { type: "image", src: "/projects/shepwashi/img3.png" },
-      { type: "image", src: "/projects/shepwashi/img4.png" },
-      { type: "image", src: "/projects/shepwashi/img5.png" },
-      { type: "image", src: "/projects/shepwashi/img6.png" },
-      { type: "image", src: "/projects/shepwashi/img7.png" },
-      { type: "image", src: "/projects/shepwashi/img8.png", isContain: true },
-      { type: "image", src: "/projects/shepwashi/img9.png", isContain: true },
-      { type: "image", src: "/projects/shepwashi/img10.png", isContain: true },
-      { type: "image", src: "/projects/shepwashi/img11.png", isContain: true },
-      { type: "image", src: "/projects/shepwashi/img12.png", isContain: true },
-      { type: "image", src: "/projects/shepwashi/img13.png", isContain: true },
-    ],
-    image: "/projects/shepwashi/img1.png",
-    link: "https://www.shepwashi.com/",
-  },
-  {
-    name: "Shepwashi Dashboard",
-    description:
-      "Dashboard para gestionar proyectos, empleados, comisiones, gastos, tipos de contrato y rentabilidad",
-    technologies: [
-      "React",
-      "Vite",
-      "Typescript",
-      "Tailwind CSS",
-      "Hero UI",
-      "Ant Design",
-      "Framer Motion",
-      "Apexcharts",
-      "Recharts",
-      "Swiper js",
-      "Zustand",
-      "Axios",
-      "Tanstack Query",
-      "Nest js"
-    ],
-    slides: [
-      { type: "image", src: "/projects/shepwashi-dashboard/img1.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img2.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img3.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img4.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img5.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img6.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img8.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img9.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img10.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img11.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img12.png" },
-      { type: "image", src: "/projects/shepwashi-dashboard/img13.png" },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img14.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img15.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img16.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img17.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img18.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img19.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/shepwashi-dashboard/img20.png",
-        isContain: true,
-      },
-    ],
-    image: "/projects/shepwashi-dashboard/img13.png",
-  },
-  {
-    name: "Ecuasuiza Ventas",
-    description:
-      "¿Buscas proteger tu vida y la de los tuyos? En Ecuasuiza te brindamos un servicio de seguros contra todo riesgo, ¡cuidamos tus bienes mas preciados!",
-    technologies: [
-      "React",
-      "Vite",
-      "Typescript",
-      "Tailwind CSS",
-      "Hero UI",
-      "Ant Design",
-      "Framer Motion",
-      "Recharts",
-      "Zustand",
-      "Axios",
-    ],
-    slides: [
-      { type: "image", src: "/projects/ecuasuiza-ventas/img1.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img2.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img3.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img4.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img5.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img6.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img7.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img8.png" },
-      { type: "image", src: "/projects/ecuasuiza-ventas/img9.png" },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-ventas/img10.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-ventas/img11.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-ventas/img12.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-ventas/img13.png",
-        isContain: true,
-      },
-    ],
-    image: "/projects/ecuasuiza-ventas/img1.png",
-  },
-  {
-    name: "Ecuasuiza Agentes",
-    description:
-      "Modulo administrativo para gestionar usuarios, coorporaciones, compañias, campañas, productos, planes y ordenes",
-    technologies: [
-      "React",
-      "Vite",
-      "Typescript",
-      "Tailwind CSS",
-      "Hero UI",
-      "Ant Design",
-      "Framer Motion",
-      "Dnd kit",
-      "Zustand",
-      "Axios",
-    ],
-    slides: [
-      { type: "image", src: "/projects/ecuasuiza-agentes/img1.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img2.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img3.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img4.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img5.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img6.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img7.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img8.png" },
-      { type: "image", src: "/projects/ecuasuiza-agentes/img9.png" },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-agentes/img10.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-agentes/img11.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-agentes/img12.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-agentes/img13.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-agentes/img14.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/ecuasuiza-agentes/img15.png",
-        isContain: true,
-      },
-    ],
-    image: "/projects/ecuasuiza-agentes/img1.png",
-  },
-  {
-    name: "Banco Bolivariano",
-    description:
-      "Dashboard para gestionar polizas, usuarios, oficinas, clientes mediante formularios, estadisticas y modulos informativos para tener un mejor control de las ventas",
-    technologies: [
-      "React",
-      "Vite",
-      "Typescript",
-      "Tailwind CSS",
-      "Hero UI",
-      "Ant Design",
-      "Framer Motion",
-      "Apexcharts",
-      "Recharts",
-      "Zustand",
-      "Axios",
-    ],
-    slides: [
-      { type: "image", src: "/projects/banco-bolivariano/img1.png" },
-      { type: "image", src: "/projects/banco-bolivariano/img2.png" },
-      { type: "image", src: "/projects/banco-bolivariano/img3.png" },
-      { type: "image", src: "/projects/banco-bolivariano/img4.png" },
-      { type: "image", src: "/projects/banco-bolivariano/img5.jpg" },
-      { type: "image", src: "/projects/banco-bolivariano/img6.png" },
-      { type: "image", src: "/projects/banco-bolivariano/img7.png" },
-      { type: "image", src: "/projects/banco-bolivariano/img8.png" },
-      {
-        type: "image",
-        src: "/projects/banco-bolivariano/img9.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/banco-bolivariano/img10.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/banco-bolivariano/img11.png",
-        isContain: true,
-      },
-      {
-        type: "image",
-        src: "/projects/banco-bolivariano/img12.png",
-        isContain: true,
-      },
-    ],
-    image: "/projects/banco-bolivariano/img2.png",
-  },
-];
 
 const config = {
   SCROLL_SPEED: 0.75,
@@ -418,10 +104,6 @@ function MinimapStaticControls({
             />
           ))}
         </div>
-
-        {/* <div className="pointer-events-auto absolute -top-8 left-1/2 -translate-x-1/2 bg-black/60 text-white px-2 py-0.5 rounded-full text-xs">
-          {counterText}
-        </div> */}
       </div>
     </div>
   );
@@ -549,11 +231,19 @@ export default function Projects(): JSX.Element {
     []
   );
 
+  // ### NO-LOOP CHANGES: getProjectData no longer wraps with modulo
   const getProjectData = useCallback((index: number) => {
-    const i =
-      ((Math.abs(index) % projectData.length) + projectData.length) %
-      projectData.length;
-    return projectData[i];
+    if (index < 0 || index >= projectData.length) {
+      // return a harmless placeholder so rendering doesn't crash
+      return {
+        name: "",
+        description: "",
+        technologies: [],
+        image: undefined,
+        slides: [],
+      } as Project;
+    }
+    return projectData[index];
   }, []);
 
   const findSwiperInWrapper = useCallback((wrapper: HTMLElement | null) => {
@@ -645,6 +335,15 @@ export default function Projects(): JSX.Element {
 
   useEffect(() => {
     const state = stateRef.current;
+    const totalProjects = projectData.length;
+
+    // ### NO-LOOP HELPERS
+    const clamp = (v: number, a: number, b: number) =>
+      Math.max(a, Math.min(b, v));
+    const clampIndex = (i: number) =>
+      Math.max(0, Math.min(totalProjects - 1, i));
+    const minTargetY = -(totalProjects - 1) * state.projectHeight;
+    const maxTargetY = 0;
 
     const syncElements = () => {
       const current = Math.round(-state.targetY / state.projectHeight);
@@ -672,9 +371,8 @@ export default function Projects(): JSX.Element {
         setVisibleRangeState({ min, max });
       }
 
-      const normalized =
-        ((current % projectData.length) + projectData.length) %
-        projectData.length;
+      // ### NO-LOOP: use clamped index instead of modulo
+      const normalized = clampIndex(current);
       if (activeIndexRef.current !== normalized) {
         activeIndexRef.current = normalized;
       }
@@ -728,12 +426,9 @@ export default function Projects(): JSX.Element {
             const currentIndex = Math.round(
               -state.targetY / state.projectHeight
             );
-            const normalized =
-              ((currentIndex % projectData.length) + projectData.length) %
-              projectData.length;
-            const panelNorm =
-              ((index % projectData.length) + projectData.length) %
-              projectData.length;
+            // ### NO-LOOP: don't modulo, use plain indices
+            const normalized = clampIndex(currentIndex);
+            const panelNorm = index; // index corresponds to the panel's index in absolute terms
 
             // use class toggles for smooth fade in/out (Tailwind utilities)
             const el = p.elRef.current;
@@ -750,7 +445,8 @@ export default function Projects(): JSX.Element {
 
       // link static controls to visible wrapper's swiper
       const current = Math.round(-state.targetY / state.projectHeight);
-      const visibleItem = state.minimapInfo.get(current);
+      const clampedCurrent = clampIndex(current);
+      const visibleItem = state.minimapInfo.get(clampedCurrent);
       if (visibleItem) {
         const swiperInst =
           visibleItem.swiper ??
@@ -808,14 +504,15 @@ export default function Projects(): JSX.Element {
     const animate = () => {
       const now = Date.now();
 
+      // ### NO-LOOP: SNAP uses clamped index and clamp snap point
       if (
         !state.isSnapping &&
         !state.isDragging &&
         now - state.lastScrollTime > 100
       ) {
-        const snapPoint =
-          -Math.round(-state.targetY / state.projectHeight) *
-          state.projectHeight;
+        let snapIndex = Math.round(-state.targetY / state.projectHeight);
+        snapIndex = clampIndex(snapIndex);
+        const snapPoint = -snapIndex * state.projectHeight;
         if (Math.abs(state.targetY - snapPoint) > 1) {
           state.isSnapping = true;
           state.snapStart.time = Date.now();
@@ -833,6 +530,8 @@ export default function Projects(): JSX.Element {
         state.targetY =
           state.snapStart.y +
           (state.snapStart.target - state.snapStart.y) * eased;
+        // clamp targetY after snap interpolation
+        state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
         if (progress >= 1) state.isSnapping = false;
       }
 
@@ -857,6 +556,8 @@ export default function Projects(): JSX.Element {
         -config.MAX_VELOCITY
       );
       state.targetY -= delta;
+      // ### NO-LOOP: clamp immediately so we never go out-of-bounds
+      state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
     };
 
     const touchStart = (e: TouchEvent) => {
@@ -872,6 +573,8 @@ export default function Projects(): JSX.Element {
       state.targetY =
         state.dragStart.scrollY +
         (e.touches[0].clientY - state.dragStart.y) * 1.5;
+      // ### NO-LOOP: clamp when dragging
+      state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
       state.lastScrollTime = Date.now();
     };
     const touchEnd = () => {
@@ -887,6 +590,13 @@ export default function Projects(): JSX.Element {
 
     const onResize = () => {
       state.projectHeight = window.innerHeight;
+      // recalc minTargetY based on new height
+      // note: minTargetY calculated above is based on previous height; update by setting targetY/clamps below
+      state.targetY = clamp(
+        state.targetY,
+        -(projectData.length - 1) * state.projectHeight,
+        0
+      );
       syncElements();
       updatePositions();
     };
