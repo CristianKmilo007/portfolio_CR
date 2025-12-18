@@ -106,3 +106,45 @@ body::-webkit-scrollbar{
     width: 35px !important;
   }
 }
+
+@keyframes floatY {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatYSlow {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-28px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Más lenta */
+.float {
+  animation-name: floatY;
+  animation-duration: 14s; /* ⬅️ antes 6s */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* Ultra lenta */
+.float-slow {
+  animation-name: floatYSlow;
+  animation-duration: 22s; /* ⬅️ antes 9s */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}

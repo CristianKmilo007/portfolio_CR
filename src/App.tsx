@@ -9,8 +9,10 @@ import PageLoader from "./components/Loader";
 import Menu from "./components/Menu";
 import { Skills } from "./pages/Skills";
 import CircleScroll from "./pages/Experience";
+
+
 import Projects from "./pages/Projects";
-import { Example } from "./pages/Example";
+import Example from "./pages/Example";
 /* import PinExample from "./pages/Example";
 import PinDebugFixed from "./pages/Example";
  */
@@ -41,7 +43,7 @@ export default function App() {
                       <Route path="/" element={<Home />} />
                       <Route path="/skills" element={<Skills />} />
                       <Route path="/experience" element={<CircleScroll />} />
-                      <Route path="/projects" element={<Projects />} />
+                      {/* <Route path="/projects" element={<Projects />} /> */}
                       <Route path="/example" element={<Example />} />
                     </Routes>
                   </div>

@@ -1,4 +1,3 @@
-// src/pages/Projects.tsx
 import React, {
   useCallback,
   useEffect,
@@ -34,10 +33,9 @@ const config = {
   BUFFER_SIZE: 5,
   MAX_VELOCITY: 150,
   SNAP_DURATION: 500,
-  FADE_MS: 300, // fade duration for info/panels
+  FADE_MS: 300,
 };
 
-/* minimal CSS to help rendering (still injected for media performance) */
 const injectedSmallCss = `
 .projects-root .mySwiper .swiper-slide img,
 .projects-root .mySwiper .swiper-slide video,
@@ -51,7 +49,6 @@ const injectedSmallCss = `
 }
 `;
 
-/* Static overlay controls (unchanged visually, converted to Tailwind) */
 function MinimapStaticControls({
   onPrev,
   onNext,
@@ -109,8 +106,12 @@ function MinimapStaticControls({
   );
 }
 
-/* ---------- Projects component (JSX + Tailwind) ---------- */
-export default function Projects(): JSX.Element {
+interface ProjectsProps {
+  isActive?: boolean;
+  onScrollToHero?: () => void;
+}
+
+export default function Projects({ isActive, onScrollToHero }: ProjectsProps): JSX.Element {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const projectListRef = useRef<HTMLUListElement | null>(null);
   const minimapWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -231,10 +232,8 @@ export default function Projects(): JSX.Element {
     []
   );
 
-  // ### NO-LOOP CHANGES: getProjectData no longer wraps with modulo
   const getProjectData = useCallback((index: number) => {
     if (index < 0 || index >= projectData.length) {
-      // return a harmless placeholder so rendering doesn't crash
       return {
         name: "",
         description: "",
@@ -279,8 +278,7 @@ export default function Projects(): JSX.Element {
   useEffect(() => {
     for (let i = -config.BUFFER_SIZE; i <= config.BUFFER_SIZE; i++)
       ensureMapsHaveIndex(i);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ensureMapsHaveIndex]);
 
   useEffect(() => {
     const state = stateRef.current;
@@ -323,7 +321,6 @@ export default function Projects(): JSX.Element {
         } catch {}
       });
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visibleRangeState.min, visibleRangeState.max, createParallax]);
 
   const setTransformIfChanged = useCallback(
@@ -337,7 +334,6 @@ export default function Projects(): JSX.Element {
     const state = stateRef.current;
     const totalProjects = projectData.length;
 
-    // ### NO-LOOP HELPERS
     const clamp = (v: number, a: number, b: number) =>
       Math.max(a, Math.min(b, v));
     const clampIndex = (i: number) =>
@@ -358,7 +354,6 @@ export default function Projects(): JSX.Element {
             try {
               item.parallax?.destroy?.();
             } catch {}
-            // keep refs to avoid remount churn
           }
         });
       };
@@ -371,7 +366,6 @@ export default function Projects(): JSX.Element {
         setVisibleRangeState({ min, max });
       }
 
-      // ### NO-LOOP: use clamped index instead of modulo
       const normalized = clampIndex(current);
       if (activeIndexRef.current !== normalized) {
         activeIndexRef.current = normalized;
@@ -382,7 +376,6 @@ export default function Projects(): JSX.Element {
       const minimapY =
         (state.currentY * state.minimapHeight) / state.projectHeight;
 
-      // projects (backgrounds)
       state.projects.forEach((item: any, index: number) => {
         try {
           const y = index * state.projectHeight + state.currentY;
@@ -392,7 +385,6 @@ export default function Projects(): JSX.Element {
         } catch {}
       });
 
-      // minimap items
       state.minimap.forEach((item: any, index: number) => {
         try {
           const y = index * state.minimapHeight + minimapY;
@@ -402,7 +394,6 @@ export default function Projects(): JSX.Element {
         } catch {}
       });
 
-      // minimap info wrappers (SlideImages)
       state.minimapInfo.forEach((item: any, index: number) => {
         try {
           const y = index * state.minimapHeight + minimapY;
@@ -412,25 +403,20 @@ export default function Projects(): JSX.Element {
         } catch {}
       });
 
-      // PANEL COLUMN SYNC (100vh blocks)
       try {
-        const panelOffset = state.currentY; // px
+        const panelOffset = state.currentY;
         state.panels.forEach((p: any, index: number) => {
           const targetY = index * viewportH + panelOffset;
           if (p.elRef?.current) {
-            // position
             p.elRef.current.style.transform = `translate3d(0, ${targetY}px, 0)`;
             p.elRef.current.style.willChange = "transform, opacity";
 
-            // determine which panel is the "active" visible one
             const currentIndex = Math.round(
               -state.targetY / state.projectHeight
             );
-            // ### NO-LOOP: don't modulo, use plain indices
             const normalized = clampIndex(currentIndex);
-            const panelNorm = index; // index corresponds to the panel's index in absolute terms
+            const panelNorm = index;
 
-            // use class toggles for smooth fade in/out (Tailwind utilities)
             const el = p.elRef.current;
             if (normalized === panelNorm) {
               el.classList.remove("opacity-0", "pointer-events-none");
@@ -443,7 +429,6 @@ export default function Projects(): JSX.Element {
         });
       } catch {}
 
-      // link static controls to visible wrapper's swiper
       const current = Math.round(-state.targetY / state.projectHeight);
       const clampedCurrent = clampIndex(current);
       const visibleItem = state.minimapInfo.get(clampedCurrent);
@@ -504,7 +489,6 @@ export default function Projects(): JSX.Element {
     const animate = () => {
       const now = Date.now();
 
-      // ### NO-LOOP: SNAP uses clamped index and clamp snap point
       if (
         !state.isSnapping &&
         !state.isDragging &&
@@ -530,7 +514,6 @@ export default function Projects(): JSX.Element {
         state.targetY =
           state.snapStart.y +
           (state.snapStart.target - state.snapStart.y) * eased;
-        // clamp targetY after snap interpolation
         state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
         if (progress >= 1) state.isSnapping = false;
       }
@@ -546,6 +529,7 @@ export default function Projects(): JSX.Element {
     };
 
     const wheelHandler = (e: WheelEvent) => {
+      if (!isActive) return;
       if (rootRef.current && !(e.target as Element).closest?.(".projects-root"))
         return;
       e.preventDefault();
@@ -555,12 +539,19 @@ export default function Projects(): JSX.Element {
         Math.min(e.deltaY * config.SCROLL_SPEED, config.MAX_VELOCITY),
         -config.MAX_VELOCITY
       );
+      
+      // Check if scrolling up at the first project
+      if (state.targetY >= 0 && delta < 0) {
+        onScrollToHero?.();
+        return;
+      }
+      
       state.targetY -= delta;
-      // ### NO-LOOP: clamp immediately so we never go out-of-bounds
       state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
     };
 
     const touchStart = (e: TouchEvent) => {
+      if (!isActive) return;
       if (rootRef.current && !(e.target as Element).closest?.(".projects-root"))
         return;
       state.isDragging = true;
@@ -570,11 +561,18 @@ export default function Projects(): JSX.Element {
     };
     const touchMove = (e: TouchEvent) => {
       if (!state.isDragging) return;
-      state.targetY =
+      const newTargetY =
         state.dragStart.scrollY +
         (e.touches[0].clientY - state.dragStart.y) * 1.5;
-      // ### NO-LOOP: clamp when dragging
-      state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
+      
+      // Check if dragging up at the first project
+      if (state.targetY >= 0 && newTargetY > state.targetY) {
+        onScrollToHero?.();
+        state.isDragging = false;
+        return;
+      }
+      
+      state.targetY = clamp(newTargetY, minTargetY, maxTargetY);
       state.lastScrollTime = Date.now();
     };
     const touchEnd = () => {
@@ -590,8 +588,6 @@ export default function Projects(): JSX.Element {
 
     const onResize = () => {
       state.projectHeight = window.innerHeight;
-      // recalc minTargetY based on new height
-      // note: minTargetY calculated above is based on previous height; update by setting targetY/clamps below
       state.targetY = clamp(
         state.targetY,
         -(projectData.length - 1) * state.projectHeight,
@@ -614,12 +610,12 @@ export default function Projects(): JSX.Element {
       animTimersRef.current.forEach((t) => clearTimeout(t));
       animTimersRef.current = [];
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     ensureMapsHaveIndex,
     findSwiperInWrapper,
     setTransformIfChanged,
     viewportH,
+    isActive,
   ]);
 
   const handlePrev = useCallback(() => {
@@ -648,11 +644,9 @@ export default function Projects(): JSX.Element {
     return arr;
   }, [visibleRangeState]);
 
-  /* ---------- JSX Render ---------- */
   return (
     <div ref={rootRef} className="w-full projects-root">
       <div className="content fixed w-full h-screen overflow-hidden pointer-events-none">
-        {/* LEFT PANELS COLUMN */}
         <div className="left-panels absolute left-6 top-0 z-[20] pointer-events-none w-[calc(50%-150px)] h-screen overflow-visible">
           {indicesToRender.map((index) => {
             const panelEntry = stateRef.current.panels.get(index);
@@ -714,7 +708,6 @@ export default function Projects(): JSX.Element {
           })}
         </div>
 
-        {/* main project list (absolute-positioned backgrounds) */}
         <ul
           ref={projectListRef}
           className="project-list relative w-full h-screen list-none pointer-events-auto"
@@ -744,7 +737,6 @@ export default function Projects(): JSX.Element {
           })}
         </ul>
 
-        {/* minimap */}
         <div
           className="minimap fixed top-1/2 z-30 pointer-events-auto"
           style={{
