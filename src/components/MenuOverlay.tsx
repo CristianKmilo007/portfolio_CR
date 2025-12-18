@@ -7,6 +7,7 @@ import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { TbBrandGithubFilled } from "react-icons/tb";
+import MaskCursor from "./MaskCursor";
 
 type SplitInstance = {
   lines: HTMLElement[];
@@ -67,9 +68,10 @@ const MenuOverlay = ({
 
   return (
     <div
-      className="menu-overlay fixed top-0 left-0 w-screen h-screen bg-menu-bg text-foreground overflow-hidden z-[1] pointer-events-none bg-[#111] text-white"
+      className="menu-overlay fixed top-0 left-0 w-screen h-screen bg-menu-bg overflow-hidden z-[1] pointer-events-none bg-[#111] text-white"
       style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)" }}
     >
+      <MaskCursor />
       <div
         className="menu-overlay-content fixed top-0 left-0 w-screen h-screen flex overflow-hidden pointer-events-auto"
         style={{ transform: "translateY(-50%)" }}
@@ -90,7 +92,7 @@ const MenuOverlay = ({
               }}
               className="menu-col flex flex-col gap-2 flex-[3]"
             >
-              <div className="menu-link overflow-hidden">
+              <div className="menu-link overflow-hidden w-max">
                 <CustomLink
                   to="/"
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
@@ -100,7 +102,7 @@ const MenuOverlay = ({
                 </CustomLink>
               </div>
 
-              <div className="menu-link overflow-hidden">
+              <div className="menu-link overflow-hidden w-max">
                 <CustomLink
                   to="/skills"
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
@@ -110,7 +112,7 @@ const MenuOverlay = ({
                 </CustomLink>
               </div>
 
-              <div className="menu-link overflow-hidden">
+              <div className="menu-link overflow-hidden w-max">
                 <CustomLink
                   to="/experience"
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
@@ -120,33 +122,13 @@ const MenuOverlay = ({
                 </CustomLink>
               </div>
 
-              <div className="menu-link overflow-hidden">
+              <div className="menu-link overflow-hidden w-max">
                 <CustomLink
                   to="/projects"
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >
                   Proyectos
-                </CustomLink>
-              </div>
-
-              <div className="menu-link overflow-hidden">
-                <CustomLink
-                  to="/example"
-                  className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
-                  onBeforeNavigate={closeMenu}
-                >
-                  Portafolio
-                </CustomLink>
-              </div>
-
-              <div className="menu-link overflow-hidden">
-                <CustomLink
-                  to="/"
-                  className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
-                  onBeforeNavigate={closeMenu}
-                >
-                  Contacto
                 </CustomLink>
               </div>
             </div>

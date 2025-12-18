@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import LiquidEther from "../components/LiquidEther";
 import { createRoot, type Root } from "react-dom/client";
 import TimelineCard, { type TimelineEvent } from "../components/TimelineCard";
+import CircularReveal from "../components/CircularReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,7 +31,7 @@ const TIMELINE_EVENTS: Array<
     side: "right",
     img: "../../public/experience/cert_1.jpg",
     type: "education",
-    progress: 0.50,
+    progress: 0.27,
   },
   {
     year: "2020 - 2021",
@@ -39,7 +40,7 @@ const TIMELINE_EVENTS: Array<
     side: "left",
     img: "../../public/experience/cert_2.jpg",
     type: "education",
-    progress: 0.56,
+    progress: 0.33,
   },
   {
     year: "2021 - 2022",
@@ -47,7 +48,7 @@ const TIMELINE_EVENTS: Array<
     desc: "Villavicencio",
     type: "job",
     side: "left",
-    progress: 0.62,
+    progress: 0.39,
   },
   {
     year: "2021 - 2022",
@@ -56,7 +57,7 @@ const TIMELINE_EVENTS: Array<
     side: "left",
     img: "../../public/experience/cert_3.jpg",
     type: "education",
-    progress: 0.68,
+    progress: 0.45,
   },
   {
     year: "2022 - 2023",
@@ -64,7 +65,7 @@ const TIMELINE_EVENTS: Array<
     desc: "Villavicencio",
     type: "job",
     side: "right",
-    progress: 0.74,
+    progress: 0.51,
   },
   {
     year: "2025",
@@ -73,7 +74,7 @@ const TIMELINE_EVENTS: Array<
     type: "education",
     img: "../../public/experience/cert_4.jpg",
     side: "right",
-    progress: 0.80,
+    progress: 0.57,
   },
 ];
 
@@ -190,6 +191,12 @@ const CircleScroll: React.FC = () => {
   const revealPathRef = useRef<SVGPathElement | null>(null);
   const groupRef = useRef<SVGGElement | null>(null);
   const smootherRef = useRef<any>(null);
+
+  // NEW: refs para los textos y para el overlay que se subirá
+  const aprendizajeRef = useRef<HTMLSpanElement | null>(null);
+  const experienciaRef = useRef<HTMLSpanElement | null>(null);
+  const miVidaRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null); // contenedor z-[3] que pediste subir
 
   useEffect(() => {
     let cancelled = false;
@@ -952,21 +959,28 @@ const CircleScroll: React.FC = () => {
   useEffect(() => setMounted(true), []);
 
   const raysRef = useRef<HTMLDivElement | null>(null);
+  const revealRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!raysRef.current || !contentRef.current) return;
 
+    const overlayHeightRef = { current: 0 as number | null };
+
     const ctx = gsap.context(() => {
-      const blurVh = 3; // 200vh
-      const fadeVh = 2; // 200vh after blur
+      const blurVh = 3;
+      const fadeVh = 2;
       const maxBlur = 64;
       const totalVh = blurVh + fadeVh;
       const blurFrac = blurVh / totalVh;
 
-      // hint para el rays
       raysRef.current!.style.willChange = "filter";
 
-      // una pequeña bandera para inicializar el SVG solo una vez
+      if (revealRef.current) {
+        revealRef.current.style.willChange = "transform, opacity";
+        revealRef.current.style.transformOrigin = "center center";
+        revealRef.current.style.transform = "scale(1) rotate(0deg)";
+      }
+
       let svgInitialized = false;
 
       const st = ScrollTrigger.create({
@@ -977,41 +991,91 @@ const CircleScroll: React.FC = () => {
         onUpdate: (self) => {
           const p = Math.max(0, Math.min(1, self.progress));
 
-          // BLUR PHASE (progresivo)
+          // BLUR PHASE
           const blurPhaseProgress =
             blurFrac > 0 ? Math.min(1, p / blurFrac) : 1;
           const blurPx = maxBlur * blurPhaseProgress;
           if (raysRef.current)
             raysRef.current.style.filter = `blur(${blurPx}px)`;
 
-          // FADE-IN PHASE (progresivo, sin gsap.autoAlpha)
-          const svgPhaseProgress =
-            p <= blurFrac ? 0 : Math.min(1, (p - blurFrac) / (1 - blurFrac));
+          // Escala + Rotación del revealRef
+          const maxScale = 5.5;
+          const minScale = 1;
+          const scale = minScale + (maxScale - minScale) * blurPhaseProgress;
+          const maxRotateDeg = -180;
+          const rotateDeg = maxRotateDeg * blurPhaseProgress;
+          if (revealRef.current) {
+            revealRef.current.style.transform = `scale(${scale}) rotate(${rotateDeg}deg)`;
+          }
 
-          // resolver el SVG (se crea dinámicamente en tu build)
+          // MOVIMIENTO DEL OVERLAY LIGADO AL PROGRESO DEL REVEAL
+          // Empezar a mover cuando scale >= moveStartScale, progresar hasta maxScale
+          const moveStartScale = 3.0;
+          if (overlayRef.current) {
+            if (!overlayHeightRef.current) {
+              overlayHeightRef.current =
+                overlayRef.current.getBoundingClientRect().height;
+            }
+
+            const overlayH =
+              overlayHeightRef.current ||
+              overlayRef.current.getBoundingClientRect().height;
+            if (scale <= moveStartScale) {
+              overlayRef.current.style.transform = `translateY(0px)`;
+            } else {
+              const t = Math.max(
+                0,
+                Math.min(
+                  1,
+                  (scale - moveStartScale) / (maxScale - moveStartScale)
+                )
+              );
+              const extra = 80; // margen extra para asegurar que salga
+              const translateY = -t * (overlayH + extra);
+              overlayRef.current.style.transform = `translateY(${translateY}px)`;
+            }
+          }
+
+          // FADE-IN PHASE
+          const showAt = 0.45; // cuando empiece a aparecer (ajusta a tu gusto, 0..1)
+          const fadeRange = 0.12; // rango de progreso para pasar 0 -> 1 (más pequeño = más rápido)
+
+          // calcula progreso dentro del rango [showAt, showAt + fadeRange]
+          let raw = 0;
+          if (p > showAt) {
+            raw = (p - showAt) / Math.max(1e-6, fadeRange);
+          }
+          let svgPhaseProgress = Math.max(0, Math.min(1, raw));
+
+          // opcional: easing simple (descomenta si quieres suavizar)
+          svgPhaseProgress = Math.pow(svgPhaseProgress, 0.95);
+
+          // obtener svg y asegurar init
           const svgEl: Element | null =
             svgRef.current ?? document.getElementById(SVG_ID);
           if (!svgEl) return;
 
-          // inicializar el svg (una sola vez) para evitar flashes si se crea después
           if (!svgInitialized) {
             svgInitialized = true;
-            // NO usar visibility:hidden; simplemente opacidad 0
             (svgEl as HTMLElement | SVGElement).style.opacity = "0";
             (svgEl as HTMLElement | SVGElement).style.willChange = "opacity";
-            // asegurarnos que esté visible en el flujo (no hidden)
             (svgEl as HTMLElement | SVGElement).style.visibility = "visible";
           }
 
-          // aplicar opacidad progresiva (0..1) — esto maneja show/hide progresivo en ambas direcciones
+          // aplicar opacidad al svg completo
           (svgEl as HTMLElement | SVGElement).style.opacity =
             String(svgPhaseProgress);
 
-          // si llegó a 1, remover will-change y (opcional) fijar estado final
+          // sincronizar opacidad del path (si existe)
+          const revealPath = revealPathRef.current;
+          if (revealPath) {
+            revealPath.style.opacity = String(svgPhaseProgress);
+          }
+
           if (svgPhaseProgress >= 1) {
-            // ya está completamente visible; limpiar hint de will-change
             (svgEl as HTMLElement | SVGElement).style.willChange = "";
             (svgEl as HTMLElement | SVGElement).style.opacity = "1";
+            if (revealPath) revealPath.style.opacity = "1";
           }
         },
       });
@@ -1027,28 +1091,302 @@ const CircleScroll: React.FC = () => {
     };
   }, [mounted]);
 
+  // --- NEW: effect que controla la animación secuencial de los textos y bloqueo de scroll ---
+  // --- REEMPLAZAR la useEffect que controla la animación secuencial y bloqueo ---
+  useEffect(() => {
+    if (!mounted) return;
+
+    const apr = aprendizajeRef.current;
+    const exp = experienciaRef.current;
+    const mi = miVidaRef.current;
+    const wrapper = wrapperRef.current;
+
+    if (apr) {
+      apr.style.opacity = "0";
+      apr.style.filter = "blur(12px)";
+      apr.style.willChange = "opacity, filter";
+      apr.style.display = "inline-block";
+    }
+    if (exp) {
+      exp.style.opacity = "0";
+      exp.style.filter = "blur(12px)";
+      exp.style.willChange = "opacity, filter";
+      exp.style.display = "inline-block";
+    }
+    if (mi) {
+      mi.style.opacity = "0";
+      mi.style.transform = "translateY(12px)";
+      mi.style.willChange = "opacity, transform";
+    }
+
+    // refs para guardar estilos/posición previos
+    const prevScrollYRef = { current: window.scrollY || 0 };
+    const prevHtmlOverflow = {
+      current: document.documentElement.style.overflow || "",
+    };
+    const prevBodyOverflow = { current: document.body.style.overflow || "" };
+    const prevBodyPos = {
+      position: document.body.style.position || "",
+      top: document.body.style.top || "",
+      left: document.body.style.left || "",
+      right: document.body.style.right || "",
+      width: document.body.style.width || "",
+    };
+
+    let isBlocked = false;
+
+    // handlers para prevenir scroll
+    const wheelHandler = (e: Event) => {
+      e.preventDefault();
+    };
+    const touchHandler = (e: Event) => {
+      e.preventDefault();
+    };
+    const keyHandler = (e: KeyboardEvent) => {
+      const blocked = [
+        "ArrowUp",
+        "ArrowDown",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+        "Space",
+      ];
+      if (blocked.includes(e.code)) e.preventDefault();
+    };
+
+    const addPreventListeners = () => {
+      document.addEventListener("wheel", wheelHandler, { passive: false });
+      document.addEventListener("touchmove", touchHandler, { passive: false });
+      document.addEventListener("keydown", keyHandler, { passive: false });
+
+      if (wrapper) {
+        wrapper.addEventListener("wheel", wheelHandler, { passive: false });
+        wrapper.addEventListener("touchmove", touchHandler, { passive: false });
+      }
+    };
+
+    const removePreventListeners = () => {
+      document.removeEventListener("wheel", wheelHandler);
+      document.removeEventListener("touchmove", touchHandler);
+      document.removeEventListener("keydown", keyHandler);
+
+      if (wrapper) {
+        wrapper.removeEventListener("wheel", wheelHandler);
+        wrapper.removeEventListener("touchmove", touchHandler);
+      }
+    };
+
+    // BLOCK: usa position:fixed para congelar la página en la posición actual
+    const blockScroll = () => {
+      if (isBlocked) return;
+      try {
+        prevScrollYRef.current =
+          window.scrollY || document.documentElement.scrollTop || 0;
+
+        // guardar estilos previos
+        prevHtmlOverflow.current =
+          document.documentElement.style.overflow || "";
+        prevBodyOverflow.current = document.body.style.overflow || "";
+        prevBodyPos.position = document.body.style.position || "";
+        prevBodyPos.top = document.body.style.top || "";
+        prevBodyPos.left = document.body.style.left || "";
+        prevBodyPos.right = document.body.style.right || "";
+        prevBodyPos.width = document.body.style.width || "";
+
+        // fijar body para congelar scroll
+        document.body.style.position = "fixed";
+        document.body.style.top = `-${prevScrollYRef.current}px`;
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+
+        if (wrapper) wrapper.style.overflow = "hidden";
+
+        addPreventListeners();
+        isBlocked = true;
+      } catch (e) {
+        // fallback: solo overflow hidden + listeners
+        try {
+          document.documentElement.style.overflow = "hidden";
+          document.body.style.overflow = "hidden";
+          addPreventListeners();
+          isBlocked = true;
+        } catch {}
+      }
+    };
+
+    // UNBLOCK: restaura valores y mueve scroll a la posición original
+    const unblockScroll = () => {
+      if (!isBlocked) return;
+      try {
+        removePreventListeners();
+
+        // restaurar estilos inline previos
+        document.documentElement.style.overflow =
+          prevHtmlOverflow.current ?? "";
+        document.body.style.overflow = prevBodyOverflow.current ?? "";
+
+        // restaurar body position y top, y reajustar scroll
+        document.body.style.position = prevBodyPos.position ?? "";
+        document.body.style.top = prevBodyPos.top ?? "";
+        document.body.style.left = prevBodyPos.left ?? "";
+        document.body.style.right = prevBodyPos.right ?? "";
+        document.body.style.width = prevBodyPos.width ?? "";
+
+        if (wrapper) wrapper.style.overflow = "";
+
+        // reajustar scroll a la posición guardada
+        const y = prevScrollYRef.current || 0;
+        window.scrollTo(0, y);
+      } catch (e) {
+        try {
+          document.documentElement.style.overflow = "";
+          document.body.style.overflow = "";
+          if (wrapper) wrapper.style.overflow = "";
+        } catch {}
+      } finally {
+        isBlocked = false;
+      }
+    };
+
+    // bloquear inmediatamente para que el usuario NO pueda scrollear
+    blockScroll();
+
+    let tl: gsap.core.Timeline | null = null;
+    const delayMs = 3500;
+    const timeoutId = window.setTimeout(() => {
+      // arrancar la secuencia de texto (siempre con scroll bloqueado)
+      tl = gsap.timeline({
+        onComplete: () => {
+          // cuando termina la secuencia (miVidaRef ya se mostró), desbloqueamos
+          unblockScroll();
+        },
+      });
+
+      if (apr) {
+        tl.to(apr, {
+          duration: 0.8,
+          autoAlpha: 1,
+          filter: "blur(0px)",
+          ease: "power2.out",
+        });
+      }
+
+      if (exp) {
+        tl.to(
+          exp,
+          {
+            duration: 0.8,
+            autoAlpha: 1,
+            filter: "blur(0px)",
+            ease: "power2.out",
+          },
+          "+=0.12"
+        );
+      }
+
+      if (mi) {
+        tl.fromTo(
+          mi,
+          { y: 12, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.5, ease: "power2.out" },
+          "+=0.12"
+        );
+      }
+    }, delayMs);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (tl) tl.kill();
+      if (apr) gsap.killTweensOf(apr);
+      if (exp) gsap.killTweensOf(exp);
+      if (mi) gsap.killTweensOf(mi);
+      // siempre intentar desbloquear si algo queda activo
+      try {
+        unblockScroll();
+      } catch {}
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]);
+
   const raysPortal = (
-    <div
-      ref={raysRef}
-      className="fixed inset-0 bg-[#111] pointer-events-none z-0"
-      style={{ filter: "blur(0px)", willChange: "filter" }}
-    >
-      <LiquidEther
-        colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-        mouseForce={15}
-        cursorSize={50}
-        isViscous={false}
-        viscous={30}
-        iterationsViscous={32}
-        iterationsPoisson={32}
-        resolution={0.2}
-        isBounce={false}
-        autoDemo={true}
-        autoSpeed={0.25}
-        autoIntensity={4}
-        takeoverDuration={1}
-        autoRampDuration={1}
-      />
+    <div className="fixed inset-0 bg-[#111] pointer-events-none z-0">
+      <div
+        ref={revealRef}
+        className="absolute top 0 left-0 w-full h-full z-[2] flex items-center justify-center"
+        style={{ transformOrigin: "center center" }}
+      >
+        <CircularReveal
+          size={750}
+          borderWidth={150}
+          initialBorderWidth={3}
+          duration={2}
+          expandDuration={1.5}
+          backgroundImage="/experience/img2.jpg"
+          maxScale={5.5}
+        />
+      </div>
+
+      {/* OVERLAY: añadí ref aquí para poder moverlo hacia arriba */}
+      <div
+        ref={overlayRef}
+        className="absolute top-0 left-0 w-full h-full z-[3] flex items-center justify-center"
+      >
+        <div className="flex items-center justify-center text-8xl font-medium gap-10 relative">
+          <span
+            ref={aprendizajeRef}
+            className="text-transparent [-webkit-text-stroke:1px_white] tracking-tight font-kalnia opacity-0"
+            style={{
+              transform: "scale(1, 1.2)",
+            }}
+          >
+            Aprendizaje
+          </span>
+
+          <span
+            ref={experienciaRef}
+            className="text-white tracking-tight font-kalnia opacity-0"
+            style={{
+              transform: "scale(1, 1.2)",
+            }}
+          >
+            Experiencia
+          </span>
+
+          <div
+            ref={miVidaRef}
+            className="absolute -bottom-30 text-[#aaa] text-base font-normal w-[100px] text-center leading-5 opacity-0"
+          >
+            Mi Vida Profesional
+          </div>
+        </div>
+      </div>
+
+      <div
+        ref={raysRef}
+        className="w-full h-full absolute top-0 left-0 bg-[#111] z-[1] pointer-events-none"
+        style={{ filter: "blur(0px)", willChange: "filter" }}
+      >
+        <LiquidEther
+          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+          mouseForce={15}
+          cursorSize={50}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.2}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.25}
+          autoIntensity={4}
+          takeoverDuration={1}
+          autoRampDuration={1}
+        />
+      </div>
     </div>
   );
 

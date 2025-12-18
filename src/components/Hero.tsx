@@ -18,28 +18,22 @@ export default function Hero({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement | null>(null);
 
-  // Background / overlay gradient (usado por la animación de imágenes)
   const overlayGradientRef = useRef<HTMLDivElement | null>(null);
   const lightRaysRef = useRef<HTMLDivElement | null>(null);
 
-  // images: ahora usaremos el enfoque del Hero2 — wrappers con clases declarativas
   const overlayImagesRef = useRef<Array<HTMLDivElement | null>>([]);
   const leftTextRef = useRef<HTMLDivElement | null>(null);
 
-  // timelines / tweens
-  const timelineRef = useRef<gsap.core.Timeline | null>(null); // controla texto + ocultado imágenes (scroll)
-  const imagesTimelineRef = useRef<gsap.core.Timeline | null>(null); // intro -> arrange -> float
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const imagesTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const floatTweensRef = useRef<Array<gsap.core.Tween>>([]);
   const isAnimatingRef = useRef(false);
 
-  // bloqueo hasta que intro terminado
   const animationsDoneRef = useRef(false);
   const [, setAnimationsDone] = useState(false);
 
-  // progress
   const scrollProgressRef = useRef<number>(0);
 
-  // ---------- Images ahora en formato declarativo (clases con pixeles) ----------
   const IMAGES = [
     {
       url: "/projects/eranpay/img1.png",
@@ -64,16 +58,42 @@ export default function Hero({
     {
       url: "/projects/eranpay/img27.png",
       className: "w-[103px] h-[200px] top-[310px] left-[-57px] rotate-[-7deg]",
-      isMobile: true
+      isMobile: true,
     },
     {
       url: "/projects/shepwashi/img11.png",
       className: "w-[103px] h-[200px] top-[385px] left-[40px] rotate-1",
-      isMobile: true
+      isMobile: true,
     },
   ];
 
   const clamp = (v: number, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+
+  // ------------------------
+  // SCROLL BLOCK HELPERS
+  // ------------------------
+  const disableScrollGlobally = () => {
+    try {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      // evitar gestos touch en navegadores que respetan touch-action
+      document.documentElement.style.touchAction = "none";
+      document.body.style.touchAction = "none";
+    } catch (e) {
+      // ignore
+    }
+  };
+
+  const enableScrollGlobally = () => {
+    try {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.documentElement.style.touchAction = "";
+      document.body.style.touchAction = "";
+    } catch (e) {
+      // ignore
+    }
+  };
 
   // ------------------ Text timeline (scroll-driven) ------------------
   useEffect(() => {
@@ -92,12 +112,10 @@ export default function Hero({
     ) as HTMLDivElement[];
 
     if (overlays.length > 0) {
-      // parámetros ajustables
-      const overlayMoveDuration = 2.4; // cuanto más, más lento el movimiento en función del progress
+      const overlayMoveDuration = 2.4;
       const overlayStagger = 0.09;
       const overlayY = -420;
 
-      // mover imágenes hacia arriba (sin ocultarlas aquí)
       tl.to(
         overlays,
         {
@@ -122,22 +140,17 @@ export default function Hero({
         0.05
       );
 
-      // mover el texto izquierdo hacia arriba (misma duración para que la sensación sea coherente)
       if (leftTextRef.current) {
-        // aseguramos que el texto esté en la timeline para que responda al progress
         tl.to(
           leftTextRef.current,
           {
-            y: -400, // cuánto sube el texto
+            y: -400,
             duration: overlayMoveDuration,
             ease: "power2.out",
           },
           0.05
         );
       }
-
-      // NOTA: no añadimos aquí el fade final — lo hacemos desde el scroll handler
-      // para poder sincronizarlo exactamente con el umbral donde mostramos projects.
     }
 
     timelineRef.current = tl;
@@ -161,7 +174,7 @@ export default function Hero({
     );
   }, []);
 
-  // ---------------- Images intro -> arrange -> float (tomado de Hero2) ----------------
+  // ---------------- Images intro -> arrange -> float (fixado para no romper Flip) ----------------
   useEffect(() => {
     let mounted = true;
 
@@ -217,6 +230,7 @@ export default function Hero({
         return;
       }
 
+      // wait images loaded
       await Promise.all(
         images.map(
           (el) =>
@@ -230,7 +244,7 @@ export default function Hero({
         )
       );
 
-      // estado inicial: FULL-SCREEN reveal (cada wrapper contiene su <img>)
+      // estado inicial: FULL-SCREEN reveal
       gsap.set(images, {
         position: "fixed",
         top: 0,
@@ -257,7 +271,6 @@ export default function Hero({
         img.style.pointerEvents = "none";
       });
 
-      // aseguramos que overlays y texto izquierdo estén en estado inicial HIDDEN antes de iniciar
       if (overlayGradientRef.current) {
         overlayGradientRef.current.style.opacity = "0";
         overlayGradientRef.current.style.visibility = "hidden";
@@ -269,18 +282,20 @@ export default function Hero({
         lightRaysRef.current.style.pointerEvents = "none";
       }
       if (leftTextRef.current) {
-        // dejamos el texto oculto hasta que termine la organización
         gsap.set(leftTextRef.current, { x: -30, opacity: 0, force3D: true });
       }
 
+      // timeline maestra: bloquea scroll en onStart y restaura en onComplete (incluye flipTween)
       const tl = gsap.timeline({
         onStart: () => {
           animationsDoneRef.current = false;
           setAnimationsDone(false);
+          disableScrollGlobally();
         },
         onComplete: () => {
           animationsDoneRef.current = true;
           setAnimationsDone(true);
+          enableScrollGlobally();
         },
       });
 
@@ -293,11 +308,15 @@ export default function Hero({
         stagger: 0.45,
       });
 
-      // después: preparamos FLIP y layout final
+      // en el punto siguiente: ejecutamos una función que
+      // 1) toma el state previo con Flip.getState(images)
+      // 2) aplica el layout final en DOM (styles absolute, tamaño, left/top, rot)
+      // 3) crea el tween Flip.from(...) y lo añade a la timeline (flipTween)
       tl.add(() => {
-        // capturamos el estado ANTES de cambiar el layout (esto es esencial para FLIP)
+        // 1) capturamos estado antes de mover al layout final
         const state = Flip.getState(images);
 
+        // hacer visibles overlays/lightrays para animarlos luego
         if (overlayGradientRef.current) {
           overlayGradientRef.current.style.visibility = "visible";
           overlayGradientRef.current.style.opacity = "0";
@@ -307,6 +326,7 @@ export default function Hero({
           lightRaysRef.current.style.opacity = "0";
         }
 
+        // 2) aplicamos layout final (posicionamiento absoluto y estilos)
         images.forEach((el, i) => {
           const cls = IMAGES[i]?.className || "";
           const w = parsePx(cls, "w");
@@ -325,10 +345,9 @@ export default function Hero({
           el.style.boxSizing = "border-box";
           el.style.border = "0 solid rgba(255,255,255,0)";
 
-          // dejamos las propiedades visuales finales acá — Flip animará transform/pos,
-          // pero boxShadow/borderRadius/otros no son animados por FLIP, por eso los animamos aparte.
           el.style.borderRadius = "1rem";
           el.style.boxShadow = "0 0 30px #333";
+          // NO tocar transform aquí más que la rotación final (Flip animará la transición)
           el.style.transform = `rotate(${rot}deg) translateZ(0)`;
           el.style.transformOrigin = "center center";
           el.style.willChange = "transform, opacity";
@@ -341,16 +360,15 @@ export default function Hero({
           }
         });
 
-        // Ejecutamos FLIP y lo añadimos a la timeline. Reducimos duración y stagger para que organice rápido.
-        const flipDuration = 1.4; // reducido para organizar
-
-        // creamos el tween FLIP
-        Flip.from(state, {
+        // 3) creamos flipTween ahora (estado capturado + layout final aplicados)
+        const flipDuration = 1.4;
+        const flipTween = Flip.from(state, {
           duration: flipDuration,
           ease: "hop",
           absolute: true,
           stagger: -0.18,
           onStart: () => {
+            // después de un delay hacemos aparecer overlays/lightrays
             gsap.delayedCall(2, () => {
               const targets: Element[] = [];
               if (overlayGradientRef.current)
@@ -367,13 +385,7 @@ export default function Hero({
             });
           },
           onComplete: () => {
-            // pequeño pop + floating
-            /* gsap.fromTo(
-              images,
-              { scale: 0.985 },
-              { scale: 1, duration: 0.35, stagger: 0.02, ease: "power1.out" }
-            ); */
-
+            // Al terminar FLIP: arrancan los floats y mostramos el texto izquierdo
             floatTweensRef.current.forEach((t) => t.kill());
             floatTweensRef.current = [];
             images.forEach((imgEl, ii) => {
@@ -398,8 +410,19 @@ export default function Hero({
                 delay: 0.05,
               });
             }
+
+            // asegurarse de que las imágenes quedan visibles e interactuables (si corresponde)
+            images.forEach((el) => {
+              try {
+                (el as HTMLElement).style.visibility = "visible";
+                (el as HTMLElement).style.pointerEvents = "auto";
+              } catch {}
+            });
           },
         });
+
+        // añadimos flipTween a la misma timeline para que master tl espere su finalización
+        tl.add(flipTween, "+=0");
       }, "+=0.12");
 
       imagesTimelineRef.current = tl;
@@ -413,6 +436,7 @@ export default function Hero({
       imagesTimelineRef.current?.kill();
       floatTweensRef.current.forEach((t) => t.kill());
       floatTweensRef.current = [];
+      enableScrollGlobally();
     };
   }, []);
 
@@ -420,7 +444,7 @@ export default function Hero({
   useEffect(() => {
     if (!timelineRef.current) return;
 
-    const SCROLL_RANGE = 1.8; // rango virtual
+    const SCROLL_RANGE = 1.8;
     const SHOW_PROJECTS_RATIO = 0.5;
     const SHOW_PROJECTS_AT = SCROLL_RANGE * SHOW_PROJECTS_RATIO;
 
@@ -430,7 +454,6 @@ export default function Hero({
       SHOW_PROJECTS_AT - SCROLL_RANGE * FADE_BEFORE_RATIO
     );
 
-    // histéresis para evitar parpadeo al borde
     const HYSTERESIS = SCROLL_RANGE * 0.02;
 
     let touchStartY = 0;
@@ -455,36 +478,72 @@ export default function Hero({
       return targets;
     };
 
-    const revertFade = () => {
-      // si no está faded, no hacemos nada
-      if (!hasFadedRef.current) return;
+    const ensureFloatTweens = (images: HTMLElement[]) => {
+      // si ya existen, no crear; si existen pero fueron kill(), re-crear
+      if (!floatTweensRef.current || floatTweensRef.current.length === 0) {
+        floatTweensRef.current = [];
+        images.forEach((imgEl, ii) => {
+          try {
+            const t = gsap.to(imgEl, {
+              y: "+=10",
+              repeat: -1,
+              yoyo: true,
+              ease: "sine.inOut",
+              duration: 6 + ii,
+              force3D: true,
+              autoRound: false,
+            });
+            floatTweensRef.current.push(t);
+          } catch (e) {}
+        });
+      }
+    };
+
+    const revertFade = (force = false) => {
+      if (!hasFadedRef.current && !force) return;
       hasFadedRef.current = false;
 
       const targets = getTargets();
-      // aseguramos visibility antes de animar de vuelta
+      const images = overlayImagesRef.current.filter(Boolean) as HTMLElement[];
+
+      // asegurar visibilidad antes de animar (evita que el tween no haga nada si visibility=hidden)
       targets.forEach((el) => {
         try {
-          (el as HTMLElement).style.visibility = "visible";
-          (el as HTMLElement).style.pointerEvents = "auto";
-        } catch {}
+          const h = el as HTMLElement;
+          h.style.visibility = "visible";
+          h.style.pointerEvents = "auto";
+          // no tocar h.style.opacity aquí; gsap se encargará de animarlo
+        } catch (e) {}
       });
 
-      // matamos tween de fade anterior si existe
       try {
         fadeTweenRef.current?.kill();
-      } catch {}
+      } catch (e) {}
 
-      // animamos hacia opacidad 1
       fadeTweenRef.current = gsap.to(targets, {
         opacity: 1,
         duration: 0.35,
         ease: "power2.out",
         stagger: 0.02,
-        onComplete: () => {
-          // reanudar floats
+        overwrite: "auto",
+        onStart: () => {
           try {
-            floatTweensRef.current.forEach((t) => t.play && t.play());
-          } catch {}
+            if (floatTweensRef.current && floatTweensRef.current.length) {
+              floatTweensRef.current.forEach((t) => t.play && t.play());
+            } else {
+              ensureFloatTweens(images);
+            }
+          } catch (e) {}
+        },
+        onComplete: () => {
+          targets.forEach((el) => {
+            try {
+              const h = el as HTMLElement;
+              h.style.opacity = "1";
+              h.style.visibility = "visible";
+              h.style.pointerEvents = "auto";
+            } catch (e) {}
+          });
         },
       });
     };
@@ -494,30 +553,31 @@ export default function Hero({
       hasFadedRef.current = true;
 
       const targets = getTargets();
+      /* const images = overlayImagesRef.current.filter(Boolean) as HTMLElement[]; */
 
-      // pausamos floats inmediatamente
+      // pausar floats (si existen)
       try {
         floatTweensRef.current.forEach((t) => t.pause && t.pause());
-      } catch {}
+      } catch (e) {}
 
-      // matamos tween previo si existe
       try {
         fadeTweenRef.current?.kill();
-      } catch {}
+      } catch (e) {}
 
-      // fade out
       fadeTweenRef.current = gsap.to(targets, {
         opacity: 0,
         duration: 0.45,
         ease: "power2.out",
         stagger: 0.02,
+        overwrite: "auto",
         onComplete: () => {
-          // opcional: ocultar interacción mientras están fuera
           targets.forEach((el) => {
             try {
-              (el as HTMLElement).style.visibility = "hidden";
-              (el as HTMLElement).style.pointerEvents = "none";
-            } catch {}
+              const h = el as HTMLElement;
+              h.style.opacity = "0";
+              h.style.visibility = "hidden";
+              h.style.pointerEvents = "none";
+            } catch (e) {}
           });
         },
       });
@@ -540,7 +600,6 @@ export default function Hero({
         rafId = null;
       }
 
-      // Si pasamos el umbral de fade -> fade out
       if (
         targetRef.current >= FADE_THRESHOLD &&
         !hasFadedRef.current &&
@@ -549,15 +608,14 @@ export default function Hero({
         doFadeOut();
       }
 
-      // Si retrocedemos por debajo del umbral menos histéresis -> revertir fade
+      // Aquí usamos force=true para cubrir scrolls rápidos/entradas abruptas
       if (
         hasFadedRef.current &&
         targetRef.current < FADE_THRESHOLD - HYSTERESIS
       ) {
-        revertFade();
+        revertFade(true);
       }
 
-      // Mostrar projects temprano (una sola vez)
       if (
         !hasShownEarlyRef.current &&
         targetRef.current >= SHOW_PROJECTS_AT &&
@@ -571,18 +629,13 @@ export default function Hero({
         }
       }
 
-      // Si retrocedes bastante antes del SHOW_PROJECTS_AT, reseteamos la bandera
       if (
         hasShownEarlyRef.current &&
         targetRef.current < SHOW_PROJECTS_AT - HYSTERESIS
       ) {
         hasShownEarlyRef.current = false;
-        // Si tu parent oculta projects cuando recibe onScrollPastHero, quizás necesites
-        // notificarlo para ocultarlos aquí. Como no tenemos un callback para "hide",
-        // lo dejamos al parent; si quieres lo agrego.
       }
 
-      // Llamada final para la transición completa (compatibilidad)
       if (
         targetRef.current >= SCROLL_RANGE - 0.0001 &&
         scrollProgressRef.current >= 0.995 &&
@@ -602,9 +655,11 @@ export default function Hero({
       }
     };
 
+    // HANDLE WHEEL
     const handleWheel = (e: WheelEvent) => {
       if (!isVisible) return;
       if (!animationsDoneRef.current) {
+        // bloquear completamente mientras arranca intro
         e.preventDefault?.();
         return;
       }
@@ -623,13 +678,18 @@ export default function Hero({
       }
     };
 
+    // HANDLE TOUCH
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isVisible) return;
-      if (!animationsDoneRef.current) return;
+      if (!animationsDoneRef.current) {
+        // bloquear desplazamiento táctil mientras la intro no termine
+        e.preventDefault();
+        return;
+      }
 
       const deltaY = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
@@ -646,16 +706,38 @@ export default function Hero({
       }
     };
 
+    // -------------------------
+    // KEYBOARD BLOCK (SPACE/ARROWS/PgUp/PgDown/Home/End)
+    // -------------------------
+    const handleKeyDown = (ev: KeyboardEvent) => {
+      if (!animationsDoneRef.current) {
+        const keysToBlock = [
+          " ",
+          "Spacebar", // legacy
+          "ArrowDown",
+          "ArrowUp",
+          "PageDown",
+          "PageUp",
+          "Home",
+          "End",
+        ];
+        if (keysToBlock.includes(ev.key)) {
+          ev.preventDefault();
+        }
+      }
+    };
+
     window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("keydown", handleKeyDown, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("keydown", handleKeyDown);
       if (rafId) cancelAnimationFrame(rafId);
-      // cleanup tween
       try {
         fadeTweenRef.current?.kill();
       } catch {}
@@ -664,7 +746,6 @@ export default function Hero({
 
   // ---------------- Text entry animation (intro) ----------------
 
-  // ------------------------- Markup -------------------------
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]"
@@ -678,7 +759,6 @@ export default function Hero({
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[#111]" />
 
-        {/* overlay que se mostrará durante FLIP (igual que Hero2) */}
         <div
           ref={overlayGradientRef}
           className="absolute inset-0 z-[1] overflow-hidden"
@@ -687,7 +767,6 @@ export default function Hero({
           <div className="absolute inset-0 bg-gradient-to-br from-[#3a3a74] via-[#0a0a0a] to-[#1e3472]" />
         </div>
 
-        {/* light rays similar a Hero2 */}
         <div
           ref={lightRaysRef}
           className="absolute inset-0 z-[2]"
@@ -707,7 +786,6 @@ export default function Hero({
         className="relative z-[3] flex w-full h-full container"
       >
         <div className="w-full h-full flex items-center justify-center">
-          {/* Texto izquierdo: oculto hasta que terminen de organizar las imágenes */}
           <div
             ref={leftTextRef}
             className="w-[550px] flex flex-col gap-6 opacity-0"
@@ -724,7 +802,6 @@ export default function Hero({
         </div>
 
         <div className="w-full h-full flex items-center justify-center relative">
-          {/* CONTENEDOR objetivo: aqui se colocarán las imágenes finalizadas. */}
           <div className="relative w-[500px] h-[500px] hero-images-target">
             {IMAGES.map((img, i) => (
               <div
@@ -732,13 +809,23 @@ export default function Hero({
                 ref={(el) => {
                   overlayImagesRef.current[i] = el;
                 }}
-                className={"absolute overflow-hidden flex justify-center items-center"}
+                className={
+                  "absolute overflow-hidden flex justify-center items-center"
+                }
                 style={{ visibility: "hidden" }}
               >
-                {img.isMobile && <img src={img.url} alt="" className={`absolute w-full h-full object-cover blur-2xl z-[1]`}/>}
+                {img.isMobile && (
+                  <img
+                    src={img.url}
+                    alt=""
+                    className={`absolute w-full h-full object-cover blur-2xl z-[1]`}
+                  />
+                )}
                 <img
                   src={img.url}
-                  className={`w-full h-full relative z-[2] ${img.isMobile ? 'object-contain' : 'object-cover'}`}
+                  className={`w-full h-full relative z-[2] ${
+                    img.isMobile ? "object-contain" : "object-cover"
+                  }`}
                   alt={`hero-img-${i}`}
                   draggable={false}
                 />
