@@ -13,11 +13,14 @@ import CircleScroll from "./pages/Experience";
 import Example from "./pages/Example";
 import MaskCursor from "./components/MaskCursor";
 import { NotFound } from "./pages/NotFound";
+import { useResponsive } from "./hooks/useMediaQuery";
 /* import PinExample from "./pages/Example";
 import PinDebugFixed from "./pages/Example";
  */
 export default function App() {
   const location = useLocation();
+
+  const { isMobile } = useResponsive();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,7 +30,7 @@ export default function App() {
 
   return (
     <TransitionProvider>
-      <MaskCursor />
+      {!isMobile && <MaskCursor />}
       <CurtainProvider>
         <LayoutGroup>
           <AnimatePresence mode="wait" initial={false}>

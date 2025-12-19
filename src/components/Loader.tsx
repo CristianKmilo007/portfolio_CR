@@ -2,6 +2,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import DynamicSVGVariant from "../assets/icons/DynamicLogo";
+import { useResponsive } from "../hooks/useMediaQuery";
 
 interface PageLoaderProps {
   onComplete: () => void;
@@ -49,6 +50,8 @@ export default function PageLoader({
     const units = capped % 10;
     return { tens, units };
   };
+
+  const { isLaptop, isTablet } = useResponsive()
 
   useEffect(() => {
     const id = window.requestAnimationFrame(() =>
@@ -304,9 +307,9 @@ export default function PageLoader({
       {/* NEW: logo wrapper ref -> GSAP controla opacity */}
       <div
         ref={logoRef}
-        className="absolute top-1/2 -translate-y-1/2 -left-40 grayscale"
+        className="absolute top-[35%] md:top-1/2 -translate-y-1/2 -left-25 md:-left-40 grayscale"
       >
-        <DynamicSVGVariant width={1200} height={1200} />
+        <DynamicSVGVariant width={isTablet ? 600 : isLaptop ? 800 : 1200} height={isTablet ? 600 : isLaptop ? 800 : 1200} />
       </div>
 
       <div
@@ -314,10 +317,10 @@ export default function PageLoader({
         className="relative overflow-hidden flex items-center justify-center w-full h-full pointer-events-none"
         aria-hidden
       >
-        <div className="absolute right-16 bottom-12 flex items-end gap-1 h-[125px] overflow-hidden font-crimson">
+        <div className="absolute right-8 sm:right-16 bottom-6 sm:bottom-12 flex items-end gap-1 h-[45px] sm:h-[100px] lg:h-[125px] overflow-hidden font-crimson">
           {/* Tens column */}
           <div
-            className="overflow-hidden h-[9rem] leading-none"
+            className="overflow-hidden h-[6.5rem] sm:h-[8rem] lg:h-[9rem] leading-none"
             style={{ lineHeight: 1 }}
           >
             <div ref={tensListRef}>
@@ -325,7 +328,7 @@ export default function PageLoader({
                 <div
                   key={v + i}
                   data-digit
-                  className="text-[10rem] font-normal text-white text-end"
+                  className="text-[4rem] sm:text-[8rem] lg:text-[10rem] font-normal text-white text-end"
                   style={{
                     height: "10rem",
                     display: "flex",
@@ -341,7 +344,7 @@ export default function PageLoader({
 
           {/* Units column */}
           <div
-            className="overflow-hidden h-[9rem] leading-none"
+            className="overflow-hidden h-[6.5rem] sm:h-[8rem] lg:h-[9rem] leading-none"
             style={{ lineHeight: 1 }}
           >
             <div ref={unitsListRef}>
@@ -349,7 +352,7 @@ export default function PageLoader({
                 <div
                   key={v + i}
                   data-digit
-                  className="text-[10rem] font-normal text-white text-center"
+                  className="text-[4rem] sm:text-[8rem] lg:text-[10rem] font-normal text-white text-center"
                   style={{
                     height: "10rem",
                     display: "flex",
@@ -364,7 +367,7 @@ export default function PageLoader({
           </div>
 
           {/* percent sign */}
-          <div className="text-[5rem] font-normal text-white ml-4 self-end -mb-4">
+          <div className="text-[2rem] sm:text-[4rem] lg:text-[5rem] font-normal text-white ml-1 sm:ml-4 self-end -mb-[9px] sm:-mb-4">
             %
           </div>
         </div>

@@ -67,14 +67,14 @@ const MenuOverlay = ({
 
   return (
     <div
-      className="menu-overlay fixed top-0 left-0 w-screen h-screen bg-menu-bg overflow-hidden z-[1] pointer-events-none bg-[#111] text-white"
+      className="menu-overlay fixed top-0 left-0 w-screen h-screen bg-menu-bg overflow-hidden z-[1] pointer-events-none bg-[#000] sm:bg-[#111] text-white"
       style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)" }}
     >
       <div
         className="menu-overlay-content fixed top-0 left-0 w-screen h-screen flex overflow-hidden pointer-events-auto"
         style={{ transform: "translateY(-50%)" }}
       >
-        <div className="menu-media-wrapper flex-[2] opacity-0 will-change-[opacity] hidden lg:block h-full">
+        <div className="menu-media-wrapper flex-[2] lg:flex-[1] 2xl:flex-[2] opacity-0 will-change-[opacity] absolute top-52 sm:top-0 sm:relative block h-full">
           <img
             src="../../public/menu/menu-media.jpg"
             alt="Menu background"
@@ -82,13 +82,13 @@ const MenuOverlay = ({
           />
         </div>
 
-        <div className="menu-content-wrapper flex-[3] relative flex">
-          <div className="menu-content-main absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75%] p-8 flex items-end gap-8 flex-col lg:flex-row">
+        <div className="menu-content-wrapper flex-[3] lg:flex-[2] 2xl:flex-[3] relative flex">
+          <div className="menu-content-main absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75%] p-4 xl:p-8 flex lg:items-end gap-8 flex-col lg:flex-row">
             <div
               ref={(el) => {
                 if (el) textContainersRef.current[0] = el;
               }}
-              className="menu-col flex flex-col gap-3 flex-[3] pb-40"
+              className="menu-col flex flex-col gap-1 lg:gap-3 flex-[3] pb-35 sm:pb-15 lg:pb-40"
             >
               <div className="menu-link mouse-real overflow-hidden w-max">
                 <CustomLink
@@ -131,7 +131,7 @@ const MenuOverlay = ({
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 flex-[2]">
+            <div className="flex flex-col gap-4 lg:gap-8 flex-[2]">
               <div
                 ref={(el) => {
                   if (el) textContainersRef.current[3] = el;

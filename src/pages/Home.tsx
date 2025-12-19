@@ -572,7 +572,7 @@ const Home: React.FC = () => {
               </div>
               <div
                 ref={rightRef}
-                className="xl:absolute xl:bottom-0 xl:left-1/2 xl:-translate-x-1/2 xl:w-[650px] door-right"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[650px] door-right ml-[160px] 2xl:ml-0"
               >
                 <AnimatedContent
                   distance={100}

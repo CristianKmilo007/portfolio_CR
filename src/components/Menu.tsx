@@ -16,6 +16,7 @@ import DynamicSVGVariant from "../assets/icons/DynamicLogo";
 import { useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CustomLink from "./CustomLink";
+import { useResponsive } from "../hooks/useMediaQuery";
 
 type SplitInstance = {
   lines: HTMLElement[];
@@ -27,6 +28,8 @@ interface MenuProps {
 
 const Menu = ({ children }: MenuProps) => {
   const location = useLocation();
+
+  const { isTablet } = useResponsive()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -463,12 +466,12 @@ const Menu = ({ children }: MenuProps) => {
   return (
     <>
       <nav className="fixed top-0 left-0 w-screen h-screen pointer-events-none overflow-hidden z-[2] cursor-none">
-        <div className="menu-bar fixed top-0 left-1/2 -translate-x-1/2 container pt-8 flex justify-between items-start pointer-events-auto text-menu-fg-secondary z-[2] h-[1px]">
+        <div className="menu-bar fixed top-0 left-1/2 -translate-x-1/2 container pt-4 px-4 sm:px-4 sm:pt-8 flex justify-between items-start pointer-events-auto text-menu-fg-secondary z-[2] h-[1px]">
           <div className="menu-logo" ref={menuLogoRef}>
             <CustomLink to="/">
               <DynamicSVGVariant
-                width={75}
-                height={75}
+                width={isTablet ? 50 : 75}
+                height={isTablet ? 50 : 75}
                 frontPrimary="#fff"
                 frontSecondary="#fff"
                 primaryGradient={["#fff", "#333"]}
@@ -493,7 +496,7 @@ const Menu = ({ children }: MenuProps) => {
 
             <div
               ref={hamburgerIconRef}
-              className="menu-hamburger-icon relative w-12 h-12 flex justify-center items-center border border-white rounded-full"
+              className="menu-hamburger-icon relative w-10 md:w-12 h-10 md:h-12 flex justify-center items-center border border-white rounded-full"
             >
               <span className="absolute w-[18px] h-[1px] bg-white hamburger-line-1" />
               <span className="absolute w-[18px] h-[1px] bg-white hamburger-line-2" />
