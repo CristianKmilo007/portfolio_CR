@@ -88,7 +88,7 @@ const MenuOverlay = ({
               ref={(el) => {
                 if (el) textContainersRef.current[0] = el;
               }}
-              className="menu-col flex flex-col gap-2 flex-[3]"
+              className="menu-col flex flex-col gap-3 flex-[3] pb-40"
             >
               <div className="menu-link mouse-real overflow-hidden w-max">
                 <CustomLink

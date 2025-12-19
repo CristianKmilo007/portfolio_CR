@@ -15,6 +15,7 @@ import MenuOverlay from "./MenuOverlay";
 import DynamicSVGVariant from "../assets/icons/DynamicLogo";
 import { useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import CustomLink from "./CustomLink";
 
 type SplitInstance = {
   lines: HTMLElement[];
@@ -43,82 +44,110 @@ const Menu = ({ children }: MenuProps) => {
   const hamburgerIconRef = useRef<HTMLDivElement | null>(null);
   const pendingCloseRef = useRef(false);
 
-useEffect(() => {
-  gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
-  CustomEase.create("hop", ".87,0,.13,1");
+  useEffect(() => {
+    gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
+    CustomEase.create("hop", ".87,0,.13,1");
 
-  const lenis = new Lenis({
-    // agrega aquí tus opciones actuales si las tienes
-    // smooth: true, duration: 1.2, etc.
-  });
-  lenisRef.current = lenis;
+    const lenis = new Lenis({
+      // Si tienes opciones las mantienes, e.g. smooth: true, duration: 1.2
+    });
+    lenisRef.current = lenis;
 
-  // scrollerProxy para que ScrollTrigger entienda el scroller virtual de Lenis
-  ScrollTrigger.scrollerProxy(document.scrollingElement || document.documentElement, {
-    scrollTop(value?: number) {
-      if (arguments.length) {
-        // cuando GSAP intente setear scroll, se lo delegamos a Lenis
-        (lenis as any).scrollTo(value);
-      }
-      // devolver la posición actual del scroll (lenis expone scroll y scroll.target en algunas versiones)
-      // si no existe, devolvemos window.scrollY
-      return (lenis as any)?.scroll?.target ?? window.scrollY;
-    },
-    // bounding rect para el viewport
-    getBoundingClientRect() {
-      return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-    },
-    // opcional: si Lenis usa transform interno, no necesitamos hacer más aquí
-  });
-
-  // RAF loop: lenis + ScrollTrigger.update()
-  let rafId = 0;
-  function onRaf(time: number) {
-    (lenis as any).raf(time);
-    ScrollTrigger.update();
-    rafId = requestAnimationFrame(onRaf);
-  }
-  rafId = requestAnimationFrame(onRaf);
-
-  // init visual/hamburger
-  const initHamburgerLines = () => {
-    const el = hamburgerIconRef.current;
-    if (!el) return;
-    const line1 = el.querySelector<HTMLElement>(".hamburger-line-1");
-    const line2 = el.querySelector<HTMLElement>(".hamburger-line-2");
-    if (!line1 || !line2) return;
-
-    gsap.set([line1, line2], {
-      transformOrigin: "50% 50%",
-      background: "#fff",
+    const scrollingElement =
+      document.scrollingElement || document.documentElement;
+    ScrollTrigger.scrollerProxy(scrollingElement, {
+      scrollTop(value?: number) {
+        if (arguments.length) {
+          try {
+            (lenis as any).scrollTo(value);
+          } catch {
+            /* ignore */
+          }
+        }
+        try {
+          return (
+            (lenis as any)?.scroll?.target ??
+            (lenis as any)?.scroll ??
+            window.scrollY
+          );
+        } catch {
+          return window.scrollY;
+        }
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
     });
 
-    gsap.set(line1, { y: -4, rotation: 0, scaleX: 1 });
-    gsap.set(line2, { y: 4, rotation: 0, scaleX: 1 });
-  };
-  requestAnimationFrame(initHamburgerLines);
-
-  // Refreshs para cuando cambian tamaños
-  const onResize = () => ScrollTrigger.refresh();
-  window.addEventListener("resize", onResize);
-  window.addEventListener("load", onResize);
-
-  return () => {
-    // cleanup
-    cancelAnimationFrame(rafId);
-    window.removeEventListener("resize", onResize);
-    window.removeEventListener("load", onResize);
-    try {
-      lenis.destroy();
-    } catch (e) {
-      /* ignore */
+    let rafId = 0;
+    function onRaf(time: number) {
+      try {
+        (lenis as any).raf(time);
+      } catch {
+        /* ignore */
+      }
+      try {
+        ScrollTrigger.update();
+      } catch {
+        /* ignore */
+      }
+      rafId = requestAnimationFrame(onRaf);
     }
-    // mata triggers creados por este componente (gsap.context en otros lugares se encarga, pero por si acaso)
-    ScrollTrigger.getAll().forEach(t => t.kill());
-  };
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    rafId = requestAnimationFrame(onRaf);
 
+    const initHamburgerLines = () => {
+      const el = hamburgerIconRef.current;
+      if (!el) return;
+      const line1 = el.querySelector<HTMLElement>(".hamburger-line-1");
+      const line2 = el.querySelector<HTMLElement>(".hamburger-line-2");
+      if (!line1 || !line2) return;
+
+      gsap.set([line1, line2], {
+        transformOrigin: "50% 50%",
+        background: "#fff",
+      });
+
+      gsap.set(line1, { y: -4, rotation: 0, scaleX: 1 });
+      gsap.set(line2, { y: 4, rotation: 0, scaleX: 1 });
+    };
+    requestAnimationFrame(initHamburgerLines);
+
+    const onResize = () => {
+      try {
+        ScrollTrigger.refresh();
+      } catch {
+        /* ignore */
+      }
+    };
+    window.addEventListener("resize", onResize);
+    window.addEventListener("load", onResize);
+
+    return () => {
+      try {
+        cancelAnimationFrame(rafId);
+      } catch {
+        /* ignore */
+      }
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("load", onResize);
+      try {
+        lenis.destroy();
+      } catch {
+        /* ignore */
+      }
+      try {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      } catch {
+        /* ignore */
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     menuOverlayRef.current = document.querySelector(".menu-overlay");
@@ -353,15 +382,30 @@ useEffect(() => {
         setIsMenuOpen(false);
         lenisRef.current?.start();
 
-        // Si había una petición de cierre pendiente mientras se animaba, ejecutarla ahora
+        // Limpia transform inline del container para que no interfiera con pins (si existe)
+        try {
+          if (containerRef.current) {
+            // quitar transform inline y propiedades relacionadas
+            gsap.set(containerRef.current, { clearProps: "transform" });
+            containerRef.current.style.transform = "";
+          }
+        } catch {
+          /* ignore */
+        }
+
+        // Forzamos refresh para que ScrollTrigger recalcule
+        try {
+          ScrollTrigger.refresh();
+        } catch {
+          /* ignore */
+        }
+
         if (pendingCloseRef.current) {
           pendingCloseRef.current = false;
-          // give a tick para evitar recursión inmediata dentro del mismo frame
           requestAnimationFrame(() => {
             closeMenu().catch(() => {});
           });
         }
-
         resolve();
       });
     });
@@ -421,14 +465,16 @@ useEffect(() => {
       <nav className="fixed top-0 left-0 w-screen h-screen pointer-events-none overflow-hidden z-[2] cursor-none">
         <div className="menu-bar fixed top-0 left-1/2 -translate-x-1/2 container pt-8 flex justify-between items-start pointer-events-auto text-menu-fg-secondary z-[2] h-[1px]">
           <div className="menu-logo" ref={menuLogoRef}>
-            <DynamicSVGVariant
-              width={75}
-              height={75}
-              frontPrimary="#fff"
-              frontSecondary="#fff"
-              primaryGradient={["#fff", "#333"]}
-              accentGradient={["#333", "#fff"]}
-            />
+            <CustomLink to="/">
+              <DynamicSVGVariant
+                width={75}
+                height={75}
+                frontPrimary="#fff"
+                frontSecondary="#fff"
+                primaryGradient={["#fff", "#333"]}
+                accentGradient={["#333", "#fff"]}
+              />
+            </CustomLink>
           </div>
 
           <div
@@ -473,4 +519,3 @@ useEffect(() => {
 };
 
 export default Menu;
- 

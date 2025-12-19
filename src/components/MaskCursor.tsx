@@ -98,7 +98,7 @@ const MaskCursor = () => {
 
       if (hoveredIsReal) {
         animateToSize(targetW + 10, Math.max(minSize, targetH - 20), {
-          br: ".8rem",
+          br: "50rem",
         });
       } else if (hoveredIsBig) {
         animateToSize(50, 50, {});
