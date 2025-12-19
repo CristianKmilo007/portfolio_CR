@@ -103,8 +103,8 @@ export default function PageLoader({
 
     // --- Parámetros (ajusta si quieres) ---
     const PULSE_DUR = 1.8; // ciclo completo en segundos (sube -> baja -> sube)
-    const OP_UP = 0.15; // opacidad "encendido"
-    const OP_DOWN = 0.05; // opacidad "apagado tenue" (no 0 para que siga visible)
+    const OP_UP = 0.05; // opacidad "encendido"
+    const OP_DOWN = 0.02; // opacidad "apagado tenue" (no 0 para que siga visible)
     // ---------------------------------------
 
     // estado inicial (sin tocar scale)

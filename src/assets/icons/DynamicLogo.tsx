@@ -20,10 +20,14 @@ const DynamicSVGVariant: React.FC<DynamicSVGVariantProps> = ({
   height = 500,
   className = "",
   idPrefix,
-  primaryGradient = ["#8a0bff", "#410086"],
+  frontPrimary = "#fff",
+  frontSecondary = "#fff",
+  primaryGradient = ["#fff", "#333"],
+  accentGradient = ["#333", "#fff"],
+  /* primaryGradient = ["#8a0bff", "#410086"],
   accentGradient = ["#64008b", "#f92cf7"],
   frontPrimary = "#ae38ff", // default similar al original
-  frontSecondary = "#f92cf7", // default similar al original
+  frontSecondary = "#f92cf7", // default similar al original */
 }) => {
   const reactId = useId();
   const uid = (

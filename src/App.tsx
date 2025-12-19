@@ -12,6 +12,7 @@ import CircleScroll from "./pages/Experience";
 
 import Example from "./pages/Example";
 import MaskCursor from "./components/MaskCursor";
+import { NotFound } from "./pages/NotFound";
 /* import PinExample from "./pages/Example";
 import PinDebugFixed from "./pages/Example";
  */
@@ -44,6 +45,7 @@ export default function App() {
                       <Route path="/skills" element={<Skills />} />
                       <Route path="/experience" element={<CircleScroll />} />
                       <Route path="/projects" element={<Example />} />
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                   </div>
                 </AnimatePresence>
