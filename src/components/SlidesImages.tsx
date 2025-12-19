@@ -306,7 +306,7 @@ const SlideImagesComponent = ({
             {slides.map((slide, i) => (
               <SwiperSlide key={i}>
                 <div
-                  className={`w-full h-full flex justify-center items-center cursor-zoom-in ${slide?.type === 'video' ? 'bg-[#010101]' : ''} ${slide?.isContain && 'bg-[#01010133]'}`}
+                  className={`w-full h-full flex justify-center items-center swiper-slide mouse-big  ${slide?.type === 'video' ? 'bg-[#010101]' : ''} ${slide?.isContain && 'bg-[#01010133]'}`}
                 >
                   {slide.src ? (
                     slide.type === 'image' ? (
@@ -378,7 +378,7 @@ const SlideImagesComponent = ({
             >
               {slides.map((slide: any, i: number) => (
                 <SwiperSlide key={i}>
-                  <div className="w-full h-[85px] sm:h-[94px] rounded-none overflow-hidden flex justify-center items-center imgs-thumb opacity-60 cursor-pointer">
+                  <div className="w-full h-[85px] sm:h-[94px] rounded-none overflow-hidden flex justify-center items-center imgs-thumb opacity-60">
                     {slide.thumb ? (
                       <>
                         <img

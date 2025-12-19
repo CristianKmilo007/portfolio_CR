@@ -71,7 +71,7 @@ export default function CustomLink({
       onClick={(e) => {
         handleClick(e);
       }}
-      className={className}
+      className={`cursor-none ${className}`}
       role="link"
       aria-label={`Ir a ${to}`}
     >

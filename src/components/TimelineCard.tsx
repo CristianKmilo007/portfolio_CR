@@ -70,7 +70,7 @@ const ImageModal: React.FC<{
 
   const modal = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 cursor-none"
       aria-modal="true"
       role="dialog"
       onClick={onBackdropClick}
@@ -92,7 +92,7 @@ const ImageModal: React.FC<{
       >
         <button
           onClick={startClose}
-          className="absolute top-2 right-2 size-7 z-20 rounded-full p-1 bg-black/70 text-xs text-white"
+          className="button-modal-close cursor-none absolute top-2 right-2 size-7 z-20 rounded-full p-1 bg-black/70 text-xs text-white"
           aria-label="Cerrar imagen"
         >
           ✕
@@ -164,7 +164,7 @@ const TimelineCard: React.FC<Props> = ({ ev }) => {
 
           {ev.img && (
             <div
-              className="w-full h-[150px] rounded-lg overflow-hidden mt-3 cursor-pointer"
+              className="img-card-experience mouse-big w-full h-[150px] rounded-lg overflow-hidden mt-3"
               onClick={() => setOpenImg(ev.img!)}
             >
               <img

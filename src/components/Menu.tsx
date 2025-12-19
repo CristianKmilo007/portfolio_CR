@@ -418,7 +418,7 @@ useEffect(() => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-screen h-screen pointer-events-none overflow-hidden z-[2]">
+      <nav className="fixed top-0 left-0 w-screen h-screen pointer-events-none overflow-hidden z-[2] cursor-none">
         <div className="menu-bar fixed top-0 left-1/2 -translate-x-1/2 container pt-8 flex justify-between items-start pointer-events-auto text-menu-fg-secondary z-[2] h-[1px]">
           <div className="menu-logo" ref={menuLogoRef}>
             <DynamicSVGVariant
@@ -433,7 +433,7 @@ useEffect(() => {
 
           <div
             ref={menuToggleBtnRef}
-            className="menu-toggle-btn flex items-center gap-4 cursor-pointer"
+            className={`menu-toggle-btn flex items-center gap-4`}
             onClick={handleMenuToggle}
           >
             <div className="menu-toggle-label overflow-hidden">

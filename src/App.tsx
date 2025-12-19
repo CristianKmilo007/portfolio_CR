@@ -11,6 +11,7 @@ import { Skills } from "./pages/Skills";
 import CircleScroll from "./pages/Experience";
 
 import Example from "./pages/Example";
+import MaskCursor from "./components/MaskCursor";
 /* import PinExample from "./pages/Example";
 import PinDebugFixed from "./pages/Example";
  */
@@ -25,6 +26,7 @@ export default function App() {
 
   return (
     <TransitionProvider>
+      <MaskCursor />
       <CurtainProvider>
         <LayoutGroup>
           <AnimatePresence mode="wait" initial={false}>
@@ -45,7 +47,7 @@ export default function App() {
                     </Routes>
                   </div>
                 </AnimatePresence>
-             </Menu>
+              </Menu>
             )}
           </AnimatePresence>
         </LayoutGroup>

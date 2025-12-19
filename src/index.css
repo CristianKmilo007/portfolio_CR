@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@100..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kalnia:wght@100..700&display=swap");
 
 @import "tailwindcss";
 @plugin '../hero.ts';
@@ -8,21 +8,28 @@
 /* define tokens / tema aquí */
 @theme {
   --color-primary-500: oklch(65% 0.09 250);
-  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
   --font-crimson: "Crimson Text", serif;
   --font-kalnia: "Kalnia", serif;
 }
 
 /* tus estilos custom dentro de layers para evitar specificity issues */
 @layer base {
-  :root { font-family: var(--font-sans); }
+  :root {
+    font-family: var(--font-sans);
+  }
 }
 
 #root {
   width: 100%;
 }
 
-body::-webkit-scrollbar{
+body {
+  cursor: none !important;
+}
+
+body::-webkit-scrollbar {
   display: none;
 }
 
@@ -36,11 +43,11 @@ body::-webkit-scrollbar{
 }
 
 .circular-text-home span {
-  @apply text-base
-} 
+  @apply text-base;
+}
 
-.icon-ts path{
-  fill: #fff
+.icon-ts path {
+  fill: #fff;
 }
 
 .img-logos-filter-white {
@@ -149,4 +156,13 @@ body::-webkit-scrollbar{
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   will-change: transform;
+}
+
+.lg-prev,
+.lg-next,
+.lg-outer .lg-thumb-outer.lg-grab .lg-thumb-item,
+.lg-outer.lg-grab img.lg-object,
+.lg-outer.lg-grabbing img.lg-object,
+.lg-toolbar .lg-icon {
+  cursor: none;
 }

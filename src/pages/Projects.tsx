@@ -72,7 +72,7 @@ function MinimapStaticControls({
           isIconOnly
           radius="full"
           onPress={onPrev}
-          className={`pointer-events-auto absolute -left-12 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 min-w-9 flex items-center justify-center`}
+          className={`pointer-events-auto button-prev cursor-none absolute -left-12 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 min-w-9 flex items-center justify-center`}
         >
           <FaArrowLeft className="text-white" size={14} />
         </Button>
@@ -81,7 +81,7 @@ function MinimapStaticControls({
           isIconOnly
           radius="full"
           onPress={onNext}
-          className={`pointer-events-auto absolute -right-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 min-w-9 flex items-center justify-center`}
+          className={`pointer-events-auto button-next cursor-none absolute -right-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 min-w-9 flex items-center justify-center`}
         >
           <FaArrowRight className="text-white" size={14} />
         </Button>
@@ -94,7 +94,7 @@ function MinimapStaticControls({
                 e.stopPropagation();
                 onBulletClick(i);
               }}
-              className={`w-2 h-2 rounded-full ${
+              className={`w-2 h-2 rounded-full cursor-none dots-slider ${
                 i === activeIndex ? "bg-white" : "bg-white/40"
               }`}
               aria-label={`Ir a ${i + 1}`}
@@ -676,12 +676,13 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`Abrir ${project.name} en nueva pestaña`}
+                          className="cursor-none"
                         >
                           <Button
                             isIconOnly
                             size="sm"
                             radius="full"
-                            className="bg-[#00000036] mt-1"
+                            className="bg-[#00000036] mt-1 cursor-none button-link"
                           >
                             <PiLinkBold color="#fff" size={18} />
                           </Button>

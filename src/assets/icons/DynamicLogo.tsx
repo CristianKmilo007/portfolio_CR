@@ -24,7 +24,6 @@ const DynamicSVGVariant: React.FC<DynamicSVGVariantProps> = ({
   accentGradient = ["#64008b", "#f92cf7"],
   frontPrimary = "#ae38ff", // default similar al original
   frontSecondary = "#f92cf7", // default similar al original
-  title = "Decorative graphic",
 }) => {
   const reactId = useId();
   const uid = (
@@ -63,8 +62,6 @@ const DynamicSVGVariant: React.FC<DynamicSVGVariantProps> = ({
       width={width}
       height={height}
       className={className}
-      role={title ? "img" : "presentation"}
-      aria-label={title}
     >
       <defs>
         <style>{`.cls-1{fill:url(#${g1})}.cls-1,.cls-2,.cls_3,.cls-4,.cls-5,.cls-6,.cls-7,.cls-8,.cls-9,.cls-10{stroke-width:0px}.cls-2{fill:url(#${g6})}.cls-11{isolation:isolate}.cls-3{fill:url(#${g5});opacity:.42}.cls-4{fill:url(#${g10});opacity:.32}.cls-5{fill:url(#${g2})}.cls-6{fill:url(#${g7})}.cls-9{fill:url(#${g8})}.cls-10{fill:url(#${g4});mix-blend-mode:overlay}`}</style>
@@ -192,8 +189,6 @@ const DynamicSVGVariant: React.FC<DynamicSVGVariantProps> = ({
           xlinkHref={`#${g5}`}
         />
       </defs>
-
-      {title ? <title>{title}</title> : null}
 
       <g className="cls-11">
         <g id="OBJECTS">
