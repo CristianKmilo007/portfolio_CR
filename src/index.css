@@ -25,9 +25,9 @@
   width: 100%;
 }
 
-body {
+/* body {
   cursor: none !important;
-}
+} */
 
 body::-webkit-scrollbar {
   display: none;
@@ -165,4 +165,38 @@ body::-webkit-scrollbar {
 .lg-outer.lg-grabbing img.lg-object,
 .lg-toolbar .lg-icon {
   cursor: none;
+}
+
+.custom-scrollbar {
+  width: calc(100% + 20px);
+  padding-right: 16px;
+  overflow-y: scroll;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+  position: absolute;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 10px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.text-two-line-ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.text-one-line-ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
