@@ -11,10 +11,13 @@ import FadeContent from "../components/FadeContent";
 import CircularText from "../components/CircularText";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useResponsive } from "../hooks/useMediaQuery";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Home: React.FC = () => {
+  const { isLaptop, isTablet, isMobile } = useResponsive();
+
   const leftRef = useRef<HTMLDivElement | null>(null);
   const rightRef = useRef<HTMLDivElement | null>(null);
   const particlesRef = useRef<HTMLDivElement | null>(null);
@@ -32,100 +35,120 @@ const Home: React.FC = () => {
   const counter3Ref = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
-  const MIN_MS = 1500;
+    const MIN_MS = 1500;
 
-  // guardo scroll actual para restaurar después
-  const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    // guardo scroll actual para restaurar después
+    const scrollY =
+      window.scrollY ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
 
-  // bloqueo por CSS: fijar body para impedir scroll absoluto
-  const prevBodyPosition = document.body.style.position;
-  const prevBodyTop = document.body.style.top;
-  const prevBodyLeft = document.body.style.left;
-  const prevBodyRight = document.body.style.right;
-  const prevBodyWidth = document.body.style.width;
-  const prevBodyOverflow = document.body.style.overflow;
+    // bloqueo por CSS: fijar body para impedir scroll absoluto
+    const prevBodyPosition = document.body.style.position;
+    const prevBodyTop = document.body.style.top;
+    const prevBodyLeft = document.body.style.left;
+    const prevBodyRight = document.body.style.right;
+    const prevBodyWidth = document.body.style.width;
+    const prevBodyOverflow = document.body.style.overflow;
 
-  document.body.style.position = "fixed";
-  document.body.style.top = `-${scrollY}px`;
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  document.body.style.width = "100%";
-  document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
 
-  // listeners defensivos en capture/passive:false
-  const prevent = (e: Event) => {
-    e.preventDefault();
-  };
-  const preventKey = (e: KeyboardEvent) => {
-    const keys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Space"];
-    if (keys.includes(e.code)) e.preventDefault();
-  };
+    // listeners defensivos en capture/passive:false
+    const prevent = (e: Event) => {
+      e.preventDefault();
+    };
+    const preventKey = (e: KeyboardEvent) => {
+      const keys = [
+        "ArrowUp",
+        "ArrowDown",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+        "Space",
+      ];
+      if (keys.includes(e.code)) e.preventDefault();
+    };
 
-  window.addEventListener("wheel", prevent, { passive: false, capture: true });
-  window.addEventListener("touchmove", prevent, { passive: false, capture: true });
-  window.addEventListener("keydown", preventKey, { capture: true });
+    window.addEventListener("wheel", prevent, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("touchmove", prevent, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("keydown", preventKey, { capture: true });
 
-  // Si Lenis está expuesto (opcional), lo detenemos
-  const lenis = (window as any).__lenis ?? null;
-  try {
-    if (lenis && typeof lenis.stop === "function") lenis.stop();
-  } catch {
-    /* ignore */
-  }
-
-  // fallback overlay (opcional, refuerzo)
-  const overlay = document.createElement("div");
-  overlay.id = "force-scroll-lock-overlay";
-  Object.assign(overlay.style, {
-    position: "fixed",
-    inset: "0",
-    zIndex: "2147483647",
-    background: "transparent",
-    pointerEvents: "auto",
-    touchAction: "none",
-  });
-  document.documentElement.appendChild(overlay);
-
-  const restore = () => {
-    // quitar listeners
+    // Si Lenis está expuesto (opcional), lo detenemos
+    const lenis = (window as any).__lenis ?? null;
     try {
-      window.removeEventListener("wheel", prevent, { capture: true } as any);
-      window.removeEventListener("touchmove", prevent, { capture: true } as any);
-      window.removeEventListener("keydown", preventKey, { capture: true } as any);
-    } catch {}
-    // quitar overlay
-    try {
-      overlay.remove();
-    } catch {}
-    // restaurar body styles y volver a la posición de scroll original
-    try {
-      document.body.style.position = prevBodyPosition ?? "";
-      document.body.style.top = prevBodyTop ?? "";
-      document.body.style.left = prevBodyLeft ?? "";
-      document.body.style.right = prevBodyRight ?? "";
-      document.body.style.width = prevBodyWidth ?? "";
-      document.body.style.overflow = prevBodyOverflow ?? "";
-      // restaurar scroll
-      window.scrollTo(0, scrollY);
-    } catch {}
-    // reanudar Lenis si existía
-    try {
-      if (lenis && typeof lenis.start === "function") lenis.start();
-    } catch {}
-  };
+      if (lenis && typeof lenis.stop === "function") lenis.stop();
+    } catch {
+      /* ignore */
+    }
 
-  const timeoutId = window.setTimeout(() => {
-    restore();
-  }, MIN_MS);
+    // fallback overlay (opcional, refuerzo)
+    const overlay = document.createElement("div");
+    overlay.id = "force-scroll-lock-overlay";
+    Object.assign(overlay.style, {
+      position: "fixed",
+      inset: "0",
+      zIndex: "2147483647",
+      background: "transparent",
+      pointerEvents: "auto",
+      touchAction: "none",
+    });
+    document.documentElement.appendChild(overlay);
 
-  return () => {
-    window.clearTimeout(timeoutId);
-    restore();
-  };
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    const restore = () => {
+      // quitar listeners
+      try {
+        window.removeEventListener("wheel", prevent, { capture: true } as any);
+        window.removeEventListener("touchmove", prevent, {
+          capture: true,
+        } as any);
+        window.removeEventListener("keydown", preventKey, {
+          capture: true,
+        } as any);
+      } catch {}
+      // quitar overlay
+      try {
+        overlay.remove();
+      } catch {}
+      // restaurar body styles y volver a la posición de scroll original
+      try {
+        document.body.style.position = prevBodyPosition ?? "";
+        document.body.style.top = prevBodyTop ?? "";
+        document.body.style.left = prevBodyLeft ?? "";
+        document.body.style.right = prevBodyRight ?? "";
+        document.body.style.width = prevBodyWidth ?? "";
+        document.body.style.overflow = prevBodyOverflow ?? "";
+        // restaurar scroll
+        window.scrollTo(0, scrollY);
+      } catch {}
+      // reanudar Lenis si existía
+      try {
+        if (lenis && typeof lenis.start === "function") lenis.start();
+      } catch {}
+    };
 
+    const timeoutId = window.setTimeout(() => {
+      restore();
+    }, MIN_MS);
 
+    return () => {
+      window.clearTimeout(timeoutId);
+      restore();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Ajusta este valor para controlar la velocidad global (>1 = más lento)
   const SPEED = 2;
@@ -284,7 +307,7 @@ const Home: React.FC = () => {
         center,
         {
           opacity: 1,
-          scale: 1,
+          scale: isMobile ? .9 : 1,
           y: 0,
           duration: 1.6 * SPEED,
           ease: "power1.out",
@@ -297,10 +320,9 @@ const Home: React.FC = () => {
         center,
         {
           y: () => {
-            const targetTop = -(
-              window.innerHeight / 2 -
-              window.innerHeight * 0.275
-            );
+            const vh = window.innerHeight;
+            const offset = isMobile ? 0.3 : isLaptop ? 0.35 : 0.275;
+            const targetTop = -(vh / 2 - vh * offset);
             return targetTop;
           },
           duration: 1.4 * SPEED,
@@ -426,7 +448,7 @@ const Home: React.FC = () => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [SPEED]);
+  }, [SPEED, isLaptop, isMobile]);
 
   const cards = [
     {
@@ -485,7 +507,7 @@ const Home: React.FC = () => {
 
             <div
               ref={leftRef}
-              className="container mx-auto h-screen flex flex-col justify-center absolute left-1/2 -translate-x-1/2  z-[1] mt-10 door-left"
+              className="container mx-auto h-screen flex flex-col justify-center absolute left-1/2 -translate-x-1/2 z-[1] mt-10 door-left"
             >
               <AnimatedContent
                 distance={100}
@@ -498,12 +520,13 @@ const Home: React.FC = () => {
                 scale={1}
                 threshold={0.2}
                 delay={0}
+                className={"-mt-[400px] sm:-mt-[200px] lg:mt-0 pl-4"}
               >
-                <span className="text-white font-bold text-[60px] leading-17">
+                <span className="text-white font-bold text-[35px] sm:text-[45px] lg:text-[60px] leading-8 sm:leading-12 lg:leading-17">
                   Me llamo <br />{" "}
                   <span className="text-[#555]">Cristian Rojas,</span> soy
                 </span>
-                <div className="h-[100px]">
+                <div className="h-[70px] sm:h-[100px]">
                   <TextType
                     text={[
                       "Desarrollador Frontend",
@@ -515,11 +538,11 @@ const Home: React.FC = () => {
                     typingSpeed={75}
                     pauseDuration={1500}
                     showCursor={false}
-                    className=" text-[80px] font-crimson italic"
+                    className="text-[40px] sm:text-[55px] lg:text-[80px] font-crimson italic"
                   />
                 </div>
 
-                <div className="w-[150px] h-[150px] relative flex justify-center items-center p-2 mt-20">
+                <div className="w-[100px] sm:w-[125px] lg:w-[150px] h-[100px] sm:h-[125px] lg:h-[150px] relative flex justify-center items-center p-2 mt-0 lg:mt-20">
                   <div className="w-full h-full absolute">
                     <img
                       src="/public/Home/circle-star.svg"
@@ -537,7 +560,7 @@ const Home: React.FC = () => {
               </AnimatedContent>
             </div>
 
-            <div className="relative w-[1200px]">
+            <div className="relative w-full lg:w-[1200px]">
               <div ref={particlesRef} className="absolute w-full h-full">
                 <FadeContent
                   blur={true}
@@ -565,14 +588,14 @@ const Home: React.FC = () => {
                     <img
                       src="../../public/Home/bg-explosion.png"
                       alt=""
-                      className="w-full h-full object-cover object-right"
+                      className="w-full h-full object-cover object-[80%_25px] sm:object-right"
                     />
                   </FadeContent>
                 </MouseParallaxChild>
               </div>
               <div
                 ref={rightRef}
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[650px] door-right ml-[160px] 2xl:ml-0"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[650px] door-right ml-[110px] sm:ml-[325px] xl:ml-[160px] 2xl:ml-0"
               >
                 <AnimatedContent
                   distance={100}
@@ -588,10 +611,10 @@ const Home: React.FC = () => {
                 >
                   <img
                     src={"/Home/hero-img.png"}
-                    width={737}
-                    height={678}
+                    width={isTablet ? 450 : isLaptop ? 500 : 737}
+                    height={isTablet ? 400 : isLaptop ? 450 : 678}
                     alt="hero"
-                    className="translate-z-0 w-full h-full "
+                    className="translate-z-0"
                   />
                 </AnimatedContent>
               </div>
@@ -600,10 +623,10 @@ const Home: React.FC = () => {
             {/* CENTRO: aparece después de la salida; dentro del mismo pin */}
             <div
               ref={centerRef}
-              className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none px-6 opacity-0"
+              className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none px-0 sm:px-6 opacity-0"
             >
-              <div className="max-w-[900px] text-center">
-                <p className="text-white font-crimson italic font-normal text-[2.55rem] leading-12">
+              <div className="max-w-[400px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] text-center">
+                <p className="text-white font-crimson italic font-normal text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] leading-9 sm:leading-10 lg:leading-12">
                   Desarrollador de aplicaciones web full stack, con amplio
                   conocimiento y solida experiencia, trabajando con tecnologías
                   modernas de diseño frontend y arquitectura backend,
@@ -613,23 +636,23 @@ const Home: React.FC = () => {
             </div>
 
             {/* CONTENEDORES HORIZONTALES QUE APARECEN DESDE ABAJO */}
-            <div className="absolute inset-x-0 bottom-[30vh] z-30 flex flex-row items-center justify-center gap-6 pointer-events-none px-6">
+            <div className="absolute inset-x-0 bottom-[10vh] sm:bottom-[20vh] lg:bottom-[30vh] z-30 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pointer-events-none px-6">
               {cards.map((card) => {
                 return (
                   <div
                     ref={card.contentRef}
-                    className="size-[220px] bg-white/6 backdrop-blur-md border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center text-center text-white opacity-0 pointer-events-auto"
+                    className="w-[325px] h-[90px] sm:w-[180px] sm:h-[180px] md:w-[220px] md:h-[220px] bg-white/6 backdrop-blur-md border-white/10 rounded-2xl p-6 flex flex-row sm:flex-col gap-6  sm:gap-0 items-center justify-center sm:text-center text-white opacity-0 pointer-events-auto"
                   >
                     <div className="flex items-center gap-1">
-                      <span className="text-5xl">+</span>
+                      <span className="text-4xl sm:text-5xl">+</span>
                       <span
                         ref={card.counterRef}
-                        className="text-6xl font-crimson font-light"
+                        className="text-5xl sm:text-6xl font-crimson font-light"
                       >
                         0
                       </span>
                     </div>
-                    <span className="mt-3 font-semibold leading-5 w-[125px]">
+                    <span className="mt-0 sm:mt-3 font-semibold leading-5 w-[125px]">
                       {card.text}
                     </span>
                   </div>

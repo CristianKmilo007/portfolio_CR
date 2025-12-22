@@ -43,7 +43,7 @@ body::-webkit-scrollbar {
 }
 
 .circular-text-home span {
-  @apply text-base;
+  @apply text-xs md:text-sm lg:text-base;
 }
 
 .icon-ts path {
