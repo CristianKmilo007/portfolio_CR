@@ -402,7 +402,7 @@ export const Skills: React.FC = () => {
     {
       id: 3,
       left: isLaptop ? (
-        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-32 lg:translate-y-0">
+        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-33 sm:-translate-y-22 lg:translate-y-0">
           <SlidersSkills
             data={dataBack}
             classNames={{
@@ -414,9 +414,9 @@ export const Skills: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="w-full flex">
-          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
-            <div className="flex gap-x-4 flex-wrap items-end">
+        <div className="w-full flex justify-end">
+          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[500px] text-end translate-x-0 lg:-translate-x-30 2xl:-translate-x-50 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pl-0 lg:pr-0 xl:pr-12">
+            <div className="flex gap-x-4 flex-wrap items-end justify-end">
               <span className="text-4xl sm:text-5xl">Backend</span>
               {isLaptop && (
                 <Button
@@ -438,9 +438,9 @@ export const Skills: React.FC = () => {
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">
               {dataFrontItems.map((item) => (
-                <div className="flex gap-2" key={item}>
-                  <TbPointFilled className="mt-1 size-4 min-w-4" />
+                <div className="flex justify-end gap-2" key={item}>
                   <span className="text-xl leading-6">{item}</span>
+                  <TbPointFilled className="mt-1 size-4 min-w-4" />
                 </div>
               ))}
             </div>
@@ -482,7 +482,7 @@ export const Skills: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-15 lg:translate-y-0">
+        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:-translate-x-25 xl:-translate-x-30 2xl:-translate-x-50 -translate-y-15 lg:translate-y-0">
           <SlidersSkills
             data={dataBack}
             classNames={{
@@ -498,7 +498,7 @@ export const Skills: React.FC = () => {
     {
       id: 4,
       left: (
-        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-45 lg:translate-y-0">
+        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-40 2xl:translate-x-50 -translate-y-45 sm:-translate-y-35 lg:translate-y-0">
           <SlidersSkills
             data={dataDesigner}
             classNames={{
@@ -513,7 +513,7 @@ export const Skills: React.FC = () => {
       ),
       right: (
         <div className="w-full flex">
-          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
+          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-15 2xl:translate-x-0 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
               <span className="text-4xl sm:text-5xl">Designer</span>
               {isLaptop && (

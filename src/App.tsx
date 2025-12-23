@@ -30,7 +30,7 @@ export default function App() {
 
   return (
     <TransitionProvider>
-      {!isMobile && <MaskCursor />}
+      {/* {!isMobile && <MaskCursor />} */}
       <CurtainProvider>
         <LayoutGroup>
           <AnimatePresence mode="wait" initial={false}>
