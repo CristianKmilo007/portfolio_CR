@@ -3,6 +3,8 @@ import gsap from "gsap";
 import Flip from "gsap/Flip";
 import CustomEase from "gsap/CustomEase";
 import LightRays from "./LightRays";
+import ScrollVelocity from "./ScrollVelocity";
+import { useResponsive } from "../hooks/useMediaQuery";
 
 gsap.registerPlugin(Flip, CustomEase);
 
@@ -15,6 +17,8 @@ export default function Hero({
   onScrollPastHero,
   isVisible = true,
 }: HeroProps) {
+  const { isLaptop, isTablet, isMobile } = useResponsive();
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement | null>(null);
 
@@ -23,6 +27,8 @@ export default function Hero({
 
   const overlayImagesRef = useRef<Array<HTMLDivElement | null>>([]);
   const leftTextRef = useRef<HTMLDivElement | null>(null);
+  const textHorRef = useRef<HTMLDivElement | null>(null);
+  const heroImagesWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const imagesTimelineRef = useRef<gsap.core.Timeline | null>(null);
@@ -37,33 +43,45 @@ export default function Hero({
   const IMAGES = [
     {
       url: "/projects/eranpay/img1.png",
-      className: "w-[350px] h-[200px] top-[-22px] left-[175px] rotate-8",
+      className:
+        "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[10px] lg:top-[-22px] left-[140px] lg:left-[175px] rotate-8",
+      isContain: isLaptop ? true : false,
     },
     {
       url: "/projects/distripharmacias-del-llano/img1.png",
-      className: "w-[350px] h-[200px] top-[70px] left-[-80px] rotate-[-2deg]",
+      className:
+        "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[70px] left-[-70px] lg:left-[-80px] rotate-[-2deg]",
+      isContain: isLaptop ? true : false,
     },
     {
       url: "/projects/tododomi/img1.png",
-      className: "w-[350px] h-[200px] top-[173px] left-[250px] rotate-3",
+      className:
+        "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[130px] lg:top-[173px] left-[175px] lg:left-[250px] rotate-3",
+      isContain: isLaptop ? true : false,
     },
     {
       url: "/projects/shepwashi-dashboard/img13.png",
-      className: "w-[350px] h-[200px] top-[250px] left-[0px] rotate-6",
+      className:
+        "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[175px] lg:top-[250px] left-[0px] rotate-6",
+      isContain: isLaptop ? true : false,
     },
     {
       url: "/projects/eranpay/img5.png",
-      className: "w-[350px] h-[200px] top-[368px] left-[215px] rotate-[-1deg]",
+      className:
+        "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[250px] lg:top-[368px] left-[180px] sm:left-[230px] md:left-[180px] lg:left-[215px] rotate-[-1deg]",
+      isContain: isLaptop ? true : false,
     },
     {
       url: "/projects/eranpay/img27.png",
-      className: "w-[103px] h-[200px] top-[310px] left-[-57px] rotate-[-7deg]",
-      isMobile: true,
+      className:
+        "w-[80px] lg:w-[103px] h-[156px] lg:h-[200px] top-[225px] lg:top-[310px] left-[-40px] lg:left-[-57px] rotate-[-7deg]",
+      isContain: true,
     },
     {
       url: "/projects/shepwashi/img11.png",
-      className: "w-[103px] h-[200px] top-[385px] left-[40px] rotate-1",
-      isMobile: true,
+      className:
+        "w-[80px] lg:w-[103px] h-[156px] lg:h-[200px] top-[260px] lg:top-[385px] left-[25px] lg:left-[40px] rotate-1",
+      isContain: true,
     },
   ];
 
@@ -178,39 +196,6 @@ export default function Hero({
   useEffect(() => {
     let mounted = true;
 
-    const parsePx = (
-      className: string,
-      key: "top" | "left" | "w" | "h" | "rotate"
-    ) => {
-      try {
-        if (key === "rotate") {
-          const mDeg = className.match(/rotate-\[(-?\d+)deg\]/);
-          if (mDeg) return parseInt(mDeg[1], 10);
-
-          const m = className.match(/(?:^|\s)(-?rotate-?\d+)/);
-          if (m) {
-            const s = m[1].replace(/^rotate-?/, "").replace(/^-/, "-");
-            return parseInt(s, 10);
-          }
-          return 0;
-        }
-
-        if (key === "w") {
-          const m = className.match(/w-\[(-?\d+)px\]/);
-          return m ? parseInt(m[1], 10) : null;
-        }
-        if (key === "h") {
-          const m = className.match(/h-\[(-?\d+)px\]/);
-          return m ? parseInt(m[1], 10) : null;
-        }
-
-        const m = className.match(new RegExp(`${key}-\\[(-?\\d+)px\\]`));
-        return m ? parseInt(m[1], 10) : null;
-      } catch (e) {
-        return null;
-      }
-    };
-
     CustomEase.create(
       "hop",
       "M0,0 C0.355,0.022 0.448,0.079 0.5,0.5 0.542,0.846 0.615,1 1,1"
@@ -244,7 +229,7 @@ export default function Hero({
         )
       );
 
-      // estado inicial: FULL-SCREEN reveal
+      // estado inicial: FULL-SCREEN reveal (esto es temporal — se limpiará luego)
       gsap.set(images, {
         position: "fixed",
         top: 0,
@@ -310,8 +295,8 @@ export default function Hero({
 
       // en el punto siguiente: ejecutamos una función que
       // 1) toma el state previo con Flip.getState(images)
-      // 2) aplica el layout final en DOM (styles absolute, tamaño, left/top, rot)
-      // 3) crea el tween Flip.from(...) y lo añade a la timeline (flipTween)
+      // 2) aplica layout final en DOM (USANDO TUS CLASES - NO SOBRESCRIBIENDO width/height/left/top)
+      // 3) crea el tween Flip.from(...) y lo añade a la timeline
       tl.add(() => {
         // 1) capturamos estado antes de mover al layout final
         const state = Flip.getState(images);
@@ -326,29 +311,48 @@ export default function Hero({
           lightRaysRef.current.style.opacity = "0";
         }
 
-        // 2) aplicamos layout final (posicionamiento absoluto y estilos)
+        // helper: extraer rotación si está en className (rotate-8 o rotate-[3deg])
+        const parseRotationFromClass = (className: string): number | null => {
+          try {
+            // formato rotate-[3deg]
+            const mDeg = className.match(/rotate-\[(-?\d+)deg\]/);
+            if (mDeg) return parseInt(mDeg[1], 10);
+
+            // formato rotate-8 o -rotate-6 (tailwind shorthand)
+            const mShort = className.match(/(?:^|\s)(-?rotate-?\d+)(?:\s|$)/);
+            if (mShort) {
+              // mShort[1] puede ser "-rotate-6" o "rotate-8"
+              const token = mShort[1].replace(/^rotate-?/, "");
+              // token puede venir con '-' si era -rotate-6
+              return parseInt(token, 10);
+            }
+
+            return null;
+          } catch {
+            return null;
+          }
+        };
+
+        // 2) aplicamos layout final: **DELEGAMOS tamaño/pos a las clases tailwind** ya definidas en IMAGES
         images.forEach((el, i) => {
           const cls = IMAGES[i]?.className || "";
-          const w = parsePx(cls, "w");
-          const h = parsePx(cls, "h");
-          const top = parsePx(cls, "top");
-          const left = parsePx(cls, "left");
-          const rot = parsePx(cls, "rotate") || 0;
-          const finalW = w ?? 350;
-          const finalH = h ?? Math.round(finalW * 0.6);
 
-          el.style.position = "absolute";
-          el.style.width = `${finalW}px`;
-          el.style.height = `${finalH}px`;
-          el.style.left = `${left ?? 0}px`;
-          el.style.top = `${top ?? 0}px`;
+          // limpiar inline previos que bloqueen las media queries (pero no la transformación que vamos a aplicar abajo)
+          el.style.width = "";
+          el.style.height = "";
+          el.style.left = "";
+          el.style.top = "";
+          el.style.position = ""; // allow CSS .absolute to take effect
+          // NO limpiamos transform aquí porque vamos a setear la rotación inline inmediatamente
+
+          // reasignar clases (mantener las tuyas tal cual)
+          el.className = `absolute overflow-hidden flex justify-center items-center transform ${cls}`;
+
+          // decoraciones que no rompen responsive
           el.style.boxSizing = "border-box";
           el.style.border = "0 solid rgba(255,255,255,0)";
-
           el.style.borderRadius = "1rem";
           el.style.boxShadow = "0 0 30px #333";
-          // NO tocar transform aquí más que la rotación final (Flip animará la transición)
-          el.style.transform = `rotate(${rot}deg) translateZ(0)`;
           el.style.transformOrigin = "center center";
           el.style.willChange = "transform, opacity";
           el.style.backfaceVisibility = "hidden";
@@ -360,8 +364,38 @@ export default function Hero({
           }
         });
 
+        // ====== NUEVO: aplicar rotación final INLINE ANTES de Flip.from para que Flip anime la rotación ======
+        images.forEach((el, i) => {
+          const cls = IMAGES[i]?.className || "";
+          const rot = parseRotationFromClass(cls);
+          if (rot !== null && !Number.isNaN(rot)) {
+            // aplicamos sólo rotación (no tocamos translate/size). translateZ for performance.
+            // Esto es temporal: lo limpiamos en onComplete para devolver control a las clases CSS.
+            el.style.transform = `rotate(${rot}deg) translateZ(0)`;
+          } else {
+            // si no hay rotación explícita, aseguramos que no haya transform inline que interfiera
+            // (pero no forzamos valores que pudieran romper)
+            // el.style.transform = ""; // comentar si quieres mantener transforms previos
+          }
+        });
+
+        // FORZAR reflow para que las clases aplicadas + transform inline se calculen en layout antes de Flip
+        images.forEach(
+          (el) => void (el as HTMLElement).getBoundingClientRect()
+        );
+
         // 3) creamos flipTween ahora (estado capturado + layout final aplicados)
         const flipDuration = 1.4;
+
+        const wrapper = heroImagesWrapperRef.current;
+        if (wrapper) {
+          // aseguramos que esté en x:0 durante el reveal
+          gsap.set(wrapper, { x: 0, overwrite: true });
+
+          const tx = isMobile ? 25 : isTablet ? 50 : isLaptop ? 150 : 0;
+          gsap.to(wrapper, { x: tx, duration: 0.45, ease: "power3.out" });
+        }
+
         const flipTween = Flip.from(state, {
           duration: flipDuration,
           ease: "hop",
@@ -411,9 +445,25 @@ export default function Hero({
               });
             }
 
-            // asegurarse de que las imágenes quedan visibles e interactuables (si corresponde)
+            if (textHorRef.current) {
+              gsap.to(textHorRef.current, {
+                opacity: 1,
+                duration: 2,
+                ease: "power3.out",
+                delay: 0.5,
+              });
+            }
+
+            // limpiar estilos inline temporales que puedan impedir media queries
             images.forEach((el) => {
               try {
+                // dejar que las clases manejen width/height/left/top/position
+                el.style.width = "";
+                el.style.height = "";
+                el.style.left = "";
+                el.style.top = "";
+                el.style.position = ""; // la clase 'absolute' se encarga
+                // conservar borderRadius/boxShadow/zIndex si quieres (se dejaron arriba)
                 (el as HTMLElement).style.visibility = "visible";
                 (el as HTMLElement).style.pointerEvents = "auto";
               } catch {}
@@ -436,9 +486,12 @@ export default function Hero({
       imagesTimelineRef.current?.kill();
       floatTweensRef.current.forEach((t) => t.kill());
       floatTweensRef.current = [];
+      // cleanup resize handler si fue añadido
+      const maybeOnResize = (imagesTimelineRef as any).currentOnResize;
+      if (maybeOnResize) window.removeEventListener("resize", maybeOnResize);
       enableScrollGlobally();
     };
-  }, []);
+  }, [isLaptop, isTablet, isMobile]);
 
   // --------- Scroll-driven progress (controla timelineRef.progress) ----------
   useEffect(() => {
@@ -475,6 +528,7 @@ export default function Hero({
       ) as HTMLElement[];
       const targets: Element[] = [...overlays];
       if (leftTextRef.current) targets.push(leftTextRef.current);
+      if (textHorRef.current) targets.push(textHorRef.current);
       return targets;
     };
 
@@ -553,7 +607,6 @@ export default function Hero({
       hasFadedRef.current = true;
 
       const targets = getTargets();
-      /* const images = overlayImagesRef.current.filter(Boolean) as HTMLElement[]; */
 
       // pausar floats (si existen)
       try {
@@ -748,7 +801,7 @@ export default function Hero({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#111]"
+      className="fixed inset-0 z-0 flex items-center justify-center bg-[#111] overflow-hidden"
       style={{
         pointerEvents: isVisible ? "auto" : "none",
         opacity: isVisible ? 1 : 0,
@@ -777,23 +830,24 @@ export default function Hero({
             raysColor="#ffffff"
             raysSpeed={1.5}
             followMouse
+            fadeDistance={isMobile ? 2 : 1.5}
           />
         </div>
       </div>
 
       <div
         ref={containerRef}
-        className="relative z-[3] flex w-full h-full container"
+        className="relative z-[3] flex flex-col md:flex-row w-full h-full container"
       >
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center translate-y-25 md:translate-y-0">
           <div
             ref={leftTextRef}
-            className="w-[550px] flex flex-col gap-6 opacity-0"
+            className="w-[350px] lg:w-[400px] xl:w-[550px] flex flex-col gap-6 opacity-0 mb-40"
           >
-            <span className="text-6xl font-bold text-white font-crimson italic text-end">
+            <span className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white font-crimson italic text-center md:text-end">
               Ideas que brillan en pantalla y que realmente funcionan
             </span>
-            <span className="text-[#ccc] text-xl text-end">
+            <span className="text-[#ccc] text-base lg:text-lg xl:text-xl text-center md:text-end">
               Desde landing pages hasta dashboards utilizando patrones de
               diseño, componentes dinámicos y adaptables a cualquier pantalla
               para una mejor experiencia de usuario.
@@ -801,8 +855,12 @@ export default function Hero({
           </div>
         </div>
 
-        <div className="w-full h-full flex items-center justify-center relative">
-          <div className="relative w-[500px] h-[500px] hero-images-target">
+        {/* NOTE: removimos las clases translate-x-* y dejamos el wrapper sin transform; GSAP aplicará el translate en JS */}
+        <div
+          ref={heroImagesWrapperRef}
+          className="w-full h-full flex items-center justify-center relative"
+        >
+          <div className="relative w-[500px] h-[500px] hero-images-target ">
             {IMAGES.map((img, i) => (
               <div
                 key={i}
@@ -814,7 +872,7 @@ export default function Hero({
                 }
                 style={{ visibility: "hidden" }}
               >
-                {img.isMobile && (
+                {img.isContain && (
                   <img
                     src={img.url}
                     alt=""
@@ -824,7 +882,7 @@ export default function Hero({
                 <img
                   src={img.url}
                   className={`w-full h-full relative z-[2] ${
-                    img.isMobile ? "object-contain" : "object-cover"
+                    img.isContain ? "object-contain" : "object-cover"
                   }`}
                   alt={`hero-img-${i}`}
                   draggable={false}
@@ -833,6 +891,25 @@ export default function Hero({
             ))}
           </div>
         </div>
+      </div>
+
+      <div
+        ref={textHorRef}
+        className="absolute w-full bottom-65 sm:bottom-60 md:-bottom-10 lg:-bottom-20 z-[1] opacity-0"
+      >
+        <ScrollVelocity
+          texts={[
+            "PROJECTS • RESPONSIVE • DESIGN •",
+            "REACT • ANGULAR • NEXT •",
+          ]}
+          velocity={5}
+          className="custom-scroll-text text-white/4 text-[150px] lg:text-[225px] leading-[8rem] lg:leading-[12rem] font-semibold font-bbh tracking-wide"
+          virtualProgressRef={scrollProgressRef}
+          verticalTravel={1000}
+          speedMultiplier={1}
+          activeBoost={100}
+          followAlpha={1}
+        />
       </div>
     </div>
   );

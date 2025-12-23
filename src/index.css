@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kalnia:wght@100..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=BBH+Bogle&display=swap');
 
 @import "tailwindcss";
 @plugin '../hero.ts';
@@ -12,6 +13,7 @@
     "Helvetica Neue", Arial;
   --font-crimson: "Crimson Text", serif;
   --font-kalnia: "Kalnia", serif;
+  --font-bbh: "BBH Bogle", serif;
 }
 
 /* tus estilos custom dentro de layers para evitar specificity issues */
@@ -25,9 +27,9 @@
   width: 100%;
 }
 
-/* body {
+body {
   cursor: none !important;
-} */
+}
 
 body::-webkit-scrollbar {
   display: none;
@@ -113,6 +115,12 @@ body::-webkit-scrollbar {
 
   .lg-icon {
     width: 35px !important;
+    height: 35px !important;
+    padding: 0px;
+  }
+
+  .lg-icon::before{
+    font-size: 17px;
   }
 }
 

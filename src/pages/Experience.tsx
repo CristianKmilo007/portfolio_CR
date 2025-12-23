@@ -7,76 +7,9 @@ import LiquidEther from "../components/LiquidEther";
 import { createRoot, type Root } from "react-dom/client";
 import TimelineCard, { type TimelineEvent } from "../components/TimelineCard";
 import CircularReveal from "../components/CircularReveal";
+import { useResponsive } from "../hooks/useMediaQuery";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const TIMELINE_EVENTS: Array<
-  {
-    year: string;
-    title: string;
-    desc: string;
-    side: "left" | "right";
-    type: "education" | "job";
-    img?: string;
-  } & (
-    | { y?: never; progress?: never }
-    | { y: number; progress?: never }
-    | { progress: number; y?: never }
-  )
-> = [
-  {
-    year: "2018 - 2020",
-    title: "Tecnico en Sistemas",
-    desc: "Instituto Politecnico Agroindustrial",
-    side: "right",
-    img: "../../public/experience/cert_1.jpg",
-    type: "education",
-    progress: 0.27,
-  },
-  {
-    year: "2020 - 2021",
-    title: "Web Designer",
-    desc: "Udemy",
-    side: "left",
-    img: "../../public/experience/cert_2.jpg",
-    type: "education",
-    progress: 0.33,
-  },
-  {
-    year: "2021 - 2022",
-    title: "Frontend Developer Freelance",
-    desc: "Villavicencio",
-    type: "job",
-    side: "left",
-    progress: 0.39,
-  },
-  {
-    year: "2021 - 2022",
-    title: "Web Developer Full Stack",
-    desc: "Universidad Iberoamericana",
-    side: "left",
-    img: "../../public/experience/cert_3.jpg",
-    type: "education",
-    progress: 0.45,
-  },
-  {
-    year: "2022 - 2023",
-    title: "Backend Developer Freelance",
-    desc: "Villavicencio",
-    type: "job",
-    side: "right",
-    progress: 0.51,
-  },
-  {
-    year: "2025",
-    title: "Backend Dev. Nest JS",
-    desc: "DevTalles",
-    type: "education",
-    img: "../../public/experience/cert_4.jpg",
-    side: "right",
-    progress: 0.57,
-  },
-];
 
 const SVG_ID = "trace-line-fixed-experience";
 
@@ -198,6 +131,84 @@ const CircleScroll: React.FC = () => {
   const miVidaRef = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null); // contenedor z-[3] que pediste subir
 
+  const { isDesktopXL, isLaptop, isMobile } = useResponsive();
+
+  const TIMELINE_EVENTS: Array<
+    {
+      year: string;
+      title: string;
+      desc: string;
+      side: "left" | "right";
+      type: "education" | "job";
+      img?: string;
+    } & (
+      | { y?: never; progress?: never }
+      | { y: number; progress?: never }
+      | { progress: number; y?: never }
+    )
+  > = [
+    {
+      year: "2018 - 2020",
+      title: "Tecnico en Sistemas",
+      desc: "Instituto Politecnico Agroindustrial",
+      side: isLaptop ? "left" : "right",
+      img: "../../public/experience/cert_1.jpg",
+      type: "education",
+      progress: isMobile ? 0.23 : 0.27,
+    },
+    {
+      year: "2020 - 2021",
+      title: "Web Designer",
+      desc: "Udemy",
+      side: isMobile ? "left" : isLaptop ? "right" : "left",
+      img: "../../public/experience/cert_2.jpg",
+      type: "education",
+      progress: isMobile ? 0.27 : 0.33,
+    },
+    {
+      year: "2021 - 2022",
+      title: "Frontend Developer Freelance",
+      desc: "Villavicencio",
+      type: "job",
+      side: isLaptop ? "right" : "left",
+      progress: isMobile ? 0.37 : 0.39,
+    },
+    {
+      year: "2021 - 2022",
+      title: "Web Developer Full Stack",
+      desc: "Universidad Iberoamericana",
+      side: isLaptop ? "right" : "left",
+      img: "../../public/experience/cert_3.jpg",
+      type: "education",
+      progress: isMobile ? 0.42 : 0.45,
+    },
+    {
+      year: "2022 - 2023",
+      title: "Backend Developer Freelance",
+      desc: "Villavicencio",
+      type: "job",
+      side: isLaptop ? "left" : "right",
+      progress: isMobile ? 0.52 : 0.51,
+    },
+    {
+      year: "2025",
+      title: "Backend Dev. Nest JS",
+      desc: "DevTalles",
+      type: "education",
+      img: "../../public/experience/cert_4.jpg",
+      side: isLaptop ? "left" : "right",
+      progress: 0.57,
+    },
+    {
+      year: "2026...",
+      title: "Crecimiento profesional",
+      desc: "Seguir aprendiendo y fortaleciendo mis conocimientos...",
+      type: "education",
+      side: "right",
+      progress: 1,
+    },
+  ];
+
   useEffect(() => {
     let cancelled = false;
     let externalCleanup: (() => void) | null = null;
@@ -247,6 +258,10 @@ const CircleScroll: React.FC = () => {
           const amplitude = 150;
 
           let svgEl = document.getElementById(SVG_ID) as SVGSVGElement | null;
+          if (svgEl) {
+  try { svgEl.remove(); } catch {}
+  svgEl = null;
+}
           if (!svgEl) {
             svgEl = document.createElementNS(
               "http://www.w3.org/2000/svg",
@@ -317,7 +332,7 @@ const CircleScroll: React.FC = () => {
               "path"
             );
             bgPath.setAttribute("class", "stroke-current text-gray-200");
-            bgPath.setAttribute("stroke-width", "5");
+            bgPath.setAttribute("stroke-width", isMobile ? "3" : "5");
             bgPath.setAttribute("fill", "none");
             bgPath.setAttribute("stroke-linecap", "round");
             bgPath.setAttribute("stroke-linejoin", "round");
@@ -328,7 +343,7 @@ const CircleScroll: React.FC = () => {
               "http://www.w3.org/2000/svg",
               "path"
             );
-            revealPath.setAttribute("stroke-width", "5");
+            revealPath.setAttribute("stroke-width", isMobile ? "3" : "5");
             revealPath.setAttribute("stroke", "url(#traceGradient)");
             revealPath.setAttribute("fill", "none");
             revealPath.setAttribute("stroke-linecap", "round");
@@ -524,7 +539,7 @@ const CircleScroll: React.FC = () => {
             const pt = revealPathEl.getPointAtLength(len);
 
             const dotR = 5;
-            const ringStroke = 4;
+            const ringStroke = isMobile ? 3 : 4;
             const ringR = dotR + Math.max(1, Math.floor(ringStroke / 1.7));
             const BG_COLOR = "#333";
 
@@ -584,8 +599,8 @@ const CircleScroll: React.FC = () => {
               "foreignObject"
             ) as SVGForeignObjectElement;
             fo.setAttribute("class", "timeline-node");
-            const boxW = 500;
-            const boxH = 500;
+            const boxW = isMobile ? 250 : isLaptop ? 325 : 500;
+            const boxH = isMobile ? 300 : isLaptop ? 325 : 500;
             const offsetX = 14;
             let foX =
               ev.side === "left" ? pt.x - offsetX - boxW : pt.x + offsetX;
@@ -953,7 +968,7 @@ const CircleScroll: React.FC = () => {
       } catch {}
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLaptop, isMobile]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -1320,9 +1335,9 @@ const CircleScroll: React.FC = () => {
         style={{ transformOrigin: "center center" }}
       >
         <CircularReveal
-          size={750}
-          borderWidth={150}
-          initialBorderWidth={3}
+          size={isMobile ? 350 : isDesktopXL ? 600 : 750}
+          borderWidth={isMobile ? 75 : isDesktopXL ? 115 : 150}
+          initialBorderWidth={isMobile ? 2 : 3}
           duration={2}
           expandDuration={1.5}
           backgroundImage="/experience/img2.jpg"
@@ -1335,10 +1350,10 @@ const CircleScroll: React.FC = () => {
         ref={overlayRef}
         className="absolute top-0 left-0 w-full h-full z-[3] flex items-center justify-center"
       >
-        <div className="flex items-center justify-center text-8xl font-medium gap-10 relative">
+        <div className="flex flex-col lg:flex-row items-center justify-center text-5xl sm:text-7xl xl:text-8xl font-medium gap-70 sm:gap-50 lg:gap-10 relative">
           <span
             ref={aprendizajeRef}
-            className="text-transparent [-webkit-text-stroke:1px_white] tracking-tight font-kalnia opacity-0"
+            className="text-transparent [-webkit-text-stroke:1px_white] tracking-tight font-kalnia opacity-0 -mt-3 sm:mt-0"
             style={{
               transform: "scale(1, 1.2)",
             }}
@@ -1358,7 +1373,7 @@ const CircleScroll: React.FC = () => {
 
           <div
             ref={miVidaRef}
-            className="absolute -bottom-30 text-[#aaa] text-base font-normal w-[100px] text-center leading-5 opacity-0"
+            className="absolute  lg:-bottom-30 text-[#aaa] text-sm xl:text-base font-normal w-[100px] text-center leading-4.5 xl:leading-5 opacity-0"
           >
             Mi Vida Profesional
           </div>

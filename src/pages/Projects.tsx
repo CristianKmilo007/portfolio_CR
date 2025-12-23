@@ -11,6 +11,7 @@ import { Button } from "@heroui/react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { PiLinkBold } from "react-icons/pi";
 import { projectData } from "./data";
+import { useResponsive } from "../hooks/useMediaQuery";
 
 /* ---------------------------- Config ---------------------------- */
 export type Project = {
@@ -28,11 +29,11 @@ export type Project = {
 };
 
 const config = {
-  SCROLL_SPEED: 0.75,
-  LERP_FACTOR: 0.05,
+  SCROLL_SPEED: 1,
+  LERP_FACTOR: 0.1,
   BUFFER_SIZE: 5,
-  MAX_VELOCITY: 150,
-  SNAP_DURATION: 500,
+  MAX_VELOCITY: 200,
+  SNAP_DURATION: 300,
   FADE_MS: 300,
 };
 
@@ -72,7 +73,7 @@ function MinimapStaticControls({
           isIconOnly
           radius="full"
           onPress={onPrev}
-          className={`pointer-events-auto button-prev cursor-none absolute -left-12 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 min-w-9 flex items-center justify-center`}
+          className={`pointer-events-auto button-prev cursor-none absolute left-2 sm:-left-12 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 min-w-9 flex items-center justify-center`}
         >
           <FaArrowLeft className="text-white" size={14} />
         </Button>
@@ -81,7 +82,7 @@ function MinimapStaticControls({
           isIconOnly
           radius="full"
           onPress={onNext}
-          className={`pointer-events-auto button-next cursor-none absolute -right-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 min-w-9 flex items-center justify-center`}
+          className={`pointer-events-auto button-next cursor-none absolute right-2 sm:-right-12 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-9 h-9 min-w-9 flex items-center justify-center`}
         >
           <FaArrowRight className="text-white" size={14} />
         </Button>
@@ -94,7 +95,7 @@ function MinimapStaticControls({
                 e.stopPropagation();
                 onBulletClick(i);
               }}
-              className={`w-2 h-2 rounded-full cursor-none dots-slider ${
+              className={`w-[5px] sm:w-2 h-[5px] sm:h-2 rounded-full cursor-none dots-slider ${
                 i === activeIndex ? "bg-white" : "bg-white/40"
               }`}
               aria-label={`Ir a ${i + 1}`}
@@ -111,7 +112,12 @@ interface ProjectsProps {
   onScrollToHero?: () => void;
 }
 
-export default function Projects({ isActive, onScrollToHero }: ProjectsProps): JSX.Element {
+export default function Projects({
+  isActive,
+  onScrollToHero,
+}: ProjectsProps): JSX.Element {
+  const { isDesktop2XL, isDesktopXL, isLaptop, isMobile } = useResponsive();
+
   const rootRef = useRef<HTMLDivElement | null>(null);
   const projectListRef = useRef<HTMLUListElement | null>(null);
   const minimapWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -136,8 +142,13 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
     >(),
     minimapInfo: new Map<number, any>(),
     panels: new Map<number, { elRef: React.RefObject<HTMLDivElement> }>(),
-    projectHeight: typeof window !== "undefined" ? window.innerHeight : 800,
-    minimapHeight: 400,
+    projectHeight:
+      typeof window !== "undefined"
+        ? window.innerHeight
+        : isDesktop2XL
+        ? 700
+        : 800,
+    minimapHeight: isDesktop2XL ? 350 : 400,
     isSnapping: false,
     snapStart: { time: 0, y: 0, target: 0 },
     lastScrollTime: Date.now(),
@@ -145,7 +156,14 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
   });
 
   const [viewportH, setViewportH] = useState<number>(
-    typeof window !== "undefined" ? window.innerHeight : 800
+    typeof window !== "undefined"
+      ? window.innerHeight
+      : isDesktop2XL
+      ? 700
+      : 800
+  );
+  const [viewportW, setViewportW] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1200
   );
 
   const [visibleRangeState, setVisibleRangeState] = useState<{
@@ -176,13 +194,15 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
   useEffect(() => {
     const onResize = () => {
       const h = window.innerHeight;
+      const w = window.innerWidth;
       setViewportH(h);
+      setViewportW(w);
       stateRef.current.projectHeight = h;
     };
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [isDesktop2XL]);
 
   const createParallax = useCallback(
     (container: HTMLElement | null, height: number) => {
@@ -321,7 +341,12 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
         } catch {}
       });
     };
-  }, [visibleRangeState.min, visibleRangeState.max, createParallax]);
+  }, [
+    visibleRangeState.min,
+    visibleRangeState.max,
+    createParallax,
+    isDesktop2XL,
+  ]);
 
   const setTransformIfChanged = useCallback(
     (el: HTMLElement, value: string) => {
@@ -405,32 +430,44 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
 
       try {
         const panelOffset = state.currentY;
+
+        // Si estamos en laptop, queremos que los panels se muevan horizontalmente.
+        const isHorizontal = !!isLaptop;
+        const mappedOffsetX = (panelOffset * viewportW) / state.projectHeight;
+
         state.panels.forEach((p: any, index: number) => {
-          const targetY = index * viewportH + panelOffset;
-          if (p.elRef?.current) {
+          if (!p.elRef?.current) return;
+
+          if (isHorizontal) {
+            const targetX = index * viewportW + mappedOffsetX;
+            p.elRef.current.style.transform = `translate3d(${targetX}px, 0, 0)`;
+          } else {
+            const targetY = index * viewportH + panelOffset;
             p.elRef.current.style.transform = `translate3d(0, ${targetY}px, 0)`;
-            p.elRef.current.style.willChange = "transform, opacity";
+          }
 
-            const currentIndex = Math.round(
-              -state.targetY / state.projectHeight
-            );
-            const normalized = clampIndex(currentIndex);
-            const panelNorm = index;
+          p.elRef.current.style.willChange = "transform, opacity";
 
-            const el = p.elRef.current;
-            if (normalized === panelNorm) {
-              el.classList.remove("opacity-0", "pointer-events-none");
-              el.classList.add("opacity-100", "pointer-events-auto");
-            } else {
-              el.classList.remove("opacity-100", "pointer-events-auto");
-              el.classList.add("opacity-0", "pointer-events-none");
-            }
+          const currentIndex = Math.round(-state.targetY / state.projectHeight);
+          const normalized = clampIndex(currentIndex);
+          const panelNorm = index;
+
+          const el = p.elRef.current;
+          if (normalized === panelNorm) {
+            el.classList.remove("opacity-0", "pointer-events-none");
+            el.classList.add("opacity-100", "pointer-events-auto");
+          } else {
+            el.classList.remove("opacity-100", "pointer-events-auto");
+            el.classList.add("opacity-0", "pointer-events-none");
           }
         });
       } catch {}
 
       const current = Math.round(-state.targetY / state.projectHeight);
-      const clampedCurrent = clampIndex(current);
+      const clampedCurrent = Math.max(
+        0,
+        Math.min(projectData.length - 1, current)
+      );
       const visibleItem = state.minimapInfo.get(clampedCurrent);
       if (visibleItem) {
         const swiperInst =
@@ -539,13 +576,13 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
         Math.min(e.deltaY * config.SCROLL_SPEED, config.MAX_VELOCITY),
         -config.MAX_VELOCITY
       );
-      
+
       // Check if scrolling up at the first project
       if (state.targetY >= 0 && delta < 0) {
         onScrollToHero?.();
         return;
       }
-      
+
       state.targetY -= delta;
       state.targetY = clamp(state.targetY, minTargetY, maxTargetY);
     };
@@ -564,14 +601,14 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
       const newTargetY =
         state.dragStart.scrollY +
         (e.touches[0].clientY - state.dragStart.y) * 1.5;
-      
+
       // Check if dragging up at the first project
       if (state.targetY >= 0 && newTargetY > state.targetY) {
         onScrollToHero?.();
         state.isDragging = false;
         return;
       }
-      
+
       state.targetY = clamp(newTargetY, minTargetY, maxTargetY);
       state.lastScrollTime = Date.now();
     };
@@ -615,7 +652,10 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
     findSwiperInWrapper,
     setTransformIfChanged,
     viewportH,
+    viewportW,
     isActive,
+    isDesktop2XL,
+    isLaptop,
   ]);
 
   const handlePrev = useCallback(() => {
@@ -647,7 +687,7 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
   return (
     <div ref={rootRef} className="w-full projects-root">
       <div className="content fixed w-full h-screen overflow-hidden pointer-events-none">
-        <div className="left-panels absolute left-6 top-0 z-[20] pointer-events-none w-[calc(50%-150px)] h-screen overflow-visible">
+        <div className="left-panels absolute left-0 lg:left-6 top-0 z-[20] pointer-events-none w-screen lg:w-[calc(50%-150px)] h-screen overflow-visible">
           {indicesToRender.map((index) => {
             const panelEntry = stateRef.current.panels.get(index);
             const elRef =
@@ -662,14 +702,16 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
                 key={`left-panel-${index}`}
                 aria-hidden="false"
                 style={{
-                  transform: `translate3d(0, ${index * viewportH}px, 0)`,
+                  transform: isLaptop
+                    ? `translate3d(${index * viewportW}px, 0, 0)`
+                    : `translate3d(0, ${index * viewportH}px, 0)`,
                 }}
-                className="absolute left-0 w-full h-screen transform transition-opacity duration-300 ease-out will-change-transform opacity-0 pointer-events-none"
+                className="absolute left-0 w-full pt-[375px] sm:pt-[450px] lg:pt-0 h-auto lg:h-screen transform transition-opacity duration-300 ease-out will-change-transform opacity-0 pointer-events-none"
               >
-                <div className="w-full h-full flex items-center justify-end p-6 box-border text-white text-right">
-                  <div className="max-w-[400px] flex flex-col gap-2">
-                    <div className="w-full flex gap-2 justify-end items-center">
-                      <h3 className="text-4xl font-semibold">{project.name}</h3>
+                <div className="w-full h-full flex items-center justify-center lg:justify-end p-6 box-border text-white lg:text-right">
+                  <div className="max-w-[500px] lg:max-w-[400px] flex flex-col gap-2">
+                    <div className="w-full flex gap-2 lg:justify-end items-center">
+                      <h3 className="text-3xl sm:text-4xl font-semibold">{project.name}</h3>
                       {project.link && (
                         <a
                           href={project?.link}
@@ -689,10 +731,10 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
                         </a>
                       )}
                     </div>
-                    <p className="text-lg leading-6 text-[#aaa]">
+                    <p className="text-base sm:text-lg leading-5 sm:leading-6 text-[#aaa]">
                       {project.description}
                     </p>
-                    <div className="flex justify-end flex-wrap gap-2 mt-2">
+                    <div className="flex lg:justify-end flex-wrap gap-2 mt-2">
                       {project.technologies.map((t) => (
                         <span
                           key={t}
@@ -739,12 +781,10 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
         </ul>
 
         <div
-          className="minimap fixed top-1/2 z-30 pointer-events-auto"
+          className="minimap fixed top-[30%] sm:top-[35%] lg:top-1/2 left-1/2 lg:left-[65%] -translate-y-1/2 -translate-x-1/2 z-30 pointer-events-auto"
           style={{
-            left: "65%",
-            transform: "translate(-50%, -50%)",
-            width: "32%",
-            height: 400,
+            width: isMobile ? 350 : isDesktop2XL ? 500 : 615,
+            height: isMobile ? 250 : isDesktopXL ? 300 : isDesktop2XL ? 350 : 400,
           }}
         >
           <div
@@ -787,7 +827,7 @@ export default function Projects({ isActive, onScrollToHero }: ProjectsProps): J
                   <div
                     key={`info-${index}`}
                     ref={elRef}
-                    className="minimap-item-info absolute w-full h-[400px] flex flex-col justify-between will-change-transform"
+                    className="minimap-item-info absolute w-full h-[250px] sm:h-[300px] xl:h-[350px] 2xl:h-[400px] flex flex-col justify-between will-change-transform"
                     style={{ top: 0, left: 0 }}
                   >
                     <div

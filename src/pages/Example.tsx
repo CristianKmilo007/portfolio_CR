@@ -18,7 +18,7 @@ export const Example = () => {
 
       {/* Projects: lo mostramos con transición de opacidad; pointer-events controlados */}
       <div
-        className={`transition-opacity duration-600 ${
+        className={`transition-opacity duration-600 relative z-[1] ${
           showProjects ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
