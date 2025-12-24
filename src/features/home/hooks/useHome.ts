@@ -1,7 +1,8 @@
+// src/hooks/useHome.ts
 import { useEffect, useRef } from "react";
 import { useResponsive } from "../../../hooks/useMediaQuery";
 import { gsap } from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,7 +17,7 @@ export const useHome = () => {
   const pinRef = useRef<HTMLDivElement | null>(null);
   const centerRef = useRef<HTMLDivElement | null>(null);
 
-  // refs para los 3 contenedores y sus spans de contador
+  // refs para contenedores y contadores
   const box1Ref = useRef<HTMLDivElement | null>(null);
   const box2Ref = useRef<HTMLDivElement | null>(null);
   const box3Ref = useRef<HTMLDivElement | null>(null);
@@ -24,123 +25,232 @@ export const useHome = () => {
   const counter2Ref = useRef<HTMLSpanElement | null>(null);
   const counter3Ref = useRef<HTMLSpanElement | null>(null);
 
+  // ---- BLOQUEO INICIAL (más robusto) ----
   useEffect(() => {
     const MIN_MS = 1500;
-
-    // guardo scroll actual para restaurar después
+    const OVERLAY_ID = "force-scroll-lock-overlay";
     const scrollY =
       window.scrollY ||
       document.documentElement.scrollTop ||
       document.body.scrollTop ||
       0;
 
-    // bloqueo por CSS: fijar body para impedir scroll absoluto
-    const prevBodyPosition = document.body.style.position;
-    const prevBodyTop = document.body.style.top;
-    const prevBodyLeft = document.body.style.left;
-    const prevBodyRight = document.body.style.right;
-    const prevBodyWidth = document.body.style.width;
-    const prevBodyOverflow = document.body.style.overflow;
+    // guardar prev inline styles
+    const prev = {
+      bodyPosition: document.body.style.position || "",
+      bodyTop: document.body.style.top || "",
+      bodyLeft: document.body.style.left || "",
+      bodyRight: document.body.style.right || "",
+      bodyWidth: document.body.style.width || "",
+      bodyOverflow: document.body.style.overflow || "",
+      htmlOverflow: document.documentElement.style.overflow || "",
+    };
 
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-
-    // listeners defensivos en capture/passive:false
+    // handlers y opts estables
+    const opts: AddEventListenerOptions = { passive: false, capture: true };
     const prevent = (e: Event) => {
-      e.preventDefault();
+      try {
+        e.preventDefault();
+      } catch {}
     };
     const preventKey = (e: KeyboardEvent) => {
-      const keys = [
-        "ArrowUp",
-        "ArrowDown",
-        "PageUp",
-        "PageDown",
-        "Home",
-        "End",
-        "Space",
-      ];
-      if (keys.includes(e.code)) e.preventDefault();
+      try {
+        const blocked = [
+          "ArrowUp",
+          "ArrowDown",
+          "PageUp",
+          "PageDown",
+          "Home",
+          "End",
+          "Space",
+        ];
+        if (blocked.includes(e.code)) e.preventDefault();
+      } catch {}
     };
 
-    window.addEventListener("wheel", prevent, {
-      passive: false,
-      capture: true,
-    });
-    window.addEventListener("touchmove", prevent, {
-      passive: false,
-      capture: true,
-    });
-    window.addEventListener("keydown", preventKey, { capture: true });
-
-    // Si Lenis está expuesto (opcional), lo detenemos
-    const lenis = (window as any).__lenis ?? null;
+    // detener lenis si existe (intento)
+    const lenis = (window as any).__lenis ?? (window as any).lenis ?? null;
     try {
       if (lenis && typeof lenis.stop === "function") lenis.stop();
-    } catch {
-      /* ignore */
-    }
+    } catch {}
 
-    // fallback overlay (opcional, refuerzo)
+    // remover overlays previos por si acaso
+    try {
+      const existing = document.getElementById(OVERLAY_ID);
+      if (existing && existing.parentNode)
+        existing.parentNode.removeChild(existing);
+    } catch {}
+
+    // crear overlay
     const overlay = document.createElement("div");
-    overlay.id = "force-scroll-lock-overlay";
+    overlay.id = OVERLAY_ID;
     Object.assign(overlay.style, {
       position: "fixed",
       inset: "0",
-      zIndex: "2147483647",
+      zIndex: String(2147483647 - 1),
       background: "transparent",
       pointerEvents: "auto",
       touchAction: "none",
     });
-    document.documentElement.appendChild(overlay);
+    try {
+      (document.body || document.documentElement).appendChild(overlay);
+    } catch {
+      try {
+        document.documentElement.appendChild(overlay);
+      } catch {}
+    }
 
-    const restore = () => {
-      // quitar listeners
+    // bloquear inline
+    try {
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } catch {}
+
+    // add listeners
+    try {
+      window.addEventListener("wheel", prevent, opts);
+      window.addEventListener("touchmove", prevent, opts);
+      window.addEventListener("keydown", preventKey, { capture: true });
+    } catch {}
+
+    // restored flag para idempotencia
+    let restored = false;
+    const removeOverlaysByPattern = () => {
       try {
-        window.removeEventListener("wheel", prevent, { capture: true } as any);
-        window.removeEventListener("touchmove", prevent, {
-          capture: true,
-        } as any);
-        window.removeEventListener("keydown", preventKey, {
-          capture: true,
-        } as any);
-      } catch {}
-      // quitar overlay
-      try {
-        overlay.remove();
-      } catch {}
-      // restaurar body styles y volver a la posición de scroll original
-      try {
-        document.body.style.position = prevBodyPosition ?? "";
-        document.body.style.top = prevBodyTop ?? "";
-        document.body.style.left = prevBodyLeft ?? "";
-        document.body.style.right = prevBodyRight ?? "";
-        document.body.style.width = prevBodyWidth ?? "";
-        document.body.style.overflow = prevBodyOverflow ?? "";
-        // restaurar scroll
-        window.scrollTo(0, scrollY);
-      } catch {}
-      // reanudar Lenis si existía
-      try {
-        if (lenis && typeof lenis.start === "function") lenis.start();
+        // elementos con id conocido
+        const ids = [OVERLAY_ID, "force-scroll-lock-overlay-2"];
+        ids.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el && el.parentNode) el.parentNode.removeChild(el);
+        });
+
+        // buscar overlays que ocupen pantalla y tengan z-index alto (precaución)
+        document.querySelectorAll("body > div, html > div").forEach((el) => {
+          try {
+            const st = window.getComputedStyle(el as Element);
+            if (
+              st.position === "fixed" &&
+              parseInt(st.zIndex || "0", 10) > 1000000000
+            ) {
+              (el as Element).remove();
+            }
+          } catch {}
+        });
       } catch {}
     };
 
+    const restore = () => {
+      if (restored) return;
+      restored = true;
+
+      // remover listeners
+      try {
+        window.removeEventListener("wheel", prevent, opts as any);
+        window.removeEventListener("touchmove", prevent, opts as any);
+        window.removeEventListener(
+          "keydown",
+          preventKey as any,
+          { capture: true } as any
+        );
+      } catch {}
+
+      // remove overlays
+      try {
+        removeOverlaysByPattern();
+      } catch {}
+
+      // restaurar estilos inline
+      try {
+        document.documentElement.style.overflow = prev.htmlOverflow;
+        document.body.style.overflow = prev.bodyOverflow;
+        document.body.style.position = prev.bodyPosition;
+        document.body.style.top = prev.bodyTop;
+        document.body.style.left = prev.bodyLeft;
+        document.body.style.right = prev.bodyRight;
+        document.body.style.width = prev.bodyWidth;
+        window.scrollTo(0, scrollY);
+      } catch {}
+
+      // reanudar lenis si existe
+      try {
+        if (lenis && typeof lenis.start === "function") lenis.start();
+      } catch {}
+
+      // try to cleanup GSAP ScrollTrigger leftovers
+      try {
+        if ((gsap as any).ScrollTrigger) {
+          const ST = (gsap as any).ScrollTrigger;
+          ST.getAll &&
+            ST.getAll().forEach((t: any) => {
+              try {
+                t.kill && t.kill();
+              } catch {}
+            });
+          ST.refresh && ST.refresh();
+        }
+      } catch {}
+    };
+
+    // Exponer restore para debugging manual: window.__home_restore()
+    try {
+      (window as any).__home_restore = restore;
+    } catch {}
+
+    // aseguramos restore en varios eventos de navegación / ciclo de vida
+    const onPageHide = () => restore();
+    const onVis = () => {
+      if (document.visibilityState === "hidden") restore();
+    };
+    const onPop = () => restore();
+    const onBeforeUnload = () => restore();
+
+    try {
+      window.addEventListener("pagehide", onPageHide, { capture: true });
+      document.addEventListener("visibilitychange", onVis);
+      window.addEventListener("popstate", onPop);
+      window.addEventListener("beforeunload", onBeforeUnload, {
+        capture: true,
+      });
+    } catch {}
+
+    // fallback timeout (tu lógica original)
     const timeoutId = window.setTimeout(() => {
       restore();
     }, MIN_MS);
 
+    // cleanup del useEffect
     return () => {
-      window.clearTimeout(timeoutId);
-      restore();
+      clearTimeout(timeoutId);
+      try {
+        window.removeEventListener(
+          "pagehide",
+          onPageHide as any,
+          { capture: true } as any
+        );
+        document.removeEventListener("visibilitychange", onVis as any);
+        window.removeEventListener("popstate", onPop as any);
+        window.removeEventListener(
+          "beforeunload",
+          onBeforeUnload as any,
+          { capture: true } as any
+        );
+      } catch {}
+      try {
+        restore();
+      } catch {}
+      try {
+        delete (window as any).__home_restore;
+      } catch {}
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLaptop, isMobile]);
 
-  // Ajusta este valor para controlar la velocidad global (>1 = más lento)
+  // ---- Resto del hook: timeline / scrolltrigger (igual que antes) ----
   const SPEED = 2;
 
   useEffect(() => {
@@ -189,9 +299,7 @@ export const useHome = () => {
             cleared.push({ el: node, prev: node.style.transform || "" });
             node.style.transform = "none";
           }
-        } catch {
-          /* ignore */
-        }
+        } catch {}
         node = node.parentElement;
       }
       return cleared;
@@ -203,18 +311,14 @@ export const useHome = () => {
       cleared.forEach((item) => {
         try {
           item.el.style.transform = item.prev || "";
-        } catch {
-          /* ignore */
-        }
+        } catch {}
       });
     };
 
     const create = async () => {
       try {
         await waitForImages();
-      } catch {
-        /* ignore */
-      }
+      } catch {}
       if (!mounted) return;
 
       const el = pinRef.current;
@@ -231,7 +335,6 @@ export const useHome = () => {
 
       if (!el || !center) return;
 
-      // limpiamos transforms de ancestros temporalmente para medir bien
       lastClearedAncestors = clearAncestorTransforms(el);
 
       const gapShort = 0.2 * SPEED;
@@ -239,29 +342,41 @@ export const useHome = () => {
       const gapCenterMove = 0.15 * SPEED;
       const gapFinal = 0.05 * SPEED;
 
-      // IMPORTANT: crear timeline CON scrollTrigger (de esta forma NO autoplay)
       tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: "top top",
           end: () => `+=${el.offsetHeight * 5 * SPEED}`,
-          scrub: true, // vinculado al scroll (no autoplay)
+          scrub: true,
           pin: true,
           pinSpacing: true,
-          pinType: "transform", // como requieres
+          pinType: isMobile ? "fixed" : "transform",
           markers: false,
           anticipatePin: 0.5,
-          invalidateOnRefresh: true, // recalcula funciones (end) en refresh
+          invalidateOnRefresh: true,
         },
       });
 
-      // PERF
       if (left) gsap.set(left, { willChange: "transform, opacity" });
       if (right) gsap.set(right, { willChange: "transform, opacity" });
       if (particles) gsap.set(particles, { willChange: "opacity" });
       if (center) gsap.set(center, { willChange: "opacity, transform" });
 
-      // Todas las animaciones ANIDADAS en tl (no se llaman play)
+      try {
+        if (el)
+          (el as HTMLElement).style.transform =
+            (el as HTMLElement).style.transform || "translateZ(0)";
+        if (left)
+          (left as HTMLElement).style.transform =
+            (left as HTMLElement).style.transform || "translateZ(0)";
+        if (right)
+          (right as HTMLElement).style.transform =
+            (right as HTMLElement).style.transform || "translateZ(0)";
+        if (center)
+          (center as HTMLElement).style.transform =
+            (center as HTMLElement).style.transform || "translateZ(0)";
+      } catch {}
+
       if (left)
         tl.to(
           left,
@@ -305,7 +420,6 @@ export const useHome = () => {
         },
         ">"
       );
-
       tl.to(
         center,
         {
@@ -329,7 +443,6 @@ export const useHome = () => {
       const count1 = { val: 0 };
       const count2 = { val: 0 };
       const count3 = { val: 0 };
-
       const update1 = () => {
         if (!c1) return;
         c1.innerText = `${Math.round(count1.val)}`;
@@ -388,21 +501,15 @@ export const useHome = () => {
         "+=" + gapFinal
       );
 
-      // Restauramos transforms de ancestros ahora que el pin ya fue creado
       requestAnimationFrame(() => {
         try {
           restoreAncestorTransforms(lastClearedAncestors);
-        } catch {
-          /* ignore */
-        }
+        } catch {}
         try {
-          // forzamos refresh para asegurar cálculo correcto
-          ScrollTrigger.refresh();
-        } catch {
-          /* ignore */
-        }
+          ScrollTrigger.refresh && ScrollTrigger.refresh();
+        } catch {}
       });
-    }; // create
+    };
 
     create();
 
@@ -410,32 +517,20 @@ export const useHome = () => {
       mounted = false;
       try {
         if (tl) {
-          // si el timeline tiene scrollTrigger, matarlo primero
           try {
             const st = (tl as any).scrollTrigger;
             if (st) st.kill && st.kill();
-          } catch {
-            /* ignore */
-          }
+          } catch {}
           tl.kill();
           tl = null;
         }
-      } catch {
-        /* ignore */
-      }
-
-      // limpiar ancestros por si algo quedó
+      } catch {}
       try {
         restoreAncestorTransforms(lastClearedAncestors);
-      } catch {
-        /* ignore */
-      }
-
+      } catch {}
       try {
-        ScrollTrigger.refresh();
-      } catch {
-        /* ignore */
-      }
+        ScrollTrigger.refresh && ScrollTrigger.refresh();
+      } catch {}
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [SPEED, isLaptop, isMobile]);

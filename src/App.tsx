@@ -1,5 +1,5 @@
 // src/App.tsx
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { LayoutGroup, AnimatePresence } from "framer-motion";
 
@@ -15,14 +15,27 @@ import { SkillsPage } from "./pages/SkillsPage";
 import { ExperiencePage } from "./pages/ExperiencePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 
-export const App = () => {
+export const App: React.FC = () => {
   const location = useLocation();
   const { isMobile } = useResponsive();
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleLoadComplete = () => {
-    setIsLoading(false);
-  };
+  // Esta clave se incrementa cuando entramos a "/" -> fuerza remount del Home
+  const [homeKey, setHomeKey] = useState(0);
+
+  // Control de carga
+  const handleLoadComplete = () => setIsLoading(false);
+
+  // Incrementar solo cuando la ruta es "/" (no depende de homeKey para evitar bucles)
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setHomeKey((k) => k + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  const wrapperKey =
+    location.pathname === "/" ? `home-${homeKey}` : location.pathname;
 
   return (
     <TransitionProvider>
@@ -35,8 +48,9 @@ export const App = () => {
             ) : (
               <Menu>
                 <AnimatePresence mode="wait" initial={false}>
+                  {/* El key aquí fuerza remount del contenido al cambiar */}
                   <div
-                    key={location.pathname}
+                    key={wrapperKey}
                     className="min-h-screen bg-[#111] text-slate-900 w-full"
                   >
                     <Routes location={location} key={location.pathname}>
@@ -55,4 +69,6 @@ export const App = () => {
       </CurtainProvider>
     </TransitionProvider>
   );
-}
+};
+
+export default App;
