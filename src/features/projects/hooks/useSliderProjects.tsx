@@ -79,13 +79,8 @@ export const useSliderProjects = ({
     >(),
     minimapInfo: new Map<number, any>(),
     panels: new Map<number, { elRef: React.RefObject<HTMLDivElement> }>(),
-    projectHeight:
-      typeof window !== "undefined"
-        ? window.innerHeight
-        : isDesktop2XL
-        ? 700
-        : 800,
-    minimapHeight: isDesktop2XL ? 350 : 400,
+    projectHeight: typeof window !== "undefined" ? window.innerHeight : 800,
+    minimapHeight: 400,
     isSnapping: false,
     snapStart: { time: 0, y: 0, target: 0 },
     lastScrollTime: Date.now(),
@@ -93,11 +88,7 @@ export const useSliderProjects = ({
   });
 
   const [viewportH, setViewportH] = useState<number>(
-    typeof window !== "undefined"
-      ? window.innerHeight
-      : isDesktop2XL
-      ? 700
-      : 800
+    typeof window !== "undefined" ? window.innerHeight : 800
   );
   const [viewportW, setViewportW] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1200
@@ -119,6 +110,23 @@ export const useSliderProjects = ({
   });
 
   const activeIndexRef = useRef<number>(0);
+
+  useEffect(() => {
+    const updateMinimapHeight = () => {
+      const el = minimapInfoListRef.current?.querySelector(
+        ".minimap-item-info"
+      ) as HTMLElement | null;
+
+      if (el) {
+        stateRef.current.minimapHeight = el.getBoundingClientRect().height;
+      }
+    };
+
+    updateMinimapHeight();
+    window.addEventListener("resize", updateMinimapHeight);
+
+    return () => window.removeEventListener("resize", updateMinimapHeight);
+  }, []);
 
   useEffect(() => {
     const s = document.createElement("style");
@@ -495,6 +503,9 @@ export const useSliderProjects = ({
       if (!state.isDragging) {
         state.currentY += (state.targetY - state.currentY) * config.LERP_FACTOR;
       }
+
+      const lerpFactor = state.isDragging ? 0.35 : config.LERP_FACTOR; // 0.35 más responsivo
+  state.currentY += (state.targetY - state.currentY) * lerpFactor;
 
       syncElements();
       updatePositions();
