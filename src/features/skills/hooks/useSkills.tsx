@@ -182,7 +182,7 @@ export const useSkills = () => {
     {
       tecnology: "TanStack Query",
       percentage: 75,
-      icon: "../../public/skills/splash-light.png",
+      icon: "/skills/splash-light.png",
     },
     {
       tecnology: "React",
@@ -336,7 +336,7 @@ export const useSkills = () => {
       right: (
         <div className="w-[450px] min-w-[450px] sm:w-[550px] sm:min-w-[550px] lg:w-[750px] lg:min-w-[750px] xl:w-[900px] xl:min-w-[900px] translate-x-0 md:translate-x-20 lg:translate-x-10 2xl:translate-x-10 translate-y-25 lg:translate-y-0 ">
           <img
-            src="../../public/skills/mainIconsdark.svg"
+            src="/skills/mainIconsdark.svg"
             alt=""
             className="w-full h-full object-contain"
           />

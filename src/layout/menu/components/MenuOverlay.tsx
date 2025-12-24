@@ -77,7 +77,7 @@ const MenuOverlay = ({
       >
         <div className="menu-media-wrapper flex-[2] lg:flex-[1] 2xl:flex-[2] opacity-0 will-change-[opacity] absolute top-52 sm:top-0 sm:relative block h-full">
           <img
-            src="../../public/menu/menu-media.jpg"
+            src="/menu/menu-media.jpg"
             alt="Menu background"
             className="w-full h-full object-cover opacity-75"
           />

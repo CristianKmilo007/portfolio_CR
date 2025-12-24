@@ -62,7 +62,7 @@ export const Home = () => {
                       className="w-full h-full"
                     >
                       <img
-                        src="../../public/home/top-left-img.png"
+                        src="/home/top-left-img.png"
                         alt=""
                         className="w-full h-full object-contain object-left-top"
                       />
@@ -111,7 +111,7 @@ export const Home = () => {
                     <div className="w-[100px] sm:w-[125px] lg:w-[150px] h-[100px] sm:h-[125px] lg:h-[150px] relative flex justify-center items-center p-2 mt-0 lg:mt-20">
                       <div className="w-full h-full absolute">
                         <img
-                          src="/public/home/circle-star.svg"
+                          src="/home/circle-star.svg"
                           alt=""
                           className="w-full h-full object-contain"
                         />
@@ -154,7 +154,7 @@ export const Home = () => {
                         className="w-full h-full"
                       >
                         <img
-                          src="../../public/home/bg-explosion.png"
+                          src="/home/bg-explosion.png"
                           alt=""
                           className="w-full h-full object-cover object-[80%_25px] sm:object-right"
                         />
