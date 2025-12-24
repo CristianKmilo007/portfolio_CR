@@ -40,9 +40,7 @@ import { TbBrandSocketIo, TbPointFilled } from "react-icons/tb";
 import { BiLogoPostgresql } from "react-icons/bi";
 import { Button, useDisclosure } from "@heroui/react";
 import { useResponsive } from "../../../hooks/useMediaQuery";
-import SlidersSkills, {
-  type dataSkills,
-} from "../components/SlidersSkills";
+import SlidersSkills, { type dataSkills } from "../components/SlidersSkills";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -567,24 +565,35 @@ export const useSkills = () => {
     const sections = SECTIONS.length;
     const maxIndex = sections - 1;
 
-    // helpers
-    const size = () => (isLaptop ? window.innerWidth : window.innerHeight);
+    // helper: detecta si el layout actual es horizontal (flex-direction: row)
+    const isLayoutHorizontal = () => {
+      try {
+        const el = leftRef.current;
+        if (!el) return isLaptop; // fallback
+        const dir = getComputedStyle(el).flexDirection || "";
+        return dir.includes("row");
+      } catch {
+        return isLaptop;
+      }
+    };
+
+    // helper: tamaño según el eje activo
+    const size = () =>
+      isLayoutHorizontal() ? window.innerWidth : window.innerHeight;
 
     // Inicial: para la columna izquierda invertida necesitamos desplazarla
     const initLeftOffset = -maxIndex * size();
 
-    // --- IMPORTANT: siempre seteamos ambos ejes para evitar residuos ---
-    if (isLaptop) {
-      // horizontal mode: posicionamos en X y garantizamos Y=0
+    // --- siempre seteamos ambos ejes para evitar residuos ---
+    if (isLayoutHorizontal()) {
       gsap.set(leftRef.current, { x: initLeftOffset, y: 0 });
       gsap.set(rightRef.current, { x: 0, y: 0 });
     } else {
-      // vertical mode: posicionamos en Y y garantizamos X=0
       gsap.set(leftRef.current, { y: initLeftOffset, x: 0 });
       gsap.set(rightRef.current, { y: 0, x: 0 });
     }
 
-    // Inicializar opacidades
+    // Inicializar opacidades (igual que antes)
     const setInitialOpacities = () => {
       const leftChildren = leftRef.current?.children ?? [];
       const rightChildren = rightRef.current?.children ?? [];
@@ -596,7 +605,6 @@ export const useSkills = () => {
         gsap.set(rightChildren[i], { autoAlpha: 0, pointerEvents: "none" });
       }
 
-      // left is rendered reversed: visible child index = maxIndex - index
       const leftVisibleIndex = maxIndex - indexRef.current;
       const rightVisibleIndex = indexRef.current;
       if (leftChildren[leftVisibleIndex]) {
@@ -615,20 +623,15 @@ export const useSkills = () => {
 
     setInitialOpacities();
 
-    // helper para animar a un índice
+    // goTo: ahora calcula el eje en tiempo de ejecución según el layout real
     const goTo = (idx: number) => {
       const clamped = Math.max(0, Math.min(maxIndex, idx));
       const prev = indexRef.current;
       if (prev === clamped) return;
 
+      const horizontal = isLayoutHorizontal();
       const s = size();
 
-      // Para mantener la lógica original (left invertido en DOM):
-      // leftPos = (clamped - maxIndex) * s  -> funciona para centrar leftChildren[maxIndex - idx]
-      // rightPos = -clamped * s
-      // Pero **importante**: en modo horizontal (isLaptop) esto produce:
-      //  - leftRef.x pasa de negativo grande hacia 0 (se mueve hacia la derecha)
-      //  - rightRef.x pasa de 0 hacia negativo (se mueve hacia la izquierda)
       const leftPos = (clamped - maxIndex) * s;
       const rightPos = -clamped * s;
 
@@ -637,7 +640,6 @@ export const useSkills = () => {
 
       const prevLeftIndex = maxIndex - prev;
       const nextLeftIndex = maxIndex - clamped;
-
       const prevRightIndex = prev;
       const nextRightIndex = clamped;
 
@@ -652,9 +654,8 @@ export const useSkills = () => {
       if (rightChildren[nextRightIndex])
         gsap.killTweensOf(rightChildren[nextRightIndex]);
 
-      // mover columnas (IMPORTANTE: siempre seteamos ambos ejes)
-      if (isLaptop) {
-        // horizontal -> left moves right (x increases toward 0), right moves left (x decreases)
+      // mover columnas en el eje correcto
+      if (horizontal) {
         gsap.to(leftRef.current, {
           x: leftPos,
           y: 0,
@@ -668,7 +669,6 @@ export const useSkills = () => {
           ease: "power2.out",
         });
       } else {
-        // vertical -> original behavior
         gsap.to(leftRef.current, {
           y: leftPos,
           x: 0,
@@ -683,7 +683,7 @@ export const useSkills = () => {
         });
       }
 
-      // Fade out prev (left)
+      // Fade out/in prev/next (igual que antes)
       if (leftChildren[prevLeftIndex]) {
         gsap.to(leftChildren[prevLeftIndex], {
           autoAlpha: 0,
@@ -697,8 +697,6 @@ export const useSkills = () => {
           },
         });
       }
-
-      // Fade in next (left)
       if (leftChildren[nextLeftIndex]) {
         gsap.set(leftChildren[nextLeftIndex], {
           autoAlpha: 0,
@@ -718,7 +716,6 @@ export const useSkills = () => {
         });
       }
 
-      // Fade out prev (right)
       if (rightChildren[prevRightIndex]) {
         gsap.to(rightChildren[prevRightIndex], {
           autoAlpha: 0,
@@ -733,8 +730,6 @@ export const useSkills = () => {
           },
         });
       }
-
-      // Fade in next (right)
       if (rightChildren[nextRightIndex]) {
         gsap.set(rightChildren[nextRightIndex], {
           autoAlpha: 0,
@@ -758,12 +753,15 @@ export const useSkills = () => {
       indexRef.current = clamped;
     };
 
-    // wheel handler
+    // wheel handler (lo dejamos tal cual)
     const onWheel = (e: WheelEvent) => {
       const now = Date.now();
       if (now - lastTimeRef.current < LOCK_MS) return;
-      if (isLaptop) {
-        // en tablet preferimos deltaY para mapear scroll vertical a avance horizontal
+
+      // si el layout está horizontal, queremos mapear scroll vertical a avance horizontal
+      const horizontal = isLayoutHorizontal();
+
+      if (horizontal) {
         if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
         if (e.deltaY > 0) {
           if (indexRef.current < maxIndex) {
@@ -779,7 +777,7 @@ export const useSkills = () => {
         return;
       }
 
-      // Desktop (vertical)
+      // vertical normal
       if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
       if (e.deltaY > 0) {
         if (indexRef.current < maxIndex) {
@@ -794,61 +792,47 @@ export const useSkills = () => {
       }
     };
 
-    // touch handlers
+    // touch handlers: ahora SIEMPRE usamos el gesto vertical (startY/endY) para decidir,
+    // pero animamos en x o y según el layout (horizontal => animar X, aunque el gesto sea vertical)
     const onTouchStart = (e: TouchEvent) => {
       touchStartYRef.current = e.touches?.[0]?.clientY ?? null;
       touchStartXRef.current = e.touches?.[0]?.clientX ?? null;
     };
+
     const onTouchEnd = (e: TouchEvent) => {
       const now = Date.now();
       if (now - lastTimeRef.current < LOCK_MS) return;
 
-      if (isLaptop) {
-        const startX = touchStartXRef.current;
-        touchStartXRef.current = null;
-        if (startX == null) return;
-        const endX = e.changedTouches?.[0]?.clientX ?? null;
-        if (endX == null) return;
-        const diff = startX - endX;
-        const THRESH = 40;
-        if (diff > THRESH) {
-          if (indexRef.current < maxIndex) {
-            lastTimeRef.current = now;
-            goTo(indexRef.current + 1);
-          }
-        } else if (diff < -THRESH) {
-          if (indexRef.current > 0) {
-            lastTimeRef.current = now;
-            goTo(indexRef.current - 1);
-          }
+      isLayoutHorizontal();
+      const startY = touchStartYRef.current;
+      touchStartYRef.current = null;
+      // limpiar X también por si acaso
+      touchStartXRef.current = null;
+      if (startY == null) return;
+      const endY = e.changedTouches?.[0]?.clientY ?? null;
+      if (endY == null) return;
+
+      const diff = startY - endY;
+      const THRESH = 40;
+      if (diff > THRESH) {
+        if (indexRef.current < maxIndex) {
+          lastTimeRef.current = now;
+          goTo(indexRef.current + 1);
         }
-      } else {
-        const startY = touchStartYRef.current;
-        touchStartYRef.current = null;
-        if (startY == null) return;
-        const endY = e.changedTouches?.[0]?.clientY ?? null;
-        if (endY == null) return;
-        const diff = startY - endY;
-        const THRESH = 40;
-        if (diff > THRESH) {
-          if (indexRef.current < maxIndex) {
-            lastTimeRef.current = now;
-            goTo(indexRef.current + 1);
-          }
-        } else if (diff < -THRESH) {
-          if (indexRef.current > 0) {
-            lastTimeRef.current = now;
-            goTo(indexRef.current - 1);
-          }
+      } else if (diff < -THRESH) {
+        if (indexRef.current > 0) {
+          lastTimeRef.current = now;
+          goTo(indexRef.current - 1);
         }
       }
     };
 
-    // keyboard
+    // keyboard (igual)
     const onKey = (e: KeyboardEvent) => {
       const now = Date.now();
       if (now - lastTimeRef.current < LOCK_MS) return;
-      if (isLaptop) {
+      const horizontal = isLayoutHorizontal();
+      if (horizontal) {
         if (e.key === "ArrowRight") {
           if (indexRef.current < maxIndex) {
             lastTimeRef.current = now;
@@ -875,11 +859,11 @@ export const useSkills = () => {
       }
     };
 
-    // resize: recalcula offsets (muy importante)
+    // resize: recalcula offsets según el eje real
     const onResize = () => {
       const idx = indexRef.current;
       const s = size();
-      if (isLaptop) {
+      if (isLayoutHorizontal()) {
         gsap.set(leftRef.current, { x: (idx - maxIndex) * s, y: 0 });
         gsap.set(rightRef.current, { x: -idx * s, y: 0 });
       } else {
