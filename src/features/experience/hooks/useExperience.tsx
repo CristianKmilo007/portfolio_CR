@@ -3,9 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { createRoot, type Root } from "react-dom/client";
 import { useResponsive } from "../../../hooks/useMediaQuery";
-import TimelineCard, {
-  type TimelineEvent,
-} from "../components/TimelineCard";
+import TimelineCard, { type TimelineEvent } from "../components/TimelineCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +28,7 @@ export const useExperience = () => {
       year: string;
       title: string;
       desc: string;
+      functions?: Array<string>;
       side: "left" | "right";
       type: "education" | "job";
       img?: string;
@@ -40,63 +39,96 @@ export const useExperience = () => {
     )
   > = [
     {
-      year: "2018 - 2020",
+      year: "2019 - 2021",
       title: "Tecnico en Sistemas",
       desc: "Instituto Politecnico Agroindustrial",
+      functions: [
+        "Soporte técnico y mantenimiento del hardware y softwaredel computador",
+      ],
       side: isLaptop ? "left" : "right",
       img: "../../public/experience/cert_1.jpg",
       type: "education",
-      progress: isMobile ? 0.23 : 0.27,
-    },
-    {
-      year: "2020 - 2021",
-      title: "Web Designer",
-      desc: "Udemy",
-      side: isMobile ? "left" : isLaptop ? "right" : "left",
-      img: "../../public/experience/cert_2.jpg",
-      type: "education",
-      progress: isMobile ? 0.27 : 0.33,
+      progress: isMobile ? 0.37 : 0.33,
     },
     {
       year: "2021 - 2022",
-      title: "Frontend Developer Freelance",
-      desc: "Villavicencio",
-      type: "job",
-      side: isLaptop ? "right" : "left",
-      progress: isMobile ? 0.37 : 0.39,
+      title: "Web Designer",
+      desc: "Udemy",
+      functions: ["Máster en Diseño Web, enfoque UX/UI y desarrollo front-end"],
+      side: isMobile ? "left" : isLaptop ? "right" : "left",
+      img: "../../public/experience/cert_2.jpg",
+      type: "education",
+      progress: isMobile ? 0.45 : 0.41,
     },
     {
       year: "2021 - 2022",
       title: "Web Developer Full Stack",
       desc: "Universidad Iberoamericana",
+      type: "education",
+      functions: [
+        "Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular",
+      ],
       side: isLaptop ? "right" : "left",
       img: "../../public/experience/cert_3.jpg",
-      type: "education",
-      progress: isMobile ? 0.42 : 0.45,
+      progress: isMobile ? 0.53 : 0.49,
     },
     {
-      year: "2022 - 2023",
-      title: "Backend Developer Freelance",
-      desc: "Villavicencio",
+      year: "2021 - 2023",
+      title: "Full Stack Developer Freelance",
+      desc: "Villavicencio - Remoto",
+      functions: [
+        "Desarrollar interfaces web responsivas usando Angular, HTML5, CSS3 y frameworks de diseño modernos",
+        "Implementar APIs RESTful y endpoints backend seguros con Node.js y Express",
+        "Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño",
+      ],
+      side: isLaptop ? "right" : "left",
+      type: "job",
+      progress: isMobile ? 0.61 : 0.57,
+    },
+    {
+      year: "2023 - 2024",
+      title: "TodoServy",
+      desc: "Villavicencio - Remoto",
+      functions: [
+        "Implementar componentes reutilizables y modulares respetando patrones de diseño y buenas prácticas",
+        "Revisar código mediante pull requests y participar activamente en code reviews del equipo",
+      ],
       type: "job",
       side: isLaptop ? "left" : "right",
-      progress: isMobile ? 0.52 : 0.51,
+      progress: isMobile ? 0.69 : 0.65,
+    },
+    {
+      year: "2024-2025",
+      title: "Shepwashi",
+      desc: "Villavicencio - Remoto",
+      functions: [
+        "Desarrollar interfaces web responsivas con HTML5, CSS3 y Typescript moderno",
+        "Implementar componentes reutilizables usando frameworks como React, Nest Js o Vite",
+        "Integrar APIs REST gestionando estado de la aplicación de forma eficiente",
+        "Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas",
+      ],
+      type: "job",
+      side: isLaptop ? "left" : "right",
+      progress: isMobile ? 0.77 : 0.73,
     },
     {
       year: "2025",
       title: "Backend Dev. Nest JS",
       desc: "DevTalles",
       type: "education",
+      functions: [
+        "Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL",
+      ],
       img: "../../public/experience/cert_4.jpg",
-      side: isLaptop ? "left" : "right",
-      progress: 0.57,
+      side: isMobile ? "right" : isLaptop ? "left" : "right",
+      progress: isMobile ? 0.85 : 0.81,
     },
     {
       year: "2026...",
       title: "Crecimiento profesional",
-      desc: "Seguir aprendiendo y fortaleciendo mis conocimientos...",
+      desc: "Constante aprendizaje y fortalecimiento de mis habilidades...",
       type: "education",
-      side: "right",
+      side: isMobile ? "left" : "right",
       progress: 1,
     },
   ];
@@ -252,8 +284,8 @@ export const useExperience = () => {
           }
 
           // --- SVG create/ensure ---
-          const SVG_HEIGHT = 10000;
-          const amplitude = 150;
+          const SVG_HEIGHT = isMobile ? 6000 : 8000;
+          const amplitude = isMobile ? 75 : 100;
 
           let svgEl = document.getElementById(SVG_ID) as SVGSVGElement | null;
           if (svgEl) {

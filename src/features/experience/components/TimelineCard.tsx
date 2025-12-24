@@ -9,6 +9,7 @@ export type TimelineEvent = {
   year: string;
   title: string;
   desc: string;
+  functions: Array<string>;
   side: "left" | "right";
   type: "education" | "job";
   img?: string;
@@ -190,6 +191,24 @@ const TimelineCard: React.FC<Props> = ({ ev }) => {
             <IoCalendarOutline />
             <span>{ev.year}</span>
           </div>
+
+          {ev?.functions?.length > 0 && (
+            <div className="w-full flex flex-col mt-2">
+              <span className="font-semibold text-sm">Funciones:</span>
+              <div className="w-full flex flex-col text-xs sm:text-sm">
+                {ev.functions.map((fn, idx) => (
+                  <div
+                    className={`flex gap-1 sm:gap-2 ${
+                      ev.side === "left" ? "flex-row-reverse" : "flex-row"
+                    }`}
+                  >
+                    <span>•</span>
+                    <span key={idx}>{fn}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {ev.img && (
             <div
