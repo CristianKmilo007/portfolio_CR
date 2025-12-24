@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaBriefcase, FaGraduationCap } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
-import { useResponsive } from "../hooks/useMediaQuery";
+import { useResponsive } from "../../../hooks/useMediaQuery";
 
 export type TimelineEvent = {
   year: string;
@@ -114,8 +114,8 @@ const ImageModal: React.FC<{
 };
 
 const TimelineCard: React.FC<Props> = ({ ev }) => {
-  const { isLaptop, isMobile } = useResponsive()
-  
+  const { isLaptop, isMobile } = useResponsive();
+
   const [openImg, setOpenImg] = useState<string | null>(null);
 
   return (
@@ -127,7 +127,11 @@ const TimelineCard: React.FC<Props> = ({ ev }) => {
             : "flex justify-start pl-0 sm:pl-10 lg:pl-20 items-start h-full"
         }`}
       >
-        <div className={`bg-[#ffffff1c] backdrop-blur-md rounded-xl p-4 pt-3  text-white w-full max-w-[350px] relative overflow-hidden ${ev.side === 'left' ? 'text-end' : 'text-left'}`}>
+        <div
+          className={`bg-[#ffffff1c] backdrop-blur-md rounded-xl p-4 pt-3  text-white w-full max-w-[350px] relative overflow-hidden ${
+            ev.side === "left" ? "text-end" : "text-left"
+          }`}
+        >
           <div className="absolute top-0 left-0 w-full">
             <div className="relative h-[3px] rounded overflow-hidden">
               <div
@@ -151,16 +155,38 @@ const TimelineCard: React.FC<Props> = ({ ev }) => {
             </div>
           </div>
 
-          <div className={`w-full flex items-start gap-2 sm:gap-3 ${ev.side === 'left' ? 'justify-end flex-row-reverse' : 'justify-start flex-row'}`}>
+          <div
+            className={`w-full flex items-start gap-2 sm:gap-3 ${
+              ev.side === "left"
+                ? "justify-end flex-row-reverse"
+                : "justify-start flex-row"
+            }`}
+          >
             {ev.type === "education" ? (
-              <FaGraduationCap size={isMobile ? 19 : isLaptop ? 22 : 25} className="mt-[2px] sm:mt-[4px]" />
+              <FaGraduationCap
+                size={isMobile ? 19 : isLaptop ? 22 : 25}
+                className="mt-[2px] sm:mt-[4px]"
+              />
             ) : (
-              <FaBriefcase size={isMobile ? 15 : isLaptop ? 18 : 21} className="mt-[3px] sm:mt-[5px] min-w-[21px]" />
+              <FaBriefcase
+                size={isMobile ? 15 : isLaptop ? 18 : 21}
+                className="mt-[3px] sm:mt-[5px] min-w-[21px]"
+              />
             )}
-            <div className={`text-lg sm:text-xl lg:text-2xl font-semibold leading-5 sm:leading-7 ${ev.side === 'left' ? 'ml-auto' : 'ml-0'}`}>{ev.title}</div>
+            <div
+              className={`text-lg sm:text-xl lg:text-2xl font-semibold leading-5 sm:leading-7 ${
+                ev.side === "left" ? "ml-auto" : "ml-0"
+              }`}
+            >
+              {ev.title}
+            </div>
           </div>
           <div className="text-xs sm:text-sm lg:text-base mt-1">{ev.desc}</div>
-          <div className={`text-xs sm:text-sm lg:text-base flex items-center gap-2 ${ev.side === 'left' ? 'justify-end' : 'justify-start'}`}>
+          <div
+            className={`text-xs sm:text-sm lg:text-base flex items-center gap-2 ${
+              ev.side === "left" ? "justify-end" : "justify-start"
+            }`}
+          >
             <IoCalendarOutline />
             <span>{ev.year}</span>
           </div>

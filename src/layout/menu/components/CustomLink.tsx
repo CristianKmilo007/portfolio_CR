@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCurtain } from "../context/curtain-core";
-import { useTransition } from "../context/transition-core";
+import { useCurtain } from "../../../context/curtain-core";
+import { useTransition } from "../../../context/transition-core";
 
 type Props = {
   to: string;

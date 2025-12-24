@@ -2,26 +2,22 @@
 import { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { LayoutGroup, AnimatePresence } from "framer-motion";
-import Home from "./pages/Home";
+
 import CurtainProvider from "./context/CurtainProvider";
 import { TransitionProvider } from "./context/TransitionProvider";
 import PageLoader from "./components/Loader";
-import Menu from "./components/Menu";
-import { Skills } from "./pages/Skills";
-import CircleScroll from "./pages/Experience";
-
-import Example from "./pages/Example";
+import Menu from "./layout/menu/Menu";
 import MaskCursor from "./components/MaskCursor";
-import { NotFound } from "./pages/NotFound";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { useResponsive } from "./hooks/useMediaQuery";
-/* import PinExample from "./pages/Example";
-import PinDebugFixed from "./pages/Example";
- */
-export default function App() {
+import { HomePage } from "./pages/HomePage";
+import { SkillsPage } from "./pages/SkillsPage";
+import { ExperiencePage } from "./pages/ExperiencePage";
+import { ProjectsPage } from "./pages/ProjectsPage";
+
+export const App = () => {
   const location = useLocation();
-
   const { isMobile } = useResponsive();
-
   const [isLoading, setIsLoading] = useState(true);
 
   const handleLoadComplete = () => {
@@ -44,11 +40,11 @@ export default function App() {
                     className="min-h-screen bg-[#111] text-slate-900 w-full"
                   >
                     <Routes location={location} key={location.pathname}>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/skills" element={<Skills />} />
-                      <Route path="/experience" element={<CircleScroll />} />
-                      <Route path="/projects" element={<Example />} />
-                      <Route path="*" element={<NotFound />} />
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/skills" element={<SkillsPage />} />
+                      <Route path="/experience" element={<ExperiencePage />} />
+                      <Route path="/projects" element={<ProjectsPage />} />
+                      <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                   </div>
                 </AnimatePresence>

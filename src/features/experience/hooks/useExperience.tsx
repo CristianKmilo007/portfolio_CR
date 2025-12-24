@@ -1,123 +1,15 @@
-// src/pages/Experience.tsx
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { createPortal } from "react-dom";
-import LiquidEther from "../components/LiquidEther";
 import { createRoot, type Root } from "react-dom/client";
-import TimelineCard, { type TimelineEvent } from "../components/TimelineCard";
-import CircularReveal from "../components/CircularReveal";
-import { useResponsive } from "../hooks/useMediaQuery";
+import { useResponsive } from "../../../hooks/useMediaQuery";
+import TimelineCard, {
+  type TimelineEvent,
+} from "../components/TimelineCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SVG_ID = "trace-line-fixed-experience";
-
-type Pt = { x: number; y: number };
-
-function easeInOutQuad(t: number) {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-}
-
-function catmullRomToBezier(points: Pt[], handleLen = 80) {
-  if (points.length < 2) return "";
-  const dParts: string[] = [`M ${points[0].x} ${points[0].y}`];
-
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i - 1] ?? points[i];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[i + 2] ?? p2;
-
-    const t1x = p2.x - p0.x;
-    const t1y = p2.y - p0.y;
-    const t2x = p3.x - p1.x;
-    const t2y = p3.y - p1.y;
-
-    const len1 = Math.hypot(t1x, t1y) || 1;
-    const len2 = Math.hypot(t2x, t2y) || 1;
-    const u1x = t1x / len1;
-    const u1y = t1y / len1;
-    const u2x = t2x / len2;
-    const u2y = t2y / len2;
-
-    const cp1x = p1.x + u1x * handleLen;
-    const cp1y = p1.y + u1y * handleLen;
-    const cp2x = p2.x - u2x * handleLen;
-    const cp2y = p2.y - u2y * handleLen;
-
-    dParts.push(`C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${p2.x} ${p2.y}`);
-  }
-
-  return dParts.join(" ");
-}
-
-// util: binary search find length whose point.y ~= targetY
-function findLengthAtY(
-  pathEl: SVGPathElement,
-  pathLen: number,
-  targetY: number
-) {
-  let lo = 0;
-  let hi = pathLen;
-  let mid = 0;
-  for (let i = 0; i < 40; i++) {
-    mid = (lo + hi) / 2;
-    const pt = pathEl.getPointAtLength(mid);
-    if (pt.y < targetY) lo = mid;
-    else hi = mid;
-  }
-  return mid;
-}
-
-function enforceMinSpacingByLength(
-  lengths: number[],
-  minGap: number,
-  maxLen: number
-) {
-  const out = [...lengths].sort((a, b) => a - b);
-  for (let i = 1; i < out.length; i++) {
-    if (out[i] - out[i - 1] < minGap) {
-      out[i] = out[i - 1] + minGap;
-    }
-  }
-  for (let i = out.length - 1; i >= 0; i--) {
-    const maxAllowed = maxLen - (out.length - 1 - i) * minGap;
-    if (out[i] > maxAllowed) {
-      out[i] = maxAllowed;
-    }
-  }
-  return out;
-}
-
-function enforceMinVerticalSpacing(
-  pathEl: SVGPathElement,
-  lengths: number[],
-  minYGap = 100
-) {
-  const out = [...lengths].sort((a, b) => a - b);
-  for (let i = 1; i < out.length; i++) {
-    const prevPt = pathEl.getPointAtLength(out[i - 1]);
-    let curPt = pathEl.getPointAtLength(out[i]);
-    if (curPt.y - prevPt.y < minYGap) {
-      let attempt = out[i];
-      const step = Math.max(3, Math.floor(pathEl.getTotalLength() / 200));
-      while (true) {
-        attempt += step;
-        if (attempt > pathEl.getTotalLength()) break;
-        const newPt = pathEl.getPointAtLength(attempt);
-        if (newPt.y - prevPt.y >= minYGap) {
-          out[i] = attempt;
-          curPt = newPt;
-          break;
-        }
-      }
-    }
-  }
-  return out;
-}
-
-const CircleScroll: React.FC = () => {
+export const useExperience = () => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -209,6 +101,112 @@ const CircleScroll: React.FC = () => {
     },
   ];
 
+  const SVG_ID = "trace-line-fixed-experience";
+
+  type Pt = { x: number; y: number };
+
+  function easeInOutQuad(t: number) {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  }
+
+  function catmullRomToBezier(points: Pt[], handleLen = 80) {
+    if (points.length < 2) return "";
+    const dParts: string[] = [`M ${points[0].x} ${points[0].y}`];
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[i - 1] ?? points[i];
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const p3 = points[i + 2] ?? p2;
+
+      const t1x = p2.x - p0.x;
+      const t1y = p2.y - p0.y;
+      const t2x = p3.x - p1.x;
+      const t2y = p3.y - p1.y;
+
+      const len1 = Math.hypot(t1x, t1y) || 1;
+      const len2 = Math.hypot(t2x, t2y) || 1;
+      const u1x = t1x / len1;
+      const u1y = t1y / len1;
+      const u2x = t2x / len2;
+      const u2y = t2y / len2;
+
+      const cp1x = p1.x + u1x * handleLen;
+      const cp1y = p1.y + u1y * handleLen;
+      const cp2x = p2.x - u2x * handleLen;
+      const cp2y = p2.y - u2y * handleLen;
+
+      dParts.push(`C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${p2.x} ${p2.y}`);
+    }
+
+    return dParts.join(" ");
+  }
+
+  // util: binary search find length whose point.y ~= targetY
+  function findLengthAtY(
+    pathEl: SVGPathElement,
+    pathLen: number,
+    targetY: number
+  ) {
+    let lo = 0;
+    let hi = pathLen;
+    let mid = 0;
+    for (let i = 0; i < 40; i++) {
+      mid = (lo + hi) / 2;
+      const pt = pathEl.getPointAtLength(mid);
+      if (pt.y < targetY) lo = mid;
+      else hi = mid;
+    }
+    return mid;
+  }
+
+  function enforceMinSpacingByLength(
+    lengths: number[],
+    minGap: number,
+    maxLen: number
+  ) {
+    const out = [...lengths].sort((a, b) => a - b);
+    for (let i = 1; i < out.length; i++) {
+      if (out[i] - out[i - 1] < minGap) {
+        out[i] = out[i - 1] + minGap;
+      }
+    }
+    for (let i = out.length - 1; i >= 0; i--) {
+      const maxAllowed = maxLen - (out.length - 1 - i) * minGap;
+      if (out[i] > maxAllowed) {
+        out[i] = maxAllowed;
+      }
+    }
+    return out;
+  }
+
+  function enforceMinVerticalSpacing(
+    pathEl: SVGPathElement,
+    lengths: number[],
+    minYGap = 100
+  ) {
+    const out = [...lengths].sort((a, b) => a - b);
+    for (let i = 1; i < out.length; i++) {
+      const prevPt = pathEl.getPointAtLength(out[i - 1]);
+      let curPt = pathEl.getPointAtLength(out[i]);
+      if (curPt.y - prevPt.y < minYGap) {
+        let attempt = out[i];
+        const step = Math.max(3, Math.floor(pathEl.getTotalLength() / 200));
+        while (true) {
+          attempt += step;
+          if (attempt > pathEl.getTotalLength()) break;
+          const newPt = pathEl.getPointAtLength(attempt);
+          if (newPt.y - prevPt.y >= minYGap) {
+            out[i] = attempt;
+            curPt = newPt;
+            break;
+          }
+        }
+      }
+    }
+    return out;
+  }
+
   useEffect(() => {
     let cancelled = false;
     let externalCleanup: (() => void) | null = null;
@@ -259,9 +257,11 @@ const CircleScroll: React.FC = () => {
 
           let svgEl = document.getElementById(SVG_ID) as SVGSVGElement | null;
           if (svgEl) {
-  try { svgEl.remove(); } catch {}
-  svgEl = null;
-}
+            try {
+              svgEl.remove();
+            } catch {}
+            svgEl = null;
+          }
           if (!svgEl) {
             svgEl = document.createElementNS(
               "http://www.w3.org/2000/svg",
@@ -1327,101 +1327,17 @@ const CircleScroll: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
 
-  const raysPortal = (
-    <div className="fixed inset-0 bg-[#111] pointer-events-none z-0">
-      <div
-        ref={revealRef}
-        className="absolute top 0 left-0 w-full h-full z-[2] flex items-center justify-center"
-        style={{ transformOrigin: "center center" }}
-      >
-        <CircularReveal
-          size={isMobile ? 350 : isDesktopXL ? 600 : 750}
-          borderWidth={isMobile ? 75 : isDesktopXL ? 115 : 150}
-          initialBorderWidth={isMobile ? 2 : 3}
-          duration={2}
-          expandDuration={1.5}
-          backgroundImage="/experience/img2.jpg"
-          maxScale={5.5}
-        />
-      </div>
-
-      {/* OVERLAY: añadí ref aquí para poder moverlo hacia arriba */}
-      <div
-        ref={overlayRef}
-        className="absolute top-0 left-0 w-full h-full z-[3] flex items-center justify-center"
-      >
-        <div className="flex flex-col lg:flex-row items-center justify-center text-5xl sm:text-7xl xl:text-8xl font-medium gap-70 sm:gap-50 lg:gap-10 relative">
-          <span
-            ref={aprendizajeRef}
-            className="text-transparent [-webkit-text-stroke:1px_white] tracking-tight font-kalnia opacity-0 -mt-3 sm:mt-0"
-            style={{
-              transform: "scale(1, 1.2)",
-            }}
-          >
-            Aprendizaje
-          </span>
-
-          <span
-            ref={experienciaRef}
-            className="text-white tracking-tight font-kalnia opacity-0"
-            style={{
-              transform: "scale(1, 1.2)",
-            }}
-          >
-            Experiencia
-          </span>
-
-          <div
-            ref={miVidaRef}
-            className="absolute  lg:-bottom-30 text-[#aaa] text-sm xl:text-base font-normal w-[100px] text-center leading-4.5 xl:leading-5 opacity-0"
-          >
-            Mi Vida Profesional
-          </div>
-        </div>
-      </div>
-
-      <div
-        ref={raysRef}
-        className="w-full h-full absolute top-0 left-0 bg-[#111] z-[1] pointer-events-none"
-        style={{ filter: "blur(0px)", willChange: "filter" }}
-      >
-        <LiquidEther
-          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-          mouseForce={15}
-          cursorSize={50}
-          isViscous={false}
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.2}
-          isBounce={false}
-          autoDemo={true}
-          autoSpeed={0.25}
-          autoIntensity={4}
-          takeoverDuration={1}
-          autoRampDuration={1}
-        />
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      {mounted && createPortal(raysPortal, document.body)}
-      <div
-        ref={wrapperRef}
-        className="relative w-full min-h-screen overflow-auto"
-      >
-        <div ref={contentRef} className="relative w-full" />
-
-        <style>{`
-        @keyframes scroll { 0% { transform: translateY(0); } 100% { transform: translateY(10px); } }
-        .animate-scroll { animation: scroll 0.95s ease-in-out alternate infinite; fill: none; stroke: #000; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 1; }
-        .circle { will-change: transform, opacity; width: 4px; height: 4px; border-radius: 50%; background: transparent; }
-      `}</style>
-      </div>
-    </>
-  );
+  return {
+    revealRef,
+    isMobile,
+    isDesktopXL,
+    overlayRef,
+    aprendizajeRef,
+    experienciaRef,
+    miVidaRef,
+    raysRef,
+    mounted,
+    wrapperRef,
+    contentRef,
+  };
 };
-
-export default CircleScroll;

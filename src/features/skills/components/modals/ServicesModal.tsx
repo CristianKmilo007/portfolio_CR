@@ -1,5 +1,5 @@
 import React from "react";
-import CustomModalHeroUI from "./CustomModalHeroUI";
+import CustomModalHeroUI from "../../../../components/CustomModalHeroUI";
 import { TbPointFilled } from "react-icons/tb";
 
 interface ServicesModalProps {

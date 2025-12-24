@@ -2,11 +2,12 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
-import CustomLink from "./CustomLink";
 import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { TbBrandGithubFilled } from "react-icons/tb";
+import CustomLink from "./CustomLink";
+
 
 type SplitInstance = {
   lines: HTMLElement[];

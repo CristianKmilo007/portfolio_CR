@@ -1,4 +1,4 @@
-import type { Project } from "./Projects";
+import type { Project } from "./hooks/useSliderProjects";
 
 export const projectData: Project[] = [
   {

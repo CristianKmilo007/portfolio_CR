@@ -20,9 +20,9 @@ import lgFullScreen from 'lightgallery/plugins/fullscreen';
 import lgVideo from 'lightgallery/plugins/video';
 import type { SwiperRef } from 'swiper/react';
 
-import '../../node_modules/swiper/swiper.css';
-import '../../node_modules/swiper/modules/navigation.css';
-import '../../node_modules/swiper/modules/pagination.css';
+import '../../../../node_modules/swiper/swiper.css';
+import '../../../../node_modules/swiper/modules/navigation.css';
+import '../../../../node_modules/swiper/modules/pagination.css';
 
 import 'lightgallery/css/lightgallery.css';
 import 'lightgallery/css/lg-zoom.css';

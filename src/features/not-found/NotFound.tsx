@@ -1,6 +1,6 @@
-import DynamicSVGVariant from "../assets/icons/DynamicLogo";
-import FuzzyText from "../components/FuzzyText";
-import { useResponsive } from "../hooks/useMediaQuery";
+import DynamicSVGVariant from "../../assets/icons/DynamicLogo";
+import { useResponsive } from "../../hooks/useMediaQuery";
+import FuzzyText from "./components/FuzzyText";
 
 export const NotFound = () => {
   const { isTablet } = useResponsive();

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Projects from "./Projects";
-import Hero from "../components/Hero";
+import { SliderProjects } from "./components/SliderProjects";
+import Hero from "./components/Hero";
 
-export const Example = () => {
+export const Projects = () => {
   const [showProjects, setShowProjects] = useState(false);
 
   return (
@@ -22,7 +22,7 @@ export const Example = () => {
           showProjects ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
-        <Projects
+        <SliderProjects
           isActive={showProjects}
           onScrollToHero={() => {
             // petición desde Projects para volver al hero (ej: scroll up en primer panel)
@@ -33,5 +33,3 @@ export const Example = () => {
     </div>
   );
 };
-
-export default Example;
