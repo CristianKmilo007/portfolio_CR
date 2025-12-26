@@ -115,7 +115,7 @@ export const SliderProjects = ({
                     ? `translate3d(${index * viewportW}px, 0, 0)`
                     : `translate3d(0, ${index * viewportH}px, 0)`,
                 }}
-                className="absolute left-0 w-full pt-[375px] sm:pt-[450px] lg:pt-0 h-auto lg:h-screen transform transition-opacity duration-300 ease-out will-change-transform opacity-0 pointer-events-none"
+                className="absolute left-0 w-full pt-[345px] sm:pt-[420px] lg:pt-0 h-auto lg:h-screen transform transition-opacity duration-300 ease-out will-change-transform opacity-0 pointer-events-none"
               >
                 <div className="w-full h-full flex items-center justify-center lg:justify-end p-6 box-border text-white lg:text-right">
                   <div className="max-w-[500px] lg:max-w-[400px] flex flex-col gap-2">
@@ -192,7 +192,7 @@ export const SliderProjects = ({
         </ul>
 
         <div
-          className="minimap fixed top-[30%] sm:top-[35%] lg:top-1/2 left-1/2 lg:left-[65%] -translate-y-1/2 -translate-x-1/2 z-30 pointer-events-auto"
+          className="minimap fixed top-[210px] sm:top-[260px] lg:top-1/2 left-1/2 lg:left-[65%] -translate-y-1/2 -translate-x-1/2 z-30 pointer-events-auto"
           style={{
             width: isMobile ? 350 : isDesktop2XL ? 500 : 615,
             height: isMobile

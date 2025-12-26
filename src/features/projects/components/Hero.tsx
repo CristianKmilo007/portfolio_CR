@@ -29,7 +29,7 @@ export default function Hero({
 
   return (
     <div
-      className="fixed inset-0 z-0 flex items-center justify-center bg-[#111] overflow-hidden"
+      className={`fixed inset-0 flex items-center justify-center bg-[#111] overflow-hidden ${isVisible ? "z-[1]" : "z-0"}`}
       style={{
         pointerEvents: isVisible ? "auto" : "none",
         opacity: isVisible ? 1 : 0,
@@ -123,7 +123,7 @@ export default function Hero({
 
       <div
         ref={textHorRef}
-        className="absolute w-full bottom-65 sm:bottom-60 md:-bottom-10 lg:-bottom-20 z-[1] opacity-0"
+        className="absolute w-full top-[250px] sm:top-auto sm:bottom-60 md:-bottom-10 lg:-bottom-20 z-[1] opacity-0"
       >
         <ScrollVelocity
           texts={[

@@ -321,7 +321,7 @@ export const useSkills = () => {
     {
       id: 1,
       left: (
-        <div className="flex flex-col gap-4 px-6 lg:px-0 lg:gap-6 w-full sm:w-[500px] lg:w-[450px] xl:w-[550px] lg:items-end text-start lg:text-end translate-x-0 lg:translate-x-10 2xl:translate-x-50 translate-y-15 lg:translate-y-40 xl:translate-y-50">
+        <div className="flex flex-col gap-4 px-6 lg:px-0 pb-6 lg:gap-6 w-full sm:w-[500px] lg:w-[450px] xl:w-[550px] h-full lg:h-auto justify-end lg:items-end text-start lg:text-end translate-x-0 lg:translate-x-10 2xl:translate-x-50  lg:translate-y-40 xl:translate-y-50">
           <span className="text-4xl md:text-5xl lg:text-6xl">
             Mis Habilidades
           </span>
@@ -346,7 +346,7 @@ export const useSkills = () => {
     {
       id: 2,
       left: (
-        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-15 sm:-translate-y-15 lg:translate-y-0">
+        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-25 sm:-translate-y-25 lg:translate-y-0">
           <SlidersSkills
             data={dataFront}
             classNames={{
@@ -360,7 +360,7 @@ export const useSkills = () => {
       ),
       right: (
         <div className="w-full flex">
-          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
+          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
               <span className="text-4xl sm:text-5xl">Frontend</span>
               {isLaptop && (
@@ -396,7 +396,7 @@ export const useSkills = () => {
     {
       id: 3,
       left: isLaptop ? (
-        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-33 sm:-translate-y-22 lg:translate-y-0">
+        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-30 2xl:translate-x-50 -translate-y-43 sm:-translate-y-32 lg:translate-y-0">
           <SlidersSkills
             data={dataBack}
             classNames={{
@@ -409,7 +409,7 @@ export const useSkills = () => {
         </div>
       ) : (
         <div className="w-full flex justify-end">
-          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[500px] text-end translate-x-0 lg:-translate-x-30 2xl:-translate-x-50 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pl-0 lg:pr-0 xl:pr-12">
+          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[500px] text-end translate-x-0 lg:-translate-x-30 2xl:-translate-x-50 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pl-0 lg:pr-0 xl:pr-12">
             <div className="flex gap-x-4 flex-wrap items-end justify-end">
               <span className="text-4xl sm:text-5xl">Backend</span>
               {isLaptop && (
@@ -444,7 +444,7 @@ export const useSkills = () => {
 
       right: isLaptop ? (
         <div className="w-full flex">
-          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
+          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
               <span className="text-4xl sm:text-5xl">Backend</span>
               {isLaptop && (
@@ -492,7 +492,7 @@ export const useSkills = () => {
     {
       id: 4,
       left: (
-        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-40 2xl:translate-x-50 -translate-y-45 sm:-translate-y-35 lg:translate-y-0">
+        <div className="w-full px-4 2xl:px-0 translate-x-0 lg:translate-x-25 xl:translate-x-40 2xl:translate-x-50 -translate-y-55 sm:-translate-y-45 lg:translate-y-0">
           <SlidersSkills
             data={dataDesigner}
             classNames={{
@@ -507,7 +507,7 @@ export const useSkills = () => {
       ),
       right: (
         <div className="w-full flex">
-          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-15 2xl:translate-x-0 translate-y-10 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
+          <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-15 2xl:translate-x-0 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
               <span className="text-4xl sm:text-5xl">Designer</span>
               {isLaptop && (
