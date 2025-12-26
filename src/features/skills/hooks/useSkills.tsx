@@ -321,7 +321,7 @@ export const useSkills = () => {
     {
       id: 1,
       left: (
-        <div className="flex flex-col gap-4 px-6 lg:px-0 pb-6 lg:gap-6 w-full sm:w-[500px] lg:w-[450px] xl:w-[550px] h-full lg:h-auto justify-end lg:items-end text-start lg:text-end translate-x-0 lg:translate-x-10 2xl:translate-x-50  lg:translate-y-40 xl:translate-y-50">
+        <div className="flex flex-col gap-4 px-6 lg:px-0 pb-20 lg:pb-0 lg:gap-6 w-full sm:w-[500px] lg:w-[450px] xl:w-[550px] h-full lg:h-auto justify-end lg:items-end text-start lg:text-end translate-x-0 lg:translate-x-10 2xl:translate-x-50  lg:translate-y-40 xl:translate-y-50">
           <span className="text-4xl md:text-5xl lg:text-6xl">
             Mis Habilidades
           </span>

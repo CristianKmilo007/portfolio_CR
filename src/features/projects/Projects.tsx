@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SliderProjects } from "./components/SliderProjects";
 import Hero from "./components/Hero";
+import { usePreventPullToRefresh } from "../../hooks/usePreventPullToRefresh";
 
 export const Projects = () => {
   const [showProjects, setShowProjects] = useState(false);
 
-  useEffect(() => {
-    const previousOverflow =
-      document.documentElement.style.overflow || document.body.style.overflow;
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.documentElement.style.overflow = previousOverflow || "";
-      document.body.style.overflow = previousOverflow || "";
-    };
-  }, []);
+  usePreventPullToRefresh(true);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div
+      className="min-h-screen bg-[#0a0a0a]"
+      style={{ overscrollBehavior: "none" }}
+    >
       {/* Hero siempre está montado; controlamos su visibilidad con isVisible */}
       <Hero
         isVisible={!showProjects}
