@@ -29,7 +29,7 @@ export const useExperience = () => {
       title: string;
       desc: string;
       functions?: Array<string>;
-      side: "left" | "right";
+      side: "left" | "right" | "center";
       type: "education" | "job";
       img?: string;
     } & (
@@ -45,7 +45,7 @@ export const useExperience = () => {
       functions: [
         "Soporte técnico y mantenimiento del hardware y softwaredel computador",
       ],
-      side: isLaptop ? "left" : "right",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
       img: "/experience/cert_1.jpg",
       type: "education",
       progress: isMobile ? 0.37 : 0.33,
@@ -55,7 +55,7 @@ export const useExperience = () => {
       title: "Web Designer",
       desc: "Udemy",
       functions: ["Máster en Diseño Web, enfoque UX/UI y desarrollo front-end"],
-      side: isMobile ? "left" : isLaptop ? "right" : "left",
+      side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_2.jpg",
       type: "education",
       progress: isMobile ? 0.45 : 0.41,
@@ -68,7 +68,7 @@ export const useExperience = () => {
       functions: [
         "Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular",
       ],
-      side: isLaptop ? "right" : "left",
+      side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_3.jpg",
       progress: isMobile ? 0.53 : 0.49,
     },
@@ -81,7 +81,7 @@ export const useExperience = () => {
         "Implementar APIs RESTful y endpoints backend seguros con Node.js y Express",
         "Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño",
       ],
-      side: isLaptop ? "right" : "left",
+      side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
       progress: isMobile ? 0.61 : 0.57,
     },
@@ -94,7 +94,7 @@ export const useExperience = () => {
         "Revisar código mediante pull requests y participar activamente en code reviews del equipo",
       ],
       type: "job",
-      side: isLaptop ? "left" : "right",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: isMobile ? 0.69 : 0.65,
     },
     {
@@ -108,7 +108,7 @@ export const useExperience = () => {
         "Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas",
       ],
       type: "job",
-      side: isLaptop ? "left" : "right",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: isMobile ? 0.77 : 0.73,
     },
     {
@@ -120,7 +120,7 @@ export const useExperience = () => {
         "Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL",
       ],
       img: "/experience/cert_4.jpg",
-      side: isMobile ? "right" : isLaptop ? "left" : "right",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: isMobile ? 0.85 : 0.81,
     },
     {
@@ -128,7 +128,7 @@ export const useExperience = () => {
       title: "Crecimiento profesional",
       desc: "Constante aprendizaje y fortalecimiento de mis habilidades...",
       type: "education",
-      side: isMobile ? "left" : "right",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: 1,
     },
   ];
@@ -561,7 +561,7 @@ export const useExperience = () => {
             fo: SVGForeignObjectElement;
             visible: boolean;
             reactRoot?: Root;
-            side?: "left" | "right";
+            side?: "left" | "right" | "center";
           };
           const nodes: Node[] = [];
 
@@ -634,8 +634,17 @@ export const useExperience = () => {
             const boxW = isMobile ? 250 : isLaptop ? 325 : 500;
             const boxH = isMobile ? 300 : isLaptop ? 325 : 500;
             const offsetX = 14;
-            let foX =
-              ev.side === "left" ? pt.x - offsetX - boxW : pt.x + offsetX;
+            let foX: number;
+
+// case: center -> centrar horizontalmente el box en el punto
+if (ev.side === "center") {
+  foX = pt.x - boxW / 2;
+} else if (ev.side === "left") {
+  foX = pt.x - offsetX - boxW;
+} else {
+  // right
+  foX = pt.x + offsetX;
+}
             foX = Math.max(6, Math.min(window.innerWidth - boxW - 6, foX));
 
             // --- aquí: top align (la card inicia al mismo nivel del punto) ---
