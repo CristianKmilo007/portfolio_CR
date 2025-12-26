@@ -22,6 +22,7 @@ export default function Hero({
     overlayImagesRef,
     textHorRef,
     scrollProgressRef,
+    imgBlur
   } = useHero({
     onScrollPastHero,
     isVisible,
@@ -102,6 +103,7 @@ export default function Hero({
               >
                 {img.isContain && (
                   <img
+                    ref={imgBlur}
                     src={img.url}
                     alt=""
                     className={`absolute w-full h-full object-cover blur-2xl z-[1]`}

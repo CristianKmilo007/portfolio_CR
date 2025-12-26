@@ -180,9 +180,9 @@ const MenuOverlay = ({
                   <a
                     href="CV_Cristian_Rojas.pdf"
                     className="w-full h-full flex items-center justify-center cursor-none"
-                    target="_blank"
+                    download=""
                   >
-                    <span className="text-lg font-medium block -mt-[2px]">
+                    <span className="text-lg font-medium block lg:-mt-[2px]">
                       CV
                     </span>
                   </a>

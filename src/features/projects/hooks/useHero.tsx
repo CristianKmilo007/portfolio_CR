@@ -19,6 +19,7 @@ export const useHero = ({
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement | null>(null);
+  const imgBlur = useRef<HTMLImageElement | null>(null);
 
   const overlayGradientRef = useRef<HTMLDivElement | null>(null);
   const lightRaysRef = useRef<HTMLDivElement | null>(null);
@@ -214,7 +215,7 @@ export const useHero = ({
       }
 
       // wait images loaded
-      await Promise.all(
+      /* await Promise.all(
         images.map(
           (el) =>
             new Promise<void>((resolve) => {
@@ -225,7 +226,19 @@ export const useHero = ({
               img.addEventListener("error", () => resolve(), { once: true });
             })
         )
-      );
+      ); */
+      await Promise.race([
+        Promise.all(
+          images.map((el) => {
+            const img = el?.querySelector("img") as HTMLImageElement | null;
+            if (!img || img.complete) return Promise.resolve();
+            return new Promise<void>((res) =>
+              img.addEventListener("load", () => res(), { once: true })
+            );
+          })
+        ),
+        new Promise((res) => setTimeout(res, 1000)), // ⬅️ CLAVE
+      ]);
 
       // estado inicial: FULL-SCREEN reveal (esto es temporal — se limpiará luego)
       gsap.set(images, {
@@ -350,7 +363,7 @@ export const useHero = ({
           el.style.boxSizing = "border-box";
           el.style.border = "0 solid rgba(255,255,255,0)";
           el.style.borderRadius = "1rem";
-          el.style.boxShadow = "0 0 30px #333";
+          /* el.style.boxShadow = "0 0 30px #333"; */
           el.style.transformOrigin = "center center";
           el.style.willChange = "transform, opacity";
           el.style.backfaceVisibility = "hidden";
@@ -394,13 +407,31 @@ export const useHero = ({
           gsap.to(wrapper, { x: tx, duration: 0.45, ease: "power3.out" });
         }
 
+        if (isMobile) {
+          overlayImagesRef.current.forEach((wrapper) => {
+            try {
+              if (!wrapper) return;
+              // buscar la imagen blur dentro del wrapper; ajusta el selector si tu clase cambia
+              const blurImg = wrapper.querySelector(
+                "img.blur-2xl"
+              ) as HTMLElement | null;
+              if (blurImg) {
+                // usar gsap.set para consistencia con el flujo de GSAP
+                gsap.set(blurImg, { display: "none", opacity: 0 });
+                // o: blurImg.style.display = 'none';
+              }
+            } catch (e) {
+              // ignore
+            }
+          });
+        }
+
         const flipTween = Flip.from(state, {
           duration: flipDuration,
           ease: "hop",
           absolute: true,
           stagger: -0.18,
           onStart: () => {
-            // después de un delay hacemos aparecer overlays/lightrays
             gsap.delayedCall(2, () => {
               const targets: Element[] = [];
               if (overlayGradientRef.current)
@@ -452,6 +483,10 @@ export const useHero = ({
               });
             }
 
+            images.forEach((el) => {
+              el.style.boxShadow = "0 0 30px #333";
+            });
+
             // limpiar estilos inline temporales que puedan impedir media queries
             images.forEach((el) => {
               try {
@@ -499,12 +534,6 @@ export const useHero = ({
     const SHOW_PROJECTS_RATIO = 0.5;
     const SHOW_PROJECTS_AT = SCROLL_RANGE * SHOW_PROJECTS_RATIO;
 
-    const FADE_BEFORE_RATIO = 0.08;
-    const FADE_THRESHOLD = Math.max(
-      0,
-      SHOW_PROJECTS_AT - SCROLL_RANGE * FADE_BEFORE_RATIO
-    );
-
     const HYSTERESIS = SCROLL_RANGE * 0.02;
 
     let touchStartY = 0;
@@ -515,123 +544,8 @@ export const useHero = ({
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const hasShownEarlyRef = { current: false };
-    const hasFadedRef = { current: false };
     const fadeTweenRef: { current?: gsap.core.Tween | null } = {
       current: null,
-    };
-
-    const getTargets = () => {
-      const overlays = overlayImagesRef.current.filter(
-        Boolean
-      ) as HTMLElement[];
-      const targets: Element[] = [...overlays];
-      if (leftTextRef.current) targets.push(leftTextRef.current);
-      if (textHorRef.current) targets.push(textHorRef.current);
-      return targets;
-    };
-
-    const ensureFloatTweens = (images: HTMLElement[]) => {
-      // si ya existen, no crear; si existen pero fueron kill(), re-crear
-      if (!floatTweensRef.current || floatTweensRef.current.length === 0) {
-        floatTweensRef.current = [];
-        images.forEach((imgEl, ii) => {
-          try {
-            const t = gsap.to(imgEl, {
-              y: "+=10",
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-              duration: 6 + ii,
-              force3D: true,
-              autoRound: false,
-            });
-            floatTweensRef.current.push(t);
-          } catch (e) {}
-        });
-      }
-    };
-
-    const revertFade = (force = false) => {
-      if (!hasFadedRef.current && !force) return;
-      hasFadedRef.current = false;
-
-      const targets = getTargets();
-      const images = overlayImagesRef.current.filter(Boolean) as HTMLElement[];
-
-      // asegurar visibilidad antes de animar (evita que el tween no haga nada si visibility=hidden)
-      targets.forEach((el) => {
-        try {
-          const h = el as HTMLElement;
-          h.style.visibility = "visible";
-          h.style.pointerEvents = "auto";
-          // no tocar h.style.opacity aquí; gsap se encargará de animarlo
-        } catch (e) {}
-      });
-
-      try {
-        fadeTweenRef.current?.kill();
-      } catch (e) {}
-
-      fadeTweenRef.current = gsap.to(targets, {
-        opacity: 1,
-        duration: 0.35,
-        ease: "power2.out",
-        stagger: 0.02,
-        overwrite: "auto",
-        onStart: () => {
-          try {
-            if (floatTweensRef.current && floatTweensRef.current.length) {
-              floatTweensRef.current.forEach((t) => t.play && t.play());
-            } else {
-              ensureFloatTweens(images);
-            }
-          } catch (e) {}
-        },
-        onComplete: () => {
-          targets.forEach((el) => {
-            try {
-              const h = el as HTMLElement;
-              h.style.opacity = "1";
-              h.style.visibility = "visible";
-              h.style.pointerEvents = "auto";
-            } catch (e) {}
-          });
-        },
-      });
-    };
-
-    const doFadeOut = () => {
-      if (hasFadedRef.current) return;
-      hasFadedRef.current = true;
-
-      const targets = getTargets();
-
-      // pausar floats (si existen)
-      try {
-        floatTweensRef.current.forEach((t) => t.pause && t.pause());
-      } catch (e) {}
-
-      try {
-        fadeTweenRef.current?.kill();
-      } catch (e) {}
-
-      fadeTweenRef.current = gsap.to(targets, {
-        opacity: 0,
-        duration: 0.45,
-        ease: "power2.out",
-        stagger: 0.02,
-        overwrite: "auto",
-        onComplete: () => {
-          targets.forEach((el) => {
-            try {
-              const h = el as HTMLElement;
-              h.style.opacity = "0";
-              h.style.visibility = "hidden";
-              h.style.pointerEvents = "none";
-            } catch (e) {}
-          });
-        },
-      });
     };
 
     const tick = () => {
@@ -649,22 +563,6 @@ export const useHero = ({
         timelineRef.current!.progress(desiredNormalized);
         running = false;
         rafId = null;
-      }
-
-      if (
-        targetRef.current >= FADE_THRESHOLD &&
-        !hasFadedRef.current &&
-        animationsDoneRef.current
-      ) {
-        doFadeOut();
-      }
-
-      // Aquí usamos force=true para cubrir scrolls rápidos/entradas abruptas
-      if (
-        hasFadedRef.current &&
-        targetRef.current < FADE_THRESHOLD - HYSTERESIS
-      ) {
-        revertFade(true);
       }
 
       if (
@@ -806,5 +704,6 @@ export const useHero = ({
     overlayImagesRef,
     textHorRef,
     scrollProgressRef,
+    imgBlur,
   };
 };

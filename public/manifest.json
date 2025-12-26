@@ -1,0 +1,20 @@
+{
+  "name": "Portfolio CR",
+  "short_name": "Portfolio CR",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#111",
+  "description": "Portafolio de habilidades y proyectos de Cristian Rojas, desarrollador web full stack.",
+  "icons": [
+    {
+      "src": "/log.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/log.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
