@@ -8,7 +8,6 @@ import { FaLinkedinIn } from "react-icons/fa6";
 import { TbBrandGithubFilled } from "react-icons/tb";
 import CustomLink from "./CustomLink";
 
-
 type SplitInstance = {
   lines: HTMLElement[];
 };
@@ -175,6 +174,17 @@ const MenuOverlay = ({
                     target="_blank"
                   >
                     <TbBrandGithubFilled size={20} />
+                  </a>
+                </div>
+                <div className="menu-tag overflow-hidden border border-white !size-10 rounded-full">
+                  <a
+                    href="CV_Cristian_Rojas.pdf"
+                    className="w-full h-full flex items-center justify-center cursor-none"
+                    target="_blank"
+                  >
+                    <span className="text-lg font-medium block -mt-[2px]">
+                      CV
+                    </span>
                   </a>
                 </div>
               </div>
