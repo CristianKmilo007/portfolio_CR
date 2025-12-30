@@ -11,6 +11,9 @@ import {
 import FadeContent from "./components/FadeContent";
 import CircularText from "./components/CircularText";
 import { useHome } from "./hooks/useHome";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 export const Home = () => {
   const [mounted, setMounted] = useState(false);
