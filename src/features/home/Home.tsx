@@ -23,7 +23,7 @@ export const Home = () => {
       try {
         ScrollTrigger.refresh && ScrollTrigger.refresh();
       } catch {}
-    }, 100);
+    }, 1500);
     return () => clearTimeout(id);
   }, [mounted]);
 
