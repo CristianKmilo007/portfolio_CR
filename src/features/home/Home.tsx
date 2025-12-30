@@ -13,6 +13,20 @@ import CircularText from "./components/CircularText";
 import { useHome } from "./hooks/useHome";
 
 export const Home = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    // small delay para asegurarnos que portal ya fue appended y estilos se calcularon
+    const id = window.setTimeout(() => {
+      try {
+        ScrollTrigger.refresh && ScrollTrigger.refresh();
+      } catch {}
+    }, 100);
+    return () => clearTimeout(id);
+  }, [mounted]);
+
   const {
     rootRef,
     pinRef,
@@ -23,11 +37,7 @@ export const Home = () => {
     isLaptop,
     centerRef,
     cards,
-  } = useHome();
-
-  // mounted para evitar SSR mismatch y para que createPortal solo corra en client
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  } = useHome({ ready: mounted });
 
   return (
     <div ref={rootRef}>

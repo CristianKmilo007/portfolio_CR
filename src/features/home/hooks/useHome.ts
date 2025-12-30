@@ -6,7 +6,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const useHome = () => {
+interface useHomeProps {
+  ready: boolean;
+}
+
+export const useHome = ({ ready }: useHomeProps) => {
   const { isLaptop, isTablet, isMobile } = useResponsive();
 
   const leftRef = useRef<HTMLDivElement | null>(null);
@@ -254,6 +258,9 @@ export const useHome = () => {
   const SPEED = 2;
 
   useEffect(() => {
+
+    if (!ready) return;
+
     let tl: gsap.core.Timeline | null = null;
     let mounted = true;
     let lastClearedAncestors: { el: HTMLElement; prev: string }[] = [];
@@ -533,7 +540,7 @@ export const useHome = () => {
       } catch {}
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [SPEED, isLaptop, isMobile]);
+  }, [SPEED, isLaptop, isMobile, ready]);
 
   const cards = [
     {
