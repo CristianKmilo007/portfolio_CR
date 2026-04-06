@@ -81,7 +81,7 @@ export const projectData: Project[] = [
       },
     ],
     image: "/projects/eranpay/img1.png",
-    link: "https://dashqa.eranpay.com/login",
+    link: "https://devdash.eranpay.com",
   },
   {
     name: "Shepwashi",
