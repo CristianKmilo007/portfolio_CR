@@ -428,3 +428,4 @@ export const projectData: Project[] = [
     image: "/projects/banco-bolivariano/img2.png",
   },
 ];
+
