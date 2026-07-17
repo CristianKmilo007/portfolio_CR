@@ -7,6 +7,8 @@ import { MdEmail } from "react-icons/md";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { TbBrandGithubFilled } from "react-icons/tb";
 import CustomLink from "./CustomLink";
+import LanguageSelector from "../../../components/customLanguageSelectorUI/LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 type SplitInstance = {
   lines: HTMLElement[];
@@ -22,6 +24,7 @@ const MenuOverlay = ({
   closeMenu,
 }: MenuOverlayProps) => {
   const textContainersRef = useRef<HTMLDivElement[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!gsap || !SplitText) return;
@@ -96,7 +99,7 @@ const MenuOverlay = ({
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >
-                  Sobre mi
+                  {t('Sobre mi')}
                 </CustomLink>
               </div>
 
@@ -106,7 +109,7 @@ const MenuOverlay = ({
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >
-                  Habilidades
+                  {t('Habilidades')}
                 </CustomLink>
               </div>
 
@@ -116,7 +119,7 @@ const MenuOverlay = ({
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >
-                  Experiencia
+                  {t('Experiencia')}
                 </CustomLink>
               </div>
 
@@ -126,7 +129,7 @@ const MenuOverlay = ({
                   className="text-5xl lg:text-[3.5rem] font-medium leading-[1.2]"
                   onBeforeNavigate={closeMenu}
                 >
-                  Proyectos
+                  {t('Proyectos')}
                 </CustomLink>
               </div>
             </div>
@@ -187,6 +190,7 @@ const MenuOverlay = ({
                     </span>
                   </a>
                 </div>
+                <LanguageSelector />
               </div>
             </div>
           </div>

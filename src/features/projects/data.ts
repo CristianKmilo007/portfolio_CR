@@ -111,7 +111,7 @@ export const projectData: Project[] = [
       { type: "image", src: "/projects/shepwashi/img13.png", isContain: true },
     ],
     image: "/projects/shepwashi/img1.png",
-    link: "https://www.shepwashi.com/",
+    /* link: "https://www.shepwashi.com/", */
   },
   {
     name: "Distripharmacias del Llano",
@@ -426,6 +426,36 @@ export const projectData: Project[] = [
       },
     ],
     image: "/projects/banco-bolivariano/img2.png",
+  },
+  {
+    name: "Labreicis",
+    description:
+      "Dashboard para gestionar fases, parámetros, insumos, tareas, bodegas, ventas y reportes para el proceso de producción de camarones",
+    technologies: [
+      "React",
+      "Vite",
+      "Typescript",
+      "Tailwind CSS",
+      "Hero UI",
+      "Ant Design",
+      "Framer Motion",
+      "Apexcharts",
+      "Zustand",
+      "Axios",
+      "Express",
+      "PostgreSQL",
+      "Sequelize",
+    ],
+    slides: [
+      { type: "image", src: "/projects/labreicis/img1.png" },
+      { type: "image", src: "/projects/labreicis/img2.png" },
+      { type: "image", src: "/projects/labreicis/img3.png" },
+      { type: "image", src: "/projects/labreicis/img4.png" },
+      { type: "image", src: "/projects/labreicis/img5.png" },
+      { type: "image", src: "/projects/labreicis/img6.png" },
+    ],
+    image: "/projects/labreicis/img1.png",
+    link: "https://app.labreicis.com/",
   },
 ];
 

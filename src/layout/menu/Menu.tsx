@@ -3,6 +3,9 @@ import MenuOverlay from "./components/MenuOverlay";
 import CustomLink from "./components/CustomLink";
 import type { ReactNode } from "react";
 import { useMenu } from "./hooks/useMenu";
+import { FaArrowLeft } from "react-icons/fa6";
+import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface MenuProps {
   children: ReactNode;
@@ -19,23 +22,46 @@ const Menu = ({ children }: MenuProps) => {
     setSplitTextByContainer,
     closeMenu,
     containerRef,
+    returnToggleLabelRef,
   } = useMenu();
+
+  const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     <>
       <nav className="fixed top-0 left-0 w-screen h-screen pointer-events-none overflow-hidden z-[2] cursor-none">
         <div className="menu-bar fixed top-0 left-1/2 -translate-x-1/2 container pt-4 px-4 sm:px-4 sm:pt-8 flex justify-between items-start pointer-events-auto text-menu-fg-secondary z-[2] h-[1px]">
-          <div className="menu-logo" ref={menuLogoRef}>
-            <CustomLink to="/">
-              <DynamicSVGVariant
-                width={isTablet ? 50 : 75}
-                height={isTablet ? 50 : 75}
-                frontPrimary="#fff"
-                frontSecondary="#fff"
-                primaryGradient={["#fff", "#333"]}
-                accentGradient={["#333", "#fff"]}
-              />
-            </CustomLink>
+          <div className="flex items-center gap-5 sm:gap-8">
+            <div className="menu-logo" ref={menuLogoRef}>
+              <CustomLink to="/">
+                <DynamicSVGVariant
+                  width={isTablet ? 50 : 75}
+                  height={isTablet ? 50 : 75}
+                  frontPrimary="#fff"
+                  frontSecondary="#fff"
+                  primaryGradient={["#fff", "#333"]}
+                  accentGradient={["#333", "#fff"]}
+                />
+              </CustomLink>
+            </div>
+
+            {location.pathname === "/projects/all" && (
+              <div className="overflow-hidden">
+                <div
+                  ref={returnToggleLabelRef}
+                  className="w-max relative translate-y-0 will-change-transform"
+                >
+                  <CustomLink
+                    to="/projects"
+                    className="rounded-full cursor-none button-link flex items-center gap-1 w-max font-medium text-sm sm:text-base"
+                  >
+                    <FaArrowLeft size={17} />
+                    {t('Volver')}
+                  </CustomLink>
+                </div>
+              </div>
+            )}
           </div>
 
           <div
@@ -48,7 +74,7 @@ const Menu = ({ children }: MenuProps) => {
                 ref={menuToggleLabelRef}
                 className="relative translate-y-0 will-change-transform text-sm font-medium text-white"
               >
-                Menu
+                {t('Menu')}
               </p>
             </div>
 

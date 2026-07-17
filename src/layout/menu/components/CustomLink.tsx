@@ -24,27 +24,37 @@ export default function CustomLink({
   const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   const normalizePath = (p: string) => {
-    // si es URL externa, devuélvela tal cual (no vamos a comparar rutas internas)
+    // si es URL externa, devuélvela tal cual
     if (/^https?:\/\//.test(p)) return p;
     const withoutQuery = p.split("?")[0].split("#")[0];
     const noTrailing = withoutQuery.replace(/\/+$/g, "");
     return noTrailing === "" ? "/" : noTrailing;
   };
 
+  const normTo = normalizePath(to);
+  const normPath = normalizePath(location.pathname);
+
+  // --- NUEVA LÓGICA DE ACTIVACIÓN ---
+  // Si el link es para el home ("/"), debe coincidir exactamente.
+  // Si es otra ruta (ej: "/projects"), se activa si la ruta actual empieza con esa palabra,
+  // cubriendo así tanto "/projects" como "/projects/all".
+  const isActive =
+    normTo === "/" ? normPath === "/" : normPath.startsWith(normTo);
+
   const handleClick: React.MouseEventHandler<HTMLAnchorElement> = async (e) => {
     e.preventDefault();
 
-    const sameRoute = normalizePath(to) === normalizePath(location.pathname);
+    // Aquí seguimos comparando exactamente para saber si estamos haciendo clic
+    // en exactamente la misma página en la que ya estamos parados.
+    const sameRoute = normTo === normPath;
 
     if (sameRoute) {
-      // Si apuntamos a la misma ruta: NO navegamos, solo ejecutamos onBeforeNavigate (ej: closeMenu)
       try {
-        // si quieres que no espere la animación, quita el await
         await onBeforeNavigate?.();
       } catch (err) {
         console.warn("onBeforeNavigate fallo al cerrar la UI:", err);
       }
-      return; // no navegamos
+      return;
     }
 
     try {
@@ -71,7 +81,7 @@ export default function CustomLink({
       onClick={(e) => {
         handleClick(e);
       }}
-      className={`cursor-none ${className}`}
+      className={`cursor-none ${className} ${isActive ? "text-white" : "text-[#888]"}`}
       role="link"
       aria-label={`Ir a ${to}`}
     >

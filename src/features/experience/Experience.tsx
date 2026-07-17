@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import LiquidEther from "./components/LiquidEther";
 import CircularReveal from "./components/CircularReveal";
 import { useExperience } from "./hooks/useExperience";
+import { useTranslation } from "react-i18next";
 
 export const Experience = () => {
   const {
@@ -18,6 +19,8 @@ export const Experience = () => {
     wrapperRef,
     contentRef,
   } = useExperience();
+
+  const { t } = useTranslation();
 
   const raysPortal = (
     <div className="fixed inset-0 bg-[#111] pointer-events-none z-0">
@@ -50,7 +53,7 @@ export const Experience = () => {
               transform: "scale(1, 1.2)",
             }}
           >
-            Aprendizaje
+            {t('Aprendizaje')}
           </span>
 
           <span
@@ -60,14 +63,14 @@ export const Experience = () => {
               transform: "scale(1, 1.2)",
             }}
           >
-            Experiencia
+            {t('Experiencia')}
           </span>
 
           <div
             ref={miVidaRef}
             className="absolute  lg:-bottom-30 text-[#aaa] text-sm xl:text-base font-normal w-[100px] text-center leading-4.5 xl:leading-5 opacity-0"
           >
-            Mi Vida Profesional
+            {t('Mi Vida Profesional')}
           </div>
         </div>
       </div>

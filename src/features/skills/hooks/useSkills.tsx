@@ -41,35 +41,9 @@ import { BiLogoPostgresql } from "react-icons/bi";
 import { Button, useDisclosure } from "@heroui/react";
 import { useResponsive } from "../../../hooks/useMediaQuery";
 import SlidersSkills, { type dataSkills } from "../components/SlidersSkills";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// ---------- Datos (mantén exactamente los tuyos) ----------
-
-const dataFrontItems: string[] = [
-  "Desarrollo de interfaces modernas y responsivas",
-  "Implementación de componentes reutilizables con React/Next.js y TypeScript.",
-  "Estilos limpios y escalables usando CSS modular / Tailwind.",
-  "Consumo de APIs y manejo eficiente del estado global con Axios / Zustand.",
-  "Animaciones fluidas e interactivas con GSAP / Framer Motion.",
-  "Optimización del rendimiento y buenas prácticas de accesibilidad.",
-];
-
-const dataBackItems: string[] = [
-  "Construcción de APIs sólidas y escalables en Node.js / TypeScript.",
-  "Modelado y gestión de bases de datos con Postgres / MongoDB.",
-  "Implementación de autenticación segura con JWT y validación robusta.",
-  "Arquitecturas eficientes con Docker y control de versiones.",
-  "Monitoreo, logs y manejo de errores para sistemas confiables.",
-  "Diseño de lógica de negocio clara, mantenible y orientada al rendimiento.",
-];
-
-const dataDesignItems: string[] = [
-  "Retoque y edición de imágenes con Photoshop.",
-  "Ilustración y trabajo vectorial básico en Illustrator / CorelDRAW.",
-  "Mockups y prototipos simples en Figma.",
-  "Diseño limpio, funcional y fácil de integrar en proyectos web.",
-];
 
 type Section = { id: number; left: ReactNode; right: ReactNode };
 
@@ -82,6 +56,7 @@ const LOCK_MS = 700;
 
 export const useSkills = () => {
   const { isLaptop, isMobile } = useResponsive();
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const leftRef = useRef<HTMLDivElement | null>(null);
   const rightRef = useRef<HTMLDivElement | null>(null);
@@ -92,6 +67,31 @@ export const useSkills = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isItems, setIsItems] = useState<Array<string>>([]);
+
+  const dataFrontItems: string[] = [
+    t("Desarrollo de interfaces modernas y responsivas"),
+    t("Implementación de componentes reutilizables con React/Next.js y TypeScript."),
+    t("Estilos limpios y escalables usando CSS modular / Tailwind."),
+    t("Consumo de APIs y manejo eficiente del estado global con Axios / Zustand."),
+    t("Animaciones fluidas e interactivas con GSAP / Framer Motion."),
+    t("Optimización del rendimiento y buenas prácticas de accesibilidad."),
+  ];
+
+  const dataBackItems: string[] = [
+    t("Construcción de APIs sólidas y escalables en Node.js / TypeScript."),
+    t("Modelado y gestión de bases de datos con Postgres / MongoDB."),
+    t("Implementación de autenticación segura con JWT y validación robusta."),
+    t("Arquitecturas eficientes con Docker y control de versiones."),
+    t("Monitoreo, logs y manejo de errores para sistemas confiables."),
+    t("Diseño de lógica de negocio clara, mantenible y orientada al rendimiento."),
+  ];
+
+  const dataDesignItems: string[] = [
+    t("Retoque y edición de imágenes con Photoshop."),
+    t("Ilustración y trabajo vectorial básico en Illustrator / CorelDRAW."),
+    t("Mockups y prototipos simples en Figma."),
+    t("Diseño limpio, funcional y fácil de integrar en proyectos web."),
+  ];
 
   const dataFront: dataSkills[] = [
     {
@@ -323,13 +323,13 @@ export const useSkills = () => {
       left: (
         <div className="flex flex-col gap-4 px-6 lg:px-0 pb-20 lg:pb-0 lg:gap-6 w-full sm:w-[500px] lg:w-[450px] xl:w-[550px] h-full lg:h-auto justify-end lg:items-end text-start lg:text-end translate-x-0 lg:translate-x-10 2xl:translate-x-50  lg:translate-y-40 xl:translate-y-50">
           <span className="text-4xl md:text-5xl lg:text-6xl">
-            Mis Habilidades
+            {t("Mis Habilidades")}
           </span>
           <span className=" font-crimson italic text-xl lg:text-2xl leading-6 lg:leading-7">
-            Combino desarrollo y diseño para convertir ideas en productos
+            {t(`Combino desarrollo y diseño para convertir ideas en productos
             digitales coherentes: buena experiencia de usuario, lógica sólida y
             estética práctica. Me centro en soluciones mantenibles, rendimiento
-            y buen diseño desde la idea hasta el despliegue.
+            y buen diseño desde la idea hasta el despliegue.`)}
           </span>
         </div>
       ),
@@ -374,7 +374,7 @@ export const useSkills = () => {
                     onOpen();
                   }}
                 >
-                  Servicios
+                  {t("Servicios")}
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
@@ -423,7 +423,7 @@ export const useSkills = () => {
                     onOpen();
                   }}
                 >
-                  Servicios
+                  {t("Servicios")}
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
@@ -458,7 +458,7 @@ export const useSkills = () => {
                     onOpen();
                   }}
                 >
-                  Servicios
+                  {t("Servicios")}
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
@@ -521,7 +521,7 @@ export const useSkills = () => {
                     onOpen();
                   }}
                 >
-                  Servicios
+                  {t("Servicios")}
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">

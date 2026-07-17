@@ -1,14 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" translate="no">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portafolio CR</title>
+
+    <meta name="google" content="notranslate" />
+    <meta http-equiv="Content-Language" content="es" />
   </head>
-  <body>
+  <body class="dark">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <script>
+      const disableIOSTextFieldZoom = () => {
+        if (!isIOS()) return;
+
+        const element = document.querySelector('meta[name=viewport]');
+        if (element) {
+          element.setAttribute(
+            'content',
+            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+          );
+        }
+      };
+
+      const isIOS = () =>
+        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+      disableIOSTextFieldZoom();
+    </script>
   </body>
 </html>

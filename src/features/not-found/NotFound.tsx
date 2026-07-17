@@ -1,9 +1,11 @@
+import { useTranslation } from "react-i18next";
 import DynamicSVGVariant from "../../assets/icons/DynamicLogo";
 import { useResponsive } from "../../hooks/useMediaQuery";
 import FuzzyText from "./components/FuzzyText";
 
 export const NotFound = () => {
   const { isTablet } = useResponsive();
+  const { t } = useTranslation();
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
@@ -28,7 +30,7 @@ export const NotFound = () => {
             fontWeight={500}
             fontSize={isTablet ? 18 : 28}
           >
-            Pagina no encontrada
+            {t('Pagina no encontrada')}
           </FuzzyText>
         </div>
       </div>

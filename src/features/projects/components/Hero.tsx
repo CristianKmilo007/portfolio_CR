@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useHero } from "../hooks/useHero";
 import LightRays from "./LightRays";
 import ScrollVelocity from "./ScrollVelocity";
@@ -27,6 +28,8 @@ export default function Hero({
     onScrollPastHero,
     isVisible,
   });
+
+  const { t } = useTranslation();
 
   return (
     <div
@@ -74,12 +77,12 @@ export default function Hero({
             className="w-[350px] lg:w-[400px] xl:w-[550px] flex flex-col gap-6 opacity-0 mb-40"
           >
             <span className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white font-crimson italic text-center md:text-end">
-              Ideas que brillan en pantalla y que realmente funcionan
+              {t('Ideas que brillan en pantalla y que realmente funcionan')}
             </span>
             <span className="text-[#ccc] text-base lg:text-lg xl:text-xl text-center md:text-end">
-              Desde landing pages hasta dashboards utilizando patrones de
+              {t(`Desde landing pages hasta dashboards utilizando patrones de
               diseño, componentes dinámicos y adaptables a cualquier pantalla
-              para una mejor experiencia de usuario.
+              para una mejor experiencia de usuario.`)}
             </span>
           </div>
         </div>
@@ -129,7 +132,7 @@ export default function Hero({
       >
         <ScrollVelocity
           texts={[
-            "PROJECTS • RESPONSIVE • DESIGN •",
+            t("PROYECTOS • RESPONSIVO • DISEÑO •"),
             "REACT • ANGULAR • NEXT •",
           ]}
           velocity={5}

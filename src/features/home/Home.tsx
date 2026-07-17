@@ -13,6 +13,7 @@ import CircularText from "./components/CircularText";
 import { useHome } from "./hooks/useHome";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "react-i18next";
 gsap.registerPlugin(ScrollTrigger);
 
 export const Home = () => {
@@ -41,6 +42,8 @@ export const Home = () => {
     centerRef,
     cards,
   } = useHome({ ready: mounted });
+
+  const { t } = useTranslation();
 
   return (
     <div ref={rootRef}>
@@ -102,17 +105,17 @@ export const Home = () => {
                     className={"-mt-[400px] sm:-mt-[200px] lg:mt-0 pl-4"}
                   >
                     <span className="text-white font-bold text-[35px] sm:text-[45px] lg:text-[60px] leading-8 sm:leading-12 lg:leading-17">
-                      Me llamo <br />
-                      <span className="text-[#555]">Cristian Rojas,</span> soy
+                      {t("Me llamo")} <br />
+                      <span className="text-[#555]">Cristian Rojas,</span> {t("soy")}
                     </span>
                     <div className="h-[70px] sm:h-[100px]">
                       <TextType
                         text={[
-                          "Desarrollador Frontend",
-                          "Desarrollador Backend",
-                          "Desarrollador Full Stack",
-                          "Diseñador UI/UX",
-                          "Programador",
+                          t("Desarrollador Frontend"),
+                          t("Desarrollador Frontend"),
+                          t("Desarrollador Full Stack"),
+                          t("Diseñador UI/UX"),
+                          t("Programador"),
                         ]}
                         typingSpeed={75}
                         pauseDuration={1500}
@@ -209,11 +212,11 @@ export const Home = () => {
                 >
                   <div className="max-w-[400px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] text-center">
                     <p className="text-white font-crimson italic font-normal text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] leading-9 sm:leading-10 lg:leading-12">
-                      Desarrollador de aplicaciones web full stack, con amplio
+                      {t(`Desarrollador de aplicaciones web full stack, con amplio
                       conocimiento y solida experiencia, trabajando con
                       tecnologías modernas de diseño frontend y arquitectura
                       backend, escribiendo código limpio y entregando un trabajo
-                      de calidad.
+                      de calidad.`)}
                     </p>
                   </div>
                 </div>
@@ -246,7 +249,7 @@ export const Home = () => {
               </div>
             </MouseParallaxContainer>
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );

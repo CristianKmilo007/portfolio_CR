@@ -108,8 +108,10 @@ export const useSliderProjects = ({
     activeIndex: 0,
     counterText: "0 / 0",
   });
+  const [showMoreProjectsButton, setShowMoreProjectsButton] = useState(false);
 
   const activeIndexRef = useRef<number>(0);
+  const displayedProjects = useMemo(() => projectData.slice(0, 5), []);
 
   useEffect(() => {
     const updateMinimapHeight = () => {
@@ -198,7 +200,7 @@ export const useSliderProjects = ({
   );
 
   const getProjectData = useCallback((index: number) => {
-    if (index < 0 || index >= projectData.length) {
+    if (index < 0 || index >= displayedProjects.length) {
       return {
         name: "",
         description: "",
@@ -207,8 +209,8 @@ export const useSliderProjects = ({
         slides: [],
       } as Project;
     }
-    return projectData[index];
-  }, []);
+    return displayedProjects[index];
+  }, [displayedProjects]);
 
   const findSwiperInWrapper = useCallback((wrapper: HTMLElement | null) => {
     if (!wrapper) return null;
@@ -302,7 +304,7 @@ export const useSliderProjects = ({
 
   useEffect(() => {
     const state = stateRef.current;
-    const totalProjects = projectData.length;
+    const totalProjects = displayedProjects.length;
 
     const clamp = (v: number, a: number, b: number) =>
       Math.max(a, Math.min(b, v));
@@ -409,11 +411,11 @@ export const useSliderProjects = ({
       } catch {}
 
       const current = Math.round(-state.targetY / state.projectHeight);
-      const clampedCurrent = Math.max(
-        0,
-        Math.min(projectData.length - 1, current)
-      );
+      const clampedCurrent = Math.max(0, Math.min(totalProjects - 1, current));
       const visibleItem = state.minimapInfo.get(clampedCurrent);
+      const isLastProject = totalProjects > 0 && clampedCurrent === totalProjects - 1;
+      setShowMoreProjectsButton(isLastProject);
+
       if (visibleItem) {
         const swiperInst =
           visibleItem.swiper ??
@@ -604,6 +606,7 @@ export const useSliderProjects = ({
     isActive,
     isDesktop2XL,
     isLaptop,
+    displayedProjects.length,
   ]);
 
   const handlePrev = useCallback(() => {
@@ -652,5 +655,6 @@ export const useSliderProjects = ({
     controlsState,
     handleBulletClick,
     controlsInnerRef,
+    showMoreProjectsButton,
   };
 };

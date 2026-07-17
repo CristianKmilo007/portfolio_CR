@@ -4,10 +4,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { createRoot, type Root } from "react-dom/client";
 import { useResponsive } from "../../../hooks/useMediaQuery";
 import TimelineCard, { type TimelineEvent } from "../components/TimelineCard";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const useExperience = () => {
+  const { t } = useTranslation();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -40,10 +42,10 @@ export const useExperience = () => {
   > = [
     {
       year: "2019 - 2021",
-      title: "Tecnico en Sistemas",
-      desc: "Instituto Politecnico Agroindustrial",
+      title: t("Tecnico en Sistemas"),
+      desc: t("Instituto Politecnico Agroindustrial"),
       functions: [
-        "Soporte técnico y mantenimiento del hardware y softwaredel computador",
+        t("Soporte técnico y mantenimiento del hardware y softwaredel computador"),
       ],
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       img: "/experience/cert_1.jpg",
@@ -54,7 +56,7 @@ export const useExperience = () => {
       year: "2021 - 2022",
       title: "Web Designer",
       desc: "Udemy",
-      functions: ["Máster en Diseño Web, enfoque UX/UI y desarrollo front-end"],
+      functions: [t("Máster en Diseño Web, enfoque UX/UI y desarrollo front-end")],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_2.jpg",
       type: "education",
@@ -63,10 +65,10 @@ export const useExperience = () => {
     {
       year: "2021 - 2022",
       title: "Web Developer Full Stack",
-      desc: "Universidad Iberoamericana",
+      desc: t("Universidad Iberoamericana"),
       type: "education",
       functions: [
-        "Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular",
+        t("Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_3.jpg",
@@ -77,9 +79,9 @@ export const useExperience = () => {
       title: "Full Stack Developer Freelance",
       desc: "Villavicencio - Remoto",
       functions: [
-        "Desarrollar interfaces web responsivas usando Angular, HTML5, CSS3 y frameworks de diseño modernos",
-        "Implementar APIs RESTful y endpoints backend seguros con Node.js y Express",
-        "Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño",
+        t("Desarrollar interfaces web responsivas usando Angular, HTML5, CSS3 y frameworks de diseño modernos"),
+        t("Implementar APIs RESTful y endpoints backend seguros con Node.js y Express"),
+        t("Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
@@ -90,8 +92,8 @@ export const useExperience = () => {
       title: "TodoServy",
       desc: "Villavicencio - Remoto",
       functions: [
-        "Implementar componentes reutilizables y modulares respetando patrones de diseño y buenas prácticas",
-        "Revisar código mediante pull requests y participar activamente en code reviews del equipo",
+        t("Implementar componentes reutilizables y modulares respetando patrones de diseño y buenas prácticas"),
+        t("Revisar código mediante pull requests y participar activamente en code reviews del equipo"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -102,10 +104,10 @@ export const useExperience = () => {
       title: "Shepwashi",
       desc: "Villavicencio - Remoto",
       functions: [
-        "Desarrollar interfaces web responsivas con HTML5, CSS3 y Typescript moderno",
-        "Implementar componentes reutilizables usando frameworks como React, Nest Js o Vite",
-        "Integrar APIs REST gestionando estado de la aplicación de forma eficiente",
-        "Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas",
+        t("Desarrollar interfaces web responsivas con HTML5, CSS3 y Typescript moderno"),
+        t("Implementar componentes reutilizables usando frameworks como React, Nest Js o Vite"),
+        t("Integrar APIs REST gestionando estado de la aplicación de forma eficiente"),
+        t("Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -117,7 +119,7 @@ export const useExperience = () => {
       desc: "DevTalles",
       type: "education",
       functions: [
-        "Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL",
+        t("Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL"),
       ],
       img: "/experience/cert_4.jpg",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -125,8 +127,8 @@ export const useExperience = () => {
     },
     {
       year: "2026...",
-      title: "Crecimiento profesional",
-      desc: "Constante aprendizaje y fortalecimiento de mis habilidades...",
+      title: t("Crecimiento profesional"),
+      desc: t("Constante aprendizaje y fortalecimiento de mis habilidades..."),
       type: "education",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: 1,

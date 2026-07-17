@@ -14,6 +14,7 @@ import { HomePage } from "./pages/HomePage";
 import { SkillsPage } from "./pages/SkillsPage";
 import { ExperiencePage } from "./pages/ExperiencePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
+import { AllProjectsPage } from "./pages/AllProjectsPage";
 
 export const App: React.FC = () => {
   const location = useLocation();
@@ -58,6 +59,10 @@ export const App: React.FC = () => {
                       <Route path="/skills" element={<SkillsPage />} />
                       <Route path="/experience" element={<ExperiencePage />} />
                       <Route path="/projects" element={<ProjectsPage />} />
+                      <Route
+                        path="/projects/all"
+                        element={<AllProjectsPage />}
+                      />
                       <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                   </div>

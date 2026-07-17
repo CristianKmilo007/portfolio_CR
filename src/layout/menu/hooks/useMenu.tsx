@@ -31,6 +31,7 @@ export const useMenu = () => {
   const lenisRef = useRef<Lenis | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const menuToggleLabelRef = useRef<HTMLParagraphElement | null>(null);
+  const returnToggleLabelRef = useRef<HTMLParagraphElement | null>(null);
   const menuOverlayRef = useRef<HTMLElement | null>(null);
   const menuOverlayContentRef = useRef<HTMLElement | null>(null);
   const menuMediaWrapperRef = useRef<HTMLElement | null>(null);
@@ -201,7 +202,7 @@ export const useMenu = () => {
     }
 
     tl.to(
-      menuToggleLabelRef.current!,
+      [menuToggleLabelRef.current, returnToggleLabelRef.current].filter(Boolean),
       {
         y: "-110%",
         duration: 1,
@@ -314,7 +315,7 @@ export const useMenu = () => {
         "<"
       )
       .to(
-        menuToggleLabelRef.current!,
+        [menuToggleLabelRef.current, returnToggleLabelRef.current].filter(Boolean),
         {
           y: "0%",
           duration: 1,
@@ -464,5 +465,6 @@ export const useMenu = () => {
     setSplitTextByContainer,
     closeMenu,
     containerRef,
+    returnToggleLabelRef
   };
 };

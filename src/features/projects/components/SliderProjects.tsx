@@ -4,6 +4,8 @@ import React from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { PiLinkBold } from "react-icons/pi";
 import { useSliderProjects } from "../hooks/useSliderProjects";
+import CustomLink from "../../../layout/menu/components/CustomLink";
+import { useTranslation } from "react-i18next";
 
 function MinimapStaticControls({
   onPrev,
@@ -91,7 +93,10 @@ export const SliderProjects = ({
     controlsState,
     handleBulletClick,
     controlsInnerRef,
+    showMoreProjectsButton,
   } = useSliderProjects({ isActive, onScrollToHero });
+
+  const { t } = useTranslation();
 
   return (
     <div ref={rootRef} className="w-full projects-root">
@@ -143,7 +148,7 @@ export const SliderProjects = ({
                       )}
                     </div>
                     <p className="text-base sm:text-lg leading-5 sm:leading-6 text-[#aaa]">
-                      {project.description}
+                      {t(project.description)}
                     </p>
                     <div className="flex lg:justify-end flex-wrap gap-2 mt-2">
                       {project.technologies.map((t: any) => (
@@ -198,10 +203,10 @@ export const SliderProjects = ({
             height: isMobile
               ? 250
               : isDesktopXL
-              ? 300
-              : isDesktop2XL
-              ? 350
-              : 400,
+                ? 300
+                : isDesktop2XL
+                  ? 350
+                  : 400,
           }}
         >
           <div
@@ -237,8 +242,8 @@ export const SliderProjects = ({
                   Array.isArray(data.slides) && data.slides.length > 0
                     ? data.slides
                     : data.image
-                    ? [{ type: "image", src: data.image }]
-                    : [];
+                      ? [{ type: "image", src: data.image }]
+                      : [];
 
                 return (
                   <div
@@ -271,6 +276,17 @@ export const SliderProjects = ({
             />
           </div>
         </div>
+
+        <CustomLink
+          to="/projects/all"
+          className={`bg-[#d4d4d8] text-sm text-black py-[6px] sm:py-2 px-3 rounded-full cursor-none button-link absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 font-medium z-40 transition-all duration-300 delay-500 ease-out ${
+            showMoreProjectsButton
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "translate-y-20 opacity-0 !delay-0 pointer-events-none"
+          }`}
+        >
+          Ver más proyectos
+        </CustomLink>
       </div>
     </div>
   );

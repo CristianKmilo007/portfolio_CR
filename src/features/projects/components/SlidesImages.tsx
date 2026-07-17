@@ -5,44 +5,51 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
+} from "react";
 /* import { createPortal } from 'react-dom';
 import { Button } from '@heroui/react'; */
-import { /* FaArrowLeft, FaArrowRight, */ FaRegCirclePlay } from 'react-icons/fa6';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, /* Pagination, */ Thumbs } from 'swiper/modules';
-import LightGallery from 'lightgallery/react';
-import lgZoom from 'lightgallery/plugins/zoom';
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgAutoplay from 'lightgallery/plugins/autoplay';
-import lgRotate from 'lightgallery/plugins/rotate';
-import lgFullScreen from 'lightgallery/plugins/fullscreen';
-import lgVideo from 'lightgallery/plugins/video';
-import type { SwiperRef } from 'swiper/react';
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  /* FaArrowLeft, FaArrowRight, */ FaRegCirclePlay,
+} from "react-icons/fa6";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Navigation, /* Pagination, */ Thumbs } from "swiper/modules";
+import LightGallery from "lightgallery/react";
+import lgZoom from "lightgallery/plugins/zoom";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgAutoplay from "lightgallery/plugins/autoplay";
+import lgRotate from "lightgallery/plugins/rotate";
+import lgFullScreen from "lightgallery/plugins/fullscreen";
+import lgVideo from "lightgallery/plugins/video";
+import type { SwiperRef } from "swiper/react";
 
-import '../../../../node_modules/swiper/swiper.css';
-import '../../../../node_modules/swiper/modules/navigation.css';
-import '../../../../node_modules/swiper/modules/pagination.css';
+import "../../../../node_modules/swiper/swiper.css";
+import "../../../../node_modules/swiper/modules/navigation.css";
+import "../../../../node_modules/swiper/modules/pagination.css";
 
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lg-thumbnail.css';
-import 'lightgallery/css/lg-autoplay.css';
-import 'lightgallery/css/lg-rotate.css';
-import 'lightgallery/css/lg-fullscreen.css';
-import 'lightgallery/css/lg-video.css';
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+import "lightgallery/css/lg-autoplay.css";
+import "lightgallery/css/lg-rotate.css";
+import "lightgallery/css/lg-fullscreen.css";
+import "lightgallery/css/lg-video.css";
+import { Button } from "@heroui/react";
 /* import { useResponsive } from '../hooks/useMediaQuery'; */
 
 interface SlideImagesProps {
   slides?: Array<any>;
   thumbs?: boolean;
   activeIndex?: number | null;
+  isAllProjects?: boolean;
 }
 
 const SlideImagesComponent = ({
   slides = [],
   thumbs,
   activeIndex = null,
+  isAllProjects,
 }: SlideImagesProps) => {
   const swiperRef = useRef<SwiperRef | null>(null);
   const lgRef = useRef<any>(null);
@@ -55,12 +62,12 @@ const SlideImagesComponent = ({
     idxRef.current = idx;
   }, [idx]);
 
-  /* const { isMobile } = useResponsive();
+  /* const { isMobile } = useResponsive(); */
 
-  const [showNavigation, setShowNavigation] = useState(false); */
+  const [showNavigation, setShowNavigation] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
-  /* const handlePrev = useCallback(() => {
+  const handlePrev = useCallback(() => {
     try {
       swiperRef.current?.swiper.slidePrev();
     } catch {}
@@ -70,27 +77,27 @@ const SlideImagesComponent = ({
     try {
       swiperRef.current?.swiper.slideNext();
     } catch {}
-  }, []); */
+  }, []);
 
   const dynamicEl = useMemo(() => {
     return (slides ?? []).map((slide: any) => {
-      if (slide?.type === 'image') {
+      if (slide?.type === "image") {
         return {
-          src: slide.src ?? '',
-          thumb: slide.thumb ?? slide.src ?? '',
+          src: slide.src ?? "",
+          thumb: slide.thumb ?? slide.src ?? "",
         };
       }
 
       return {
-        thumb: slide.thumb ?? '',
+        thumb: slide.thumb ?? "",
         video: {
-          source: [{ src: slide.src ?? '', type: 'video/mp4' }],
+          source: [{ src: slide.src ?? "", type: "video/mp4" }],
           tracks: [],
           attributes: {
-            preload: 'metadata',
+            preload: "metadata",
             playsinline: true,
             controls: true,
-            poster: slide.thumb ?? '',
+            poster: slide.thumb ?? "",
           },
         },
       };
@@ -107,9 +114,9 @@ const SlideImagesComponent = ({
 
   const handleSlideChange = useCallback(
     (swiper: any) => {
-      /* const totalSlides = swiper.slides?.length ?? 0;
-      const slidesPerView = Number(swiper.params?.slidesPerView ?? 1); */
-      /* setShowNavigation(totalSlides > slidesPerView); */
+      const totalSlides = swiper.slides?.length ?? 0;
+      const slidesPerView = Number(swiper.params?.slidesPerView ?? 1);
+      setShowNavigation(totalSlides > slidesPerView);
 
       const prevIndex = idxRef.current;
       const newIndex = swiper.realIndex ?? 0;
@@ -124,7 +131,7 @@ const SlideImagesComponent = ({
       setIdx(newIndex);
 
       const newSlide = slides[newIndex];
-      if (newSlide?.type === 'video') {
+      if (newSlide?.type === "video") {
         const newVideo = videoRefs.current[newIndex];
         const wasPlaying = videoPlayState.current[newIndex];
         if (wasPlaying) {
@@ -136,11 +143,11 @@ const SlideImagesComponent = ({
   );
 
   useEffect(() => {
-    if (typeof activeIndex === 'number' && swiperRef.current?.swiper) {
+    if (typeof activeIndex === "number" && swiperRef.current?.swiper) {
       Promise.resolve().then(() => {
         try {
           const s = swiperRef.current!.swiper;
-          if (typeof s.slideToLoop === 'function') {
+          if (typeof s.slideToLoop === "function") {
             s.slideToLoop(activeIndex);
           } else {
             s.slideTo(activeIndex);
@@ -153,9 +160,9 @@ const SlideImagesComponent = ({
   if (!Array.isArray(slides) || slides.length === 0) {
     return (
       <div
-        className={`w-full h-full flex items-center justify-center bg-[#f4f4f5] dark:bg-[#313236] text-center text-[#aaa] text-xs ${thumbs ? 'rounded-xl' : 'rounded-none'}`}
+        className={`w-full h-full flex items-center justify-center bg-[#f4f4f5] dark:bg-[#313236] text-center text-[#aaa] text-xs ${thumbs ? "rounded-xl" : "rounded-none"}`}
       >
-        <span className="w-[100px]">{'Producto sin imagenes'}</span>
+        <span className="w-[100px]">{"Producto sin imagenes"}</span>
       </div>
     );
   }
@@ -182,10 +189,10 @@ const SlideImagesComponent = ({
           autoplayFirstVideo={false}
         />
         <div
-          className={`w-full h-full relative overflow-hidden ${thumbs ? 'rounded-xl' : 'rounded-none'}`}
+          className={`w-full h-full relative overflow-hidden ${thumbs ? "rounded-xl" : "rounded-none"}`}
         >
           <div className="w-full h-full flex justify-center items-center cursor-zoom-in">
-            {single.type === 'image' ? (
+            {single.type === "image" ? (
               <img
                 src={single.src}
                 alt="slide-0"
@@ -209,7 +216,7 @@ const SlideImagesComponent = ({
             <div
               onClick={() => {
                 const vid = videoRefs.current[0];
-                if (single.type === 'video' && vid && !vid.paused) {
+                if (single.type === "video" && vid && !vid.paused) {
                   vid.pause();
                   open();
                   return;
@@ -220,7 +227,6 @@ const SlideImagesComponent = ({
             />
           </div>
         </div>
-        
       </>
     );
   }
@@ -234,7 +240,7 @@ const SlideImagesComponent = ({
     }
   }; */
 
- /*  const renderControls = (containerClass = '') => {
+  /*  const renderControls = (containerClass = '') => {
     return (
       <>
         {showNavigation && !isMobile && (
@@ -291,7 +297,7 @@ const SlideImagesComponent = ({
 
       <div className="w-full h-full flex flex-col gap-2">
         <div
-          className={`w-full h-full relative overflow-hidden ${thumbs ? 'rounded-xl' : 'rounded-none'}`}
+          className={`w-full h-full relative overflow-hidden ${thumbs ? "rounded-xl" : "rounded-none"}`}
         >
           <Swiper
             thumbs={{ swiper: thumbsSwiper }}
@@ -306,16 +312,16 @@ const SlideImagesComponent = ({
             {slides.map((slide, i) => (
               <SwiperSlide key={i}>
                 <div
-                  className={`w-full h-full flex justify-center items-center swiper-slide mouse-big  ${slide?.type === 'video' ? 'bg-[#010101]' : ''} ${slide?.isContain && 'bg-[#01010133]'}`}
+                  className={`w-full h-full flex justify-center items-center swiper-slide mouse-big  ${slide?.type === "video" ? "bg-[#010101]" : ""} ${slide?.isContain && "bg-[#01010133]"}`}
                 >
                   {slide.src ? (
-                    slide.type === 'image' ? (
+                    slide.type === "image" ? (
                       <img
                         src={slide.src}
                         alt={`slide-${i}`}
                         loading="lazy"
                         decoding="async"
-                        className={`${slide?.isContain ? 'object-contain' : 'object-cover'} w-full h-full`}
+                        className={`${slide?.isContain ? "object-contain" : "object-cover"} w-full h-full`}
                       />
                     ) : (
                       <video
@@ -333,7 +339,7 @@ const SlideImagesComponent = ({
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-[#f4f4f5] dark:bg-[#313236] text-center text-[#aaa] text-xs">
                       <span className="w-[100px]">
-                        {'Error al cargar la imagen'}
+                        {"Error al cargar la imagen"}
                       </span>
                     </div>
                   )}
@@ -341,28 +347,47 @@ const SlideImagesComponent = ({
                   <div
                     onClick={() => {
                       const vid = videoRefs.current[i];
-                      if (slide.type === 'video' && vid && !vid.paused) {
+                      if (slide.type === "video" && vid && !vid.paused) {
                         vid.pause();
                         open();
                         return;
                       }
                       open();
                     }}
-                    className={`absolute w-full top-0 left-0 ${slide?.type === 'video' ? 'h-[calc(100%-65px)]' : 'h-full'}`}
+                    className={`absolute w-full top-0 left-0 ${slide?.type === "video" ? "h-[calc(100%-65px)]" : "h-full"}`}
                   />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
 
-          {/* Render controls via portal into overlay if available, otherwise render inline (fallback) */}
-          {/* {(() => {
-            const overlay = getOverlayEl();
-            if (overlay) {
-              return createPortal(renderControls('portal-control'), overlay);
-            }
-            return renderControls('');
-          })()} */}
+          {isAllProjects && showNavigation && (
+            <>
+              <Button
+                isIconOnly
+                radius="full"
+                onPress={handleNext}
+                className={`arrow-right cursor-none absolute min-w-max top-1/2 -translate-y-1/2 right-2 z-[1] bg-[#000000a8] hover:!opacity-100 flex justify-center items-center ${thumbs ? "h-8 w-8" : "h-7 w-7"}`}
+              >
+                <FaArrowRight className="text-white" size={thumbs ? 14 : 12} />
+              </Button>
+
+              <Button
+                isIconOnly
+                radius="full"
+                onPress={handlePrev}
+                className={`arrow-left cursor-none absolute min-w-max top-1/2 -translate-y-1/2 left-2 z-[1] bg-[#000000a8] hover:!opacity-100 flex justify-center items-center ${thumbs ? "h-8 w-8" : "h-7 w-7"}`}
+              >
+                <FaArrowLeft className="text-white" size={thumbs ? 14 : 12} />
+              </Button>
+
+              <span
+                className={`absolute bottom-2 right-2 z-[1] text-white bg-[#000000a8] px-[7px] pt-[2px] pb-[1px] rounded-full ${thumbs ? "text-[11px]" : "text-[9px]"}`}
+              >
+                {idx + 1} / {slides.length}
+              </span>
+            </>
+          )}
         </div>
 
         {thumbs && (
@@ -388,7 +413,7 @@ const SlideImagesComponent = ({
                           decoding="async"
                           className="object-cover w-full h-full"
                         />
-                        {slide?.type === 'video' && (
+                        {slide?.type === "video" && (
                           <FaRegCirclePlay
                             size={25}
                             className="absolute z-[1] text-[#fff]"
@@ -398,7 +423,7 @@ const SlideImagesComponent = ({
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-[#f4f4f5] dark:bg-[#313236] text-center text-[#aaa] text-[11px] opacity-100 leading-3.5">
                         <span className="w-[100px]">
-                          {'Error al cargar la imagen'}
+                          {"Error al cargar la imagen"}
                         </span>
                       </div>
                     )}

@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { useResponsive } from "../../../hooks/useMediaQuery";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,7 @@ interface useHomeProps {
 
 export const useHome = ({ ready }: useHomeProps) => {
   const { isLaptop, isTablet, isMobile } = useResponsive();
+  const { t } = useTranslation();
 
   const leftRef = useRef<HTMLDivElement | null>(null);
   const rightRef = useRef<HTMLDivElement | null>(null);
@@ -546,17 +548,17 @@ export const useHome = ({ ready }: useHomeProps) => {
     {
       contentRef: box1Ref,
       counterRef: counter1Ref,
-      text: "Años de experiencia",
+      text: t("Años de experiencia"),
     },
     {
       contentRef: box2Ref,
       counterRef: counter2Ref,
-      text: "Proyectos completados",
+      text: t("Proyectos completados"),
     },
     {
       contentRef: box3Ref,
       counterRef: counter3Ref,
-      text: "Compañías de desarrollo",
+      text: t("Compañías de desarrollo"),
     },
   ];
 
