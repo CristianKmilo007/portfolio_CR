@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-ScrollTrigger.config({ 
-  ignoreMobileResize: true 
+ScrollTrigger.config({
+  ignoreMobileResize: true,
 });
 
 interface useHomeProps {
@@ -165,7 +165,7 @@ export const useHome = ({ ready }: useHomeProps) => {
         window.removeEventListener(
           "keydown",
           preventKey as any,
-          { capture: true } as any
+          { capture: true } as any,
         );
       } catch {}
 
@@ -240,14 +240,14 @@ export const useHome = ({ ready }: useHomeProps) => {
         window.removeEventListener(
           "pagehide",
           onPageHide as any,
-          { capture: true } as any
+          { capture: true } as any,
         );
         document.removeEventListener("visibilitychange", onVis as any);
         window.removeEventListener("popstate", onPop as any);
         window.removeEventListener(
           "beforeunload",
           onBeforeUnload as any,
-          { capture: true } as any
+          { capture: true } as any,
         );
       } catch {}
       try {
@@ -264,7 +264,6 @@ export const useHome = ({ ready }: useHomeProps) => {
   const SPEED = 2;
 
   useEffect(() => {
-
     if (!ready) return;
 
     let tl: gsap.core.Timeline | null = null;
@@ -287,7 +286,7 @@ export const useHome = ({ ready }: useHomeProps) => {
                 remaining -= 1;
                 if (remaining <= 0) resolve();
               },
-              { once: true }
+              { once: true },
             );
             img.addEventListener(
               "error",
@@ -295,7 +294,7 @@ export const useHome = ({ ready }: useHomeProps) => {
                 remaining -= 1;
                 if (remaining <= 0) resolve();
               },
-              { once: true }
+              { once: true },
             );
           }
         });
@@ -319,7 +318,7 @@ export const useHome = ({ ready }: useHomeProps) => {
     };
 
     const restoreAncestorTransforms = (
-      cleared: { el: HTMLElement; prev: string }[]
+      cleared: { el: HTMLElement; prev: string }[],
     ) => {
       cleared.forEach((item) => {
         try {
@@ -354,19 +353,22 @@ export const useHome = ({ ready }: useHomeProps) => {
       const gapMedium = 0.25 * SPEED;
       const gapCenterMove = 0.15 * SPEED;
       const gapFinal = 0.05 * SPEED;
+      const initialHeight = el.offsetHeight;
 
       tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: () => `+=${el.offsetHeight * 5 * SPEED}`,
+          end: isMobile
+            ? `+=${initialHeight * 5 * SPEED}`
+            : () => `+=${el.offsetHeight * 5 * SPEED}`,
           scrub: true,
           pin: true,
           pinSpacing: true,
           pinType: isMobile ? "fixed" : "transform",
           markers: false,
           anticipatePin: 0.5,
-          invalidateOnRefresh: true,
+          invalidateOnRefresh: !isMobile,
         },
       });
 
@@ -399,19 +401,19 @@ export const useHome = ({ ready }: useHomeProps) => {
             ease: "power1.out",
             duration: 1.2 * SPEED,
           },
-          0
+          0,
         );
       if (right)
         tl.to(
           right,
           { x: "400px", opacity: 0, ease: "power1.out", duration: 1.2 * SPEED },
-          0.05 * SPEED
+          0.05 * SPEED,
         );
       if (particles)
         tl.to(
           particles,
           { opacity: 0, ease: "power1.out", duration: 1.2 * SPEED },
-          0
+          0,
         );
 
       gsap.set(center, {
@@ -431,22 +433,26 @@ export const useHome = ({ ready }: useHomeProps) => {
           ease: "power1.out",
           pointerEvents: "auto",
         },
-        ">"
+        ">",
       );
+
+      const initialVh = window.innerHeight;
+
       tl.to(
         center,
         {
           y: () => {
-            const vh = window.innerHeight;
+            // 👉 2. En móvil usamos initialVh para que no mute, en desktop dejamos el dinámico
+            const currentVh = isMobile ? initialVh : window.innerHeight;
             const offset = isMobile ? 0.3 : isLaptop ? 0.35 : 0.275;
-            const targetTop = -(vh / 2 - vh * offset);
+            const targetTop = -(currentVh / 2 - currentVh * offset);
             return targetTop;
           },
           duration: 1.4 * SPEED,
           scale: 0.8,
           ease: "power1.out",
         },
-        "+=" + gapCenterMove
+        "+=" + gapCenterMove,
       );
 
       [box1, box2, box3].forEach((b) => {
@@ -472,34 +478,34 @@ export const useHome = ({ ready }: useHomeProps) => {
       tl.to(
         box1,
         { y: 0, opacity: 1, duration: 1 * SPEED, ease: "power3.out" },
-        "+=" + gapShort
+        "+=" + gapShort,
       );
       tl.to(
         count1,
         { val: 5, duration: 1 * SPEED, ease: "none", onUpdate: update1 },
-        "<"
+        "<",
       );
 
       tl.to(
         box2,
         { y: 0, opacity: 1, duration: 1 * SPEED, ease: "power3.out" },
-        "+=" + gapMedium
+        "+=" + gapMedium,
       );
       tl.to(
         count2,
         { val: 10, duration: 1.5 * SPEED, ease: "none", onUpdate: update2 },
-        "<"
+        "<",
       );
 
       tl.to(
         box3,
         { y: 0, opacity: 1, duration: 1 * SPEED, ease: "power3.out" },
-        "+=" + gapMedium
+        "+=" + gapMedium,
       );
       tl.to(
         count3,
         { val: 3, duration: 1 * SPEED, ease: "none", onUpdate: update3 },
-        "<"
+        "<",
       );
 
       tl.to(
@@ -511,7 +517,7 @@ export const useHome = ({ ready }: useHomeProps) => {
           repeat: 1,
           transformOrigin: "center",
         },
-        "+=" + gapFinal
+        "+=" + gapFinal,
       );
 
       requestAnimationFrame(() => {
