@@ -1,19 +1,39 @@
 import { useEffect, useState } from 'react'
 
 export const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false)
+  // Evaluamos el estado inicial directamente
+  const [matches, setMatches] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia(query).matches;
+    }
+    return false;
+  });
 
   useEffect(() => {
-    const media = window.matchMedia(query)
+    const media = window.matchMedia(query);
+    
+    // Si la query cambió entre el estado inicial y el montaje, actualizamos
     if (media.matches !== matches) {
-      setMatches(media.matches)
+      setMatches(media.matches);
     }
-    const listener = () => setMatches(media.matches)
-    window.addEventListener('resize', listener)
-    return () => window.removeEventListener('resize', listener)
-  }, [matches, query])
 
-  return matches
+    const listener = (event: MediaQueryListEvent) => {
+      setMatches(event.matches);
+    };
+
+    // Escuchamos los cambios ESPECÍFICOS de la media query, no todo el 'resize' de la ventana
+    if (media.addEventListener) {
+      media.addEventListener('change', listener);
+      return () => media.removeEventListener('change', listener);
+    } else {
+      // Fallback para navegadores antiguos (ej. Safari muy viejo)
+      media.addListener(listener);
+      return () => media.removeListener(listener);
+    }
+    // OJO: quitamos "matches" de las dependencias para evitar re-binds infinitos
+  }, [query]); 
+
+  return matches;
 }
 
 export const useResponsive = () => {

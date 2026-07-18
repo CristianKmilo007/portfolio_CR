@@ -538,33 +538,67 @@ export const useSliderProjects = ({
     };
 
     const touchStart = (e: TouchEvent) => {
-      if (!isActive) return;
-      if (rootRef.current && !(e.target as Element).closest?.(".projects-root"))
-        return;
-      state.isDragging = true;
-      state.isSnapping = false;
-      state.dragStart = { y: e.touches[0].clientY, scrollY: state.targetY };
-      state.lastScrollTime = Date.now();
-    };
-    const touchMove = (e: TouchEvent) => {
-      if (!state.isDragging) return;
-      const newTargetY =
-        state.dragStart.scrollY +
-        (e.touches[0].clientY - state.dragStart.y) * 1.5;
+        if (!isActive) return;
+        if (rootRef.current && !(e.target as Element).closest?.(".projects-root"))
+          return;
+          
+        state.isDragging = true;
+        state.isSnapping = false;
+        
+        // Guardamos también la posición X inicial y reseteamos la dirección
+        state.dragStart = { 
+          x: e.touches[0].clientX, 
+          y: e.touches[0].clientY, 
+          scrollY: state.targetY 
+        };
+        state.dragDirection = null; // 'horizontal' o 'vertical'
+        state.lastScrollTime = Date.now();
+      };
 
-      // Check if dragging up at the first project
-      if (state.targetY >= 0 && newTargetY > state.targetY) {
-        onScrollToHero?.();
+      const touchMove = (e: TouchEvent) => {
+        if (!state.isDragging) return;
+
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+
+        // 1. Determinar la dirección del gesto en los primeros píxeles
+        if (!state.dragDirection) {
+          const deltaX = Math.abs(currentX - state.dragStart.x);
+          const deltaY = Math.abs(currentY - state.dragStart.y);
+
+          // Umbral de 5px para ignorar pequeños temblores antes de decidir
+          if (deltaX > 5 || deltaY > 5) {
+            state.dragDirection = deltaX > deltaY ? "horizontal" : "vertical";
+          } else {
+            return; // Esperamos a que mueva un poco más el dedo
+          }
+        }
+
+        // 2. Si determinamos que el gesto es HORIZONTAL, ignoramos nuestra lógica vertical.
+        // Esto permite que el carrusel de imágenes (Swiper) funcione sin subir/bajar la página.
+        if (state.dragDirection === "horizontal") {
+          return;
+        }
+
+        // 3. Lógica original para scroll VERTICAL
+        const newTargetY =
+          state.dragStart.scrollY + (currentY - state.dragStart.y) * 1.5;
+
+        // Check if dragging up at the first project
+        if (state.targetY >= 0 && newTargetY > state.targetY) {
+          onScrollToHero?.();
+          state.isDragging = false;
+          return;
+        }
+
+        state.targetY = clamp(newTargetY, minTargetY, maxTargetY);
+        state.lastScrollTime = Date.now();
+      };
+
+      const touchEnd = () => {
         state.isDragging = false;
-        return;
-      }
-
-      state.targetY = clamp(newTargetY, minTargetY, maxTargetY);
-      state.lastScrollTime = Date.now();
-    };
-    const touchEnd = () => {
-      state.isDragging = false;
-    };
+        state.dragDirection = null; // Limpiamos el estado al soltar
+      };
 
     window.addEventListener("wheel", wheelHandler, {
       passive: false,

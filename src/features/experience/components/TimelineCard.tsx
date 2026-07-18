@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { FaBriefcase, FaGraduationCap } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { useResponsive } from "../../../hooks/useMediaQuery";
+import { useTranslation } from "react-i18next";
 
 export type TimelineEvent = {
   year: string;
@@ -116,6 +117,7 @@ const ImageModal: React.FC<{
 
 const TimelineCard: React.FC<Props> = ({ ev }) => {
   const { isLaptop, isMobile } = useResponsive();
+  const { t } = useTranslation();
 
   const [openImg, setOpenImg] = useState<string | null>(null);
 
@@ -194,7 +196,7 @@ const TimelineCard: React.FC<Props> = ({ ev }) => {
 
           {ev?.functions?.length > 0 && (
             <div className="w-full flex flex-col mt-2">
-              <span className="font-semibold text-sm">Funciones:</span>
+              <span className="font-semibold text-sm">{t('Funciones')}:</span>
               <div className="w-full flex flex-col text-xs sm:text-sm">
                 {ev.functions.map((fn, idx) => (
                   <div

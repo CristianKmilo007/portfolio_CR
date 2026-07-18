@@ -326,10 +326,7 @@ export const useSkills = () => {
             {t("Mis Habilidades")}
           </span>
           <span className=" font-crimson italic text-xl lg:text-2xl leading-6 lg:leading-7">
-            {t(`Combino desarrollo y diseño para convertir ideas en productos
-            digitales coherentes: buena experiencia de usuario, lógica sólida y
-            estética práctica. Me centro en soluciones mantenibles, rendimiento
-            y buen diseño desde la idea hasta el despliegue.`)}
+            {t("Combino desarrollo y diseño para convertir ideas en productos digitales coherentes: buena experiencia de usuario, lógica sólida y estética práctica. Me centro en soluciones mantenibles, rendimiento y buen diseño desde la idea hasta el despliegue.")}
           </span>
         </div>
       ),
@@ -362,7 +359,7 @@ export const useSkills = () => {
         <div className="w-full flex">
           <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
-              <span className="text-4xl sm:text-5xl">Frontend</span>
+              <span className="text-4xl sm:text-5xl">{t('Frontend')}</span>
               {isLaptop && (
                 <Button
                   size="sm"
@@ -378,7 +375,7 @@ export const useSkills = () => {
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
-                (+4 años)
+                (+4 {t('años')})
               </span>
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">
@@ -411,7 +408,7 @@ export const useSkills = () => {
         <div className="w-full flex justify-end">
           <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[500px] text-end translate-x-0 lg:-translate-x-30 2xl:-translate-x-50 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pl-0 lg:pr-0 xl:pr-12">
             <div className="flex gap-x-4 flex-wrap items-end justify-end">
-              <span className="text-4xl sm:text-5xl">Backend</span>
+              <span className="text-4xl sm:text-5xl">{t('Backend')}</span>
               {isLaptop && (
                 <Button
                   size="sm"
@@ -427,7 +424,7 @@ export const useSkills = () => {
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
-                (+1 año)
+                (+1 {t('año')})
               </span>
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">
@@ -446,7 +443,7 @@ export const useSkills = () => {
         <div className="w-full flex">
           <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-30 2xl:translate-x-40 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
-              <span className="text-4xl sm:text-5xl">Backend</span>
+              <span className="text-4xl sm:text-5xl">{t('Backend')}</span>
               {isLaptop && (
                 <Button
                   size="sm"
@@ -462,7 +459,7 @@ export const useSkills = () => {
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
-                (+1 año)
+                (+1 {t('año')})
               </span>
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">
@@ -509,7 +506,7 @@ export const useSkills = () => {
         <div className="w-full flex">
           <div className="container mx-auto lg:mx-0 lg:w-[350px] xl:w-[450px] 2xl:w-[548px] translate-x-0 lg:translate-x-15 2xl:translate-x-0 translate-y-0 lg:translate-y-20 xl:translate-y-25 2xl:translate-y-33 flex flex-col gap-6 pl-4 pr-4 lg:pr-0 lg:pl-0 xl:pl-12">
             <div className="flex gap-x-4 flex-wrap items-end">
-              <span className="text-4xl sm:text-5xl">Designer</span>
+              <span className="text-4xl sm:text-5xl">{t('Designer')}</span>
               {isLaptop && (
                 <Button
                   size="sm"
@@ -525,7 +522,7 @@ export const useSkills = () => {
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
-                (+1 año)
+                (+1 {t('año')})
               </span>
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">

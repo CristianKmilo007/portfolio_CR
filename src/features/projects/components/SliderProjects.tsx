@@ -285,7 +285,7 @@ export const SliderProjects = ({
               : "translate-y-20 opacity-0 !delay-0 pointer-events-none"
           }`}
         >
-          Ver más proyectos
+          {t('Ver más proyectos')}
         </CustomLink>
       </div>
     </div>

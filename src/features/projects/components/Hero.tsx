@@ -80,9 +80,7 @@ export default function Hero({
               {t('Ideas que brillan en pantalla y que realmente funcionan')}
             </span>
             <span className="text-[#ccc] text-base lg:text-lg xl:text-xl text-center md:text-end">
-              {t(`Desde landing pages hasta dashboards utilizando patrones de
-              diseño, componentes dinámicos y adaptables a cualquier pantalla
-              para una mejor experiencia de usuario.`)}
+              {t("Desde landing pages hasta dashboards utilizando patrones de diseño, componentes dinámicos y adaptables a cualquier pantalla para una mejor experiencia de usuario.")}
             </span>
           </div>
         </div>

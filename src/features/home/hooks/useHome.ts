@@ -7,6 +7,10 @@ import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
+ScrollTrigger.config({ 
+  ignoreMobileResize: true 
+});
+
 interface useHomeProps {
   ready: boolean;
 }

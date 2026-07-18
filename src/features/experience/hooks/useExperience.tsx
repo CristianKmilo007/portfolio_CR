@@ -9,7 +9,9 @@ import { useTranslation } from "react-i18next";
 gsap.registerPlugin(ScrollTrigger);
 
 export const useExperience = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const reactRootsRef = useRef<{ root: Root; index: number }[]>([]);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -45,7 +47,9 @@ export const useExperience = () => {
       title: t("Tecnico en Sistemas"),
       desc: t("Instituto Politecnico Agroindustrial"),
       functions: [
-        t("Soporte técnico y mantenimiento del hardware y softwaredel computador"),
+        t(
+          "Soporte técnico y mantenimiento del hardware y softwaredel computador",
+        ),
       ],
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       img: "/experience/cert_1.jpg",
@@ -54,9 +58,11 @@ export const useExperience = () => {
     },
     {
       year: "2021 - 2022",
-      title: "Web Designer",
+      title: t("Web Designer"),
       desc: "Udemy",
-      functions: [t("Máster en Diseño Web, enfoque UX/UI y desarrollo front-end")],
+      functions: [
+        t("Máster en Diseño Web, enfoque UX/UI y desarrollo front-end"),
+      ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_2.jpg",
       type: "education",
@@ -64,11 +70,13 @@ export const useExperience = () => {
     },
     {
       year: "2021 - 2022",
-      title: "Web Developer Full Stack",
+      title: t("Web Developer Full Stack"),
       desc: t("Universidad Iberoamericana"),
       type: "education",
       functions: [
-        t("Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular"),
+        t(
+          "Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular",
+        ),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_3.jpg",
@@ -77,11 +85,17 @@ export const useExperience = () => {
     {
       year: "2021 - 2023",
       title: "Full Stack Developer Freelance",
-      desc: "Villavicencio - Remoto",
+      desc: t("Villavicencio - Remoto"),
       functions: [
-        t("Desarrollar interfaces web responsivas usando Angular, HTML5, CSS3 y frameworks de diseño modernos"),
-        t("Implementar APIs RESTful y endpoints backend seguros con Node.js y Express"),
-        t("Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño"),
+        t(
+          "Desarrollar interfaces web responsivas usando Angular, HTML5, CSS3 y frameworks de diseño modernos",
+        ),
+        t(
+          "Implementar APIs RESTful y endpoints backend seguros con Node.js y Express",
+        ),
+        t(
+          "Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño",
+        ),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
@@ -90,10 +104,14 @@ export const useExperience = () => {
     {
       year: "2023 - 2024",
       title: "TodoServy",
-      desc: "Villavicencio - Remoto",
+      desc: t("Villavicencio - Remoto"),
       functions: [
-        t("Implementar componentes reutilizables y modulares respetando patrones de diseño y buenas prácticas"),
-        t("Revisar código mediante pull requests y participar activamente en code reviews del equipo"),
+        t(
+          "Implementar componentes reutilizables y modulares respetando patrones de diseño y buenas prácticas",
+        ),
+        t(
+          "Revisar código mediante pull requests y participar activamente en code reviews del equipo",
+        ),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -102,12 +120,20 @@ export const useExperience = () => {
     {
       year: "2024-2025",
       title: "Shepwashi",
-      desc: "Villavicencio - Remoto",
+      desc: t("Villavicencio - Remoto"),
       functions: [
-        t("Desarrollar interfaces web responsivas con HTML5, CSS3 y Typescript moderno"),
-        t("Implementar componentes reutilizables usando frameworks como React, Nest Js o Vite"),
-        t("Integrar APIs REST gestionando estado de la aplicación de forma eficiente"),
-        t("Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas"),
+        t(
+          "Desarrollar interfaces web responsivas con HTML5, CSS3 y Typescript moderno",
+        ),
+        t(
+          "Implementar componentes reutilizables usando frameworks como React, Nest Js o Vite",
+        ),
+        t(
+          "Integrar APIs REST gestionando estado de la aplicación de forma eficiente",
+        ),
+        t(
+          "Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas",
+        ),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -119,7 +145,9 @@ export const useExperience = () => {
       desc: "DevTalles",
       type: "education",
       functions: [
-        t("Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL"),
+        t(
+          "Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL",
+        ),
       ],
       img: "/experience/cert_4.jpg",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -180,7 +208,7 @@ export const useExperience = () => {
   function findLengthAtY(
     pathEl: SVGPathElement,
     pathLen: number,
-    targetY: number
+    targetY: number,
   ) {
     let lo = 0;
     let hi = pathLen;
@@ -197,7 +225,7 @@ export const useExperience = () => {
   function enforceMinSpacingByLength(
     lengths: number[],
     minGap: number,
-    maxLen: number
+    maxLen: number,
   ) {
     const out = [...lengths].sort((a, b) => a - b);
     for (let i = 1; i < out.length; i++) {
@@ -217,7 +245,7 @@ export const useExperience = () => {
   function enforceMinVerticalSpacing(
     pathEl: SVGPathElement,
     lengths: number[],
-    minYGap = 100
+    minYGap = 100,
   ) {
     const out = [...lengths].sort((a, b) => a - b);
     for (let i = 1; i < out.length; i++) {
@@ -244,776 +272,638 @@ export const useExperience = () => {
   useEffect(() => {
     let cancelled = false;
     let externalCleanup: (() => void) | null = null;
+    let ctx: gsap.Context | null = null;
+    let rafId: number | null = null;
 
-    const build = async (): Promise<() => void> => {
-      const wrapper = wrapperRef.current!;
-      const content = contentRef.current!;
-      if (!wrapper || !content) return () => {};
+    const run = async () => {
+      // 1. TRUCO CLAVE: Esperamos un pequeño instante (80ms) para permitir
+      // que el DOM móvil asiente sus verdaderas medidas al cambiar de tab.
+      await new Promise((r) => setTimeout(r, 80));
+      if (cancelled) return;
 
-      const ctx = gsap.context(() => {
-        (async () => {
-          // limpia circles previos (evita duplicados en rebuilds)
-          const oldCircles = content.querySelectorAll(".circle");
-          if (oldCircles && oldCircles.length)
-            oldCircles.forEach((c) => c.remove());
+      // Limpiamos todo el contexto previo si esto es un re-run (ej: onResize)
+      if (ctx) ctx.revert();
+      if (externalCleanup) externalCleanup();
 
-          // optional noise circles
+      const wrapper = wrapperRef.current;
+      const content = contentRef.current;
+      if (!wrapper || !content) return;
+
+      // 2. Importación asíncrona ANTES de iniciar GSAP
+      let SimplexCtor: any = null;
+      try {
+        const simplexMod = await import("simplex-noise");
+        SimplexCtor =
+          (simplexMod as any).default ??
+          (simplexMod as any).SimplexNoise ??
+          simplexMod;
+      } catch (e) {
+        /* ignore */
+      }
+
+      if (cancelled) return;
+
+      // 3. Limpieza profunda para evitar Memory Leaks y estilos de render previo
+      if (reactRootsRef.current.length > 0) {
+        reactRootsRef.current.forEach(({ root }) => {
           try {
-            const simplexMod = await import("simplex-noise");
-            const SimplexCtor =
-              (simplexMod as any).default ??
-              (simplexMod as any).SimplexNoise ??
-              simplexMod;
-            if (typeof SimplexCtor === "function") {
-              const simplex = new (SimplexCtor as any)();
-              for (let i = 0; i < 600; i++) {
-                const d = document.createElement("div");
-                d.className =
-                  "circle absolute rounded-full pointer-events-none";
-                const n1 = simplex.noise2D(i * 0.003, i * 0.0033);
-                const n2 = simplex.noise2D(i * 0.002, i * 0.001);
-                const size = 2 + (Math.abs(n1) + Math.abs(n2)) * 4;
-                d.style.width = `${size}px`;
-                d.style.height = `${size}px`;
-                d.style.left = `${Math.random() * 100}%`;
-                d.style.top = `${Math.random() * 4200 - 1000}px`;
-                d.style.opacity = "0";
-                content.appendChild(d);
-              }
+            root.unmount();
+          } catch (e) {}
+        });
+        reactRootsRef.current = [];
+      }
+
+      let svgEl = document.getElementById(SVG_ID) as SVGSVGElement | null;
+      if (svgEl) {
+        try {
+          svgEl.remove();
+        } catch {}
+        svgEl = null;
+      }
+
+      // 4. Iniciar GSAP de forma 100% SÍNCRONA para que su limpieza funcione
+      ctx = gsap.context(() => {
+        // --- LIMPIEZA DE CIRCULOS VIEJOS ---
+        const oldCircles = content.querySelectorAll(".circle");
+        if (oldCircles && oldCircles.length)
+          oldCircles.forEach((c) => c.remove());
+
+        if (typeof SimplexCtor === "function") {
+          const simplex = new (SimplexCtor as any)();
+          for (let i = 0; i < 600; i++) {
+            const d = document.createElement("div");
+            d.className = "circle absolute rounded-full pointer-events-none";
+            const n1 = simplex.noise2D(i * 0.003, i * 0.0033);
+            const n2 = simplex.noise2D(i * 0.002, i * 0.001);
+            const size = 2 + (Math.abs(n1) + Math.abs(n2)) * 4;
+            d.style.width = `${size}px`;
+            d.style.height = `${size}px`;
+            d.style.left = `${Math.random() * 100}%`;
+            d.style.top = `${Math.random() * 4200 - 1000}px`;
+            d.style.opacity = "0";
+            content.appendChild(d);
+          }
+        }
+
+        // --- CREACIÓN DEL SVG ---
+        const SVG_HEIGHT = isMobile ? 6000 : 8000;
+        const amplitude = isMobile ? 75 : 100;
+
+        svgEl = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svgEl.setAttribute("id", SVG_ID);
+        svgEl.setAttribute(
+          "class",
+          `fixed left-0 top-0 w-full h-[${SVG_HEIGHT}px] pointer-events-none z-0`,
+        );
+        svgEl.setAttribute("width", "100%");
+        svgEl.setAttribute("height", `${SVG_HEIGHT}`);
+        svgEl.setAttribute("viewBox", `0 0 ${window.innerWidth} ${SVG_HEIGHT}`);
+        svgEl.setAttribute("preserveAspectRatio", "none");
+        svgEl.style.opacity = "0";
+        svgEl.style.visibility = "visible";
+        svgEl.style.willChange = "opacity";
+        svgRef.current = svgEl;
+
+        const defs = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "defs",
+        );
+        const grad = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "linearGradient",
+        );
+        grad.setAttribute("id", "traceGradient");
+        grad.setAttribute("gradientUnits", "userSpaceOnUse");
+        grad.setAttribute("x1", "0");
+        grad.setAttribute("y1", "0");
+        grad.setAttribute("x2", "0");
+        grad.setAttribute("y2", `${SVG_HEIGHT}`);
+
+        const stop1 = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "stop",
+        );
+        stop1.setAttribute("offset", "0%");
+        stop1.setAttribute("stop-color", "#ae38ff");
+        stop1.setAttribute("stop-opacity", "1");
+        const stop2 = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "stop",
+        );
+        stop2.setAttribute("offset", "100%");
+        stop2.setAttribute("stop-color", "#f92cf7");
+        stop2.setAttribute("stop-opacity", "1");
+
+        grad.appendChild(stop1);
+        grad.appendChild(stop2);
+        defs.appendChild(grad);
+        svgEl.appendChild(defs);
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("id", "trace-group");
+        const bgPath = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path",
+        );
+        bgPath.setAttribute("class", "stroke-current text-gray-200");
+        bgPath.setAttribute("stroke-width", isMobile ? "3" : "5");
+        bgPath.setAttribute("fill", "none");
+        bgPath.setAttribute("stroke-linecap", "round");
+        bgPath.setAttribute("stroke-linejoin", "round");
+        bgPath.style.stroke = "#333";
+        const revealPath = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path",
+        );
+        revealPath.setAttribute("stroke-width", isMobile ? "3" : "5");
+        revealPath.setAttribute("stroke", "url(#traceGradient)");
+        revealPath.setAttribute("fill", "none");
+        revealPath.setAttribute("stroke-linecap", "round");
+        revealPath.setAttribute("stroke-linejoin", "round");
+        g.appendChild(bgPath);
+        g.appendChild(revealPath);
+        svgEl.appendChild(g);
+        document.body.appendChild(svgEl);
+
+        revealPathRef.current = revealPath;
+        groupRef.current = g;
+
+        // --- CÁLCULO MATEMÁTICO DE POSICIONES ---
+        const cx = window.innerWidth / 2;
+        const NUM_ANCHORS = 8;
+        const ZIG_MULTIPLIER = 0.6;
+        const JITTER_ENABLED = false;
+        const JITTER_MAG = 8;
+        const HANDLE_FACTOR = 0.9;
+        const HANDLE_CLAMP_MIN = 60;
+        const HANDLE_CLAMP_MAX = 500;
+        const SMOOTH_KERNEL = 0;
+
+        function smoothPoints(pts: Pt[], kernel = 1) {
+          if (kernel <= 0) return pts;
+          const out: Pt[] = pts.map((p) => ({ x: p.x, y: p.y }));
+          for (let k = 0; k < kernel; k++) {
+            for (let i = 1; i < pts.length - 1; i++) {
+              out[i].x = (pts[i - 1].x + pts[i].x + pts[i + 1].x) / 3;
+              out[i].y = (pts[i - 1].y + pts[i].y + pts[i + 1].y) / 3;
             }
-          } catch (e) {
-            /* ignore */
           }
+          return out;
+        }
 
-          // --- SVG create/ensure ---
-          const SVG_HEIGHT = isMobile ? 6000 : 8000;
-          const amplitude = isMobile ? 75 : 100;
+        const anchors: Pt[] = [];
+        for (let i = 0; i < NUM_ANCHORS; i++) {
+          const t = i / Math.max(1, NUM_ANCHORS - 1);
+          const y = Math.round(t * SVG_HEIGHT);
+          const zig = (i % 2 === 0 ? 1 : -1) * amplitude * ZIG_MULTIPLIER;
+          const jitter = JITTER_ENABLED
+            ? (Math.random() - 0.5) * JITTER_MAG
+            : 0;
+          const x = cx + zig + jitter;
+          anchors.push({ x, y });
+        }
+        const anchorsSmoothed =
+          SMOOTH_KERNEL > 0 ? smoothPoints(anchors, SMOOTH_KERNEL) : anchors;
 
-          let svgEl = document.getElementById(SVG_ID) as SVGSVGElement | null;
-          if (svgEl) {
-            try {
-              svgEl.remove();
-            } catch {}
-            svgEl = null;
+        let totalSeg = 0;
+        for (let i = 0; i < anchorsSmoothed.length - 1; i++) {
+          const dx = anchorsSmoothed[i + 1].x - anchorsSmoothed[i].x;
+          const dy = anchorsSmoothed[i + 1].y - anchorsSmoothed[i].y;
+          totalSeg += Math.hypot(dx, dy);
+        }
+        const avgSeg = Math.max(
+          1,
+          totalSeg / Math.max(1, anchorsSmoothed.length - 1),
+        );
+        const handleLength = Math.max(
+          HANDLE_CLAMP_MIN,
+          Math.min(HANDLE_CLAMP_MAX, avgSeg * HANDLE_FACTOR),
+        );
+        const d = catmullRomToBezier(anchorsSmoothed, handleLength);
+
+        bgPath.setAttribute("d", d);
+        revealPath.setAttribute("d", d);
+
+        const pathLen = revealPath.getTotalLength();
+        const viewportCenter = window.innerHeight / 2;
+        const lenAtCenter = findLengthAtY(revealPath, pathLen, viewportCenter);
+        revealPath.setAttribute("stroke-dasharray", `${pathLen}`);
+        const ptCenter = revealPath.getPointAtLength(lenAtCenter);
+        const initialTranslateY = viewportCenter - ptCenter.y;
+        g.setAttribute("transform", `translate(0, ${initialTranslateY})`);
+        revealPath.setAttribute("stroke-dashoffset", `${pathLen}`);
+
+        const requiredHeight = Math.ceil(SVG_HEIGHT + viewportCenter + 200);
+        let spacer = content.querySelector(
+          ".circle-spacer",
+        ) as HTMLElement | null;
+        if (!spacer) {
+          spacer = document.createElement("div");
+          spacer.className = "circle-spacer";
+          spacer.style.height = `${requiredHeight}px`;
+          content.appendChild(spacer);
+        } else {
+          spacer.style.height = `${requiredHeight}px`;
+        }
+
+        const startLenForItems = lenAtCenter + 20;
+        const endLenForItems = pathLen - 20;
+        const nEvents = TIMELINE_EVENTS.length;
+
+        let lengthsForEvents = TIMELINE_EVENTS.map((ev, i) => {
+          const anyEv = ev as any;
+          if (typeof anyEv.y === "number") {
+            const desiredY = Math.max(0, Math.min(anyEv.y, SVG_HEIGHT));
+            return findLengthAtY(revealPath, pathLen, desiredY);
           }
-          if (!svgEl) {
-            svgEl = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "svg"
-            );
-            svgEl.setAttribute("id", SVG_ID);
-            svgEl.setAttribute(
-              "class",
-              `fixed left-0 top-0 w-full h-[${SVG_HEIGHT}px] pointer-events-none z-0`
-            );
-            svgEl.setAttribute("width", "100%");
-            svgEl.setAttribute("height", `${SVG_HEIGHT}`);
-            svgEl.setAttribute(
-              "viewBox",
-              `0 0 ${window.innerWidth} ${SVG_HEIGHT}`
-            );
-            svgEl.setAttribute("preserveAspectRatio", "none");
-
-            svgEl.style.opacity = "0";
-            svgEl.style.visibility = "visible"; // importante: no usar hidden
-            svgEl.style.willChange = "opacity";
-            svgRef.current = svgEl;
-
-            const defs = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "defs"
-            );
-            const grad = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "linearGradient"
-            );
-            grad.setAttribute("id", "traceGradient");
-            grad.setAttribute("gradientUnits", "userSpaceOnUse");
-            grad.setAttribute("x1", "0");
-            grad.setAttribute("y1", "0");
-            grad.setAttribute("x2", "0");
-            grad.setAttribute("y2", `${SVG_HEIGHT}`);
-
-            const stop1 = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "stop"
-            );
-            stop1.setAttribute("offset", "0%");
-            stop1.setAttribute("stop-color", "#ae38ff");
-            stop1.setAttribute("stop-opacity", "1");
-
-            const stop2 = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "stop"
-            );
-            stop2.setAttribute("offset", "100%");
-            stop2.setAttribute("stop-color", "#f92cf7");
-            stop2.setAttribute("stop-opacity", "1");
-
-            grad.appendChild(stop1);
-            grad.appendChild(stop2);
-            defs.appendChild(grad);
-            svgEl.appendChild(defs);
-
-            const g = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "g"
-            );
-            g.setAttribute("id", "trace-group");
-
-            const bgPath = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "path"
-            );
-            bgPath.setAttribute("class", "stroke-current text-gray-200");
-            bgPath.setAttribute("stroke-width", isMobile ? "3" : "5");
-            bgPath.setAttribute("fill", "none");
-            bgPath.setAttribute("stroke-linecap", "round");
-            bgPath.setAttribute("stroke-linejoin", "round");
-            const BG_COLOR = "#333";
-            bgPath.style.stroke = BG_COLOR;
-
-            const revealPath = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "path"
-            );
-            revealPath.setAttribute("stroke-width", isMobile ? "3" : "5");
-            revealPath.setAttribute("stroke", "url(#traceGradient)");
-            revealPath.setAttribute("fill", "none");
-            revealPath.setAttribute("stroke-linecap", "round");
-            revealPath.setAttribute("stroke-linejoin", "round");
-
-            g.appendChild(bgPath);
-            g.appendChild(revealPath);
-            svgEl.appendChild(g);
-
-            document.body.appendChild(svgEl);
+          if (typeof anyEv.progress === "number") {
+            const p = Math.max(0, Math.min(1, anyEv.progress));
+            return startLenForItems + p * (endLenForItems - startLenForItems);
           }
+          const t = i / Math.max(1, nEvents - 1);
+          const tt = easeInOutQuad(t);
+          return startLenForItems + tt * (endLenForItems - startLenForItems);
+        });
 
-          svgRef.current = svgEl;
-          const paths = svgEl.querySelectorAll("path");
-          revealPathRef.current = (
-            paths.length >= 2 ? paths[1] : paths[0]
-          ) as SVGPathElement;
-          groupRef.current = svgEl.querySelector(
-            "g#trace-group"
-          ) as SVGGElement | null;
+        lengthsForEvents = enforceMinSpacingByLength(
+          lengthsForEvents,
+          90,
+          pathLen,
+        );
+        lengthsForEvents = enforceMinVerticalSpacing(
+          revealPath,
+          lengthsForEvents,
+          110,
+        );
 
-          // build anchors equiespaciados
-          const cx = window.innerWidth / 2;
-          const NUM_ANCHORS = 8;
-          const ZIG_MULTIPLIER = 0.6;
-          const JITTER_ENABLED = false;
-          const JITTER_MAG = 8;
-          const HANDLE_FACTOR = 0.9;
-          const HANDLE_CLAMP_MIN = 60;
-          const HANDLE_CLAMP_MAX = 500;
-          const SMOOTH_KERNEL = 0;
+        // --- CREACIÓN DE NODOS ---
+        const nodes: any[] = [];
+        lengthsForEvents.forEach((len, idx) => {
+          const ev = TIMELINE_EVENTS[idx];
+          const pt = revealPath.getPointAtLength(len);
+          const dotR = 5;
+          const ringStroke = isMobile ? 3 : 4;
+          const ringR = dotR + Math.max(1, Math.floor(ringStroke / 1.7));
 
-          function smoothPoints(pts: Pt[], kernel = 1) {
-            if (kernel <= 0) return pts;
-            const out: Pt[] = pts.map((p) => ({ x: p.x, y: p.y }));
-            for (let k = 0; k < kernel; k++) {
-              for (let i = 1; i < pts.length - 1; i++) {
-                out[i].x = (pts[i - 1].x + pts[i].x + pts[i + 1].x) / 3;
-                out[i].y = (pts[i - 1].y + pts[i].y + pts[i + 1].y) / 3;
-              }
-            }
-            return out;
-          }
-
-          const anchors: Pt[] = [];
-          for (let i = 0; i < NUM_ANCHORS; i++) {
-            const t = i / Math.max(1, NUM_ANCHORS - 1);
-            const y = Math.round(t * SVG_HEIGHT);
-            const zig = (i % 2 === 0 ? 1 : -1) * amplitude * ZIG_MULTIPLIER;
-            const jitter = JITTER_ENABLED
-              ? (Math.random() - 0.5) * JITTER_MAG
-              : 0;
-            const x = cx + zig + jitter;
-            anchors.push({ x, y });
-          }
-
-          const anchorsSmoothed =
-            SMOOTH_KERNEL > 0 ? smoothPoints(anchors, SMOOTH_KERNEL) : anchors;
-
-          let totalSeg = 0;
-          for (let i = 0; i < anchorsSmoothed.length - 1; i++) {
-            const dx = anchorsSmoothed[i + 1].x - anchorsSmoothed[i].x;
-            const dy = anchorsSmoothed[i + 1].y - anchorsSmoothed[i].y;
-            totalSeg += Math.hypot(dx, dy);
-          }
-          const avgSeg = Math.max(
-            1,
-            totalSeg / Math.max(1, anchorsSmoothed.length - 1)
+          const nodeGroup = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "g",
           );
-          const handleLength = Math.max(
-            HANDLE_CLAMP_MIN,
-            Math.min(HANDLE_CLAMP_MAX, avgSeg * HANDLE_FACTOR)
+          nodeGroup.setAttribute("class", "timeline-node");
+
+          const baseCircle = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle",
           );
+          baseCircle.setAttribute("cx", `${pt.x}`);
+          baseCircle.setAttribute("cy", `${pt.y}`);
+          baseCircle.setAttribute("r", `${dotR}`);
+          baseCircle.setAttribute("fill", "#111");
 
-          const d = catmullRomToBezier(anchorsSmoothed, handleLength);
-
-          const gEl = groupRef.current!;
-          const bgPathEl = gEl.querySelectorAll("path")[0] as
-            | SVGPathElement
-            | undefined;
-          const revealPathEl = revealPathRef.current!;
-          if (bgPathEl) bgPathEl.setAttribute("d", d);
-          revealPathEl.setAttribute("d", d);
-
-          // eliminar nodos previos (desmontar roots si hay)
-          const prevNodes = gEl.querySelectorAll(".timeline-node");
-          if (prevNodes && prevNodes.length) {
-            prevNodes.forEach((n) => {
-              try {
-                const foEl = (n as Element).querySelector("foreignObject") as
-                  | any
-                  | null;
-                if (foEl) {
-                  const root = foEl.__reactRoot as Root | undefined;
-                  if (root && typeof root.unmount === "function") {
-                    try {
-                      root.unmount();
-                    } catch (e) {
-                      /* ignore */
-                    }
-                  }
-                }
-              } catch (err) {
-                /* ignore */
-              } finally {
-                try {
-                  n.remove();
-                } catch (e) {
-                  /* ignore */
-                }
-              }
-            });
-          }
-
-          // compute lengths + center
-          const pathLen = revealPathEl.getTotalLength();
-          const viewportCenter = window.innerHeight / 2;
-
-          const lenAtCenter = findLengthAtY(
-            revealPathEl,
-            pathLen,
-            viewportCenter
+          const ringBg = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle",
           );
+          ringBg.setAttribute("cx", `${pt.x}`);
+          ringBg.setAttribute("cy", `${pt.y}`);
+          ringBg.setAttribute("r", `${ringR}`);
+          ringBg.setAttribute("fill", "none");
+          ringBg.setAttribute("stroke-width", `${ringStroke}`);
+          ringBg.setAttribute("stroke", "#333");
 
-          revealPathEl.setAttribute("stroke-dasharray", `${pathLen}`);
-          const ptCenter = revealPathEl.getPointAtLength(lenAtCenter);
-          const initialTranslateY = viewportCenter - ptCenter.y;
-          gEl.setAttribute("transform", `translate(0, ${initialTranslateY})`);
-          revealPathEl.setAttribute("stroke-dashoffset", `${pathLen}`);
+          const ringReveal = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle",
+          );
+          ringReveal.setAttribute("cx", `${pt.x}`);
+          ringReveal.setAttribute("cy", `${pt.y}`);
+          ringReveal.setAttribute("r", `${ringR}`);
+          ringReveal.setAttribute("fill", "none");
+          ringReveal.setAttribute("stroke-width", `${ringStroke}`);
+          ringReveal.setAttribute("stroke", "url(#traceGradient)");
+          ringReveal.style.opacity = "0";
 
-          const requiredHeight = Math.ceil(SVG_HEIGHT + viewportCenter + 200);
-          let spacer = content.querySelector(
-            ".circle-spacer"
-          ) as HTMLElement | null;
-          if (!spacer) {
-            spacer = document.createElement("div");
-            spacer.className = "circle-spacer";
-            spacer.style.height = `${requiredHeight}px`;
-            content.appendChild(spacer);
-          } else {
-            spacer.style.height = `${requiredHeight}px`;
-          }
+          nodeGroup.appendChild(baseCircle);
+          nodeGroup.appendChild(ringBg);
+          nodeGroup.appendChild(ringReveal);
+          g.appendChild(nodeGroup);
 
-          const startLenForItems = lenAtCenter + 20;
-          const endLenForItems = pathLen - 20;
-          const nEvents = TIMELINE_EVENTS.length;
+          const fo = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "foreignObject",
+          );
+          fo.setAttribute("class", "timeline-node");
+          const boxW = isMobile ? 250 : isLaptop ? 325 : 500;
+          const boxH = isMobile ? 300 : isLaptop ? 325 : 500;
+          const offsetX = 14;
+          let foX =
+            ev.side === "center"
+              ? pt.x - boxW / 2
+              : ev.side === "left"
+                ? pt.x - offsetX - boxW
+                : pt.x + offsetX;
+          foX = Math.max(6, Math.min(window.innerWidth - boxW - 6, foX));
 
-          let lengthsForEvents = TIMELINE_EVENTS.map((ev, i) => {
-            const anyEv = ev as any;
-            if (typeof anyEv.y === "number") {
-              const desiredY = Math.max(0, Math.min(anyEv.y, SVG_HEIGHT));
-              return findLengthAtY(revealPathEl, pathLen, desiredY);
-            }
-            if (typeof anyEv.progress === "number") {
-              const p = Math.max(0, Math.min(1, anyEv.progress));
-              return startLenForItems + p * (endLenForItems - startLenForItems);
-            }
-            const t = i / Math.max(1, nEvents - 1);
-            const tt = easeInOutQuad(t);
-            return startLenForItems + tt * (endLenForItems - startLenForItems);
+          fo.setAttribute("x", `${foX}`);
+          fo.setAttribute("y", `${pt.y}`);
+          fo.setAttribute("width", `${boxW}`);
+          fo.setAttribute("height", `${boxH}`);
+          (fo as any).style.opacity = "0";
+          (fo as any).style.pointerEvents = "none";
+          (fo as any).style.outline = "none";
+          (fo as any).style.WebkitTapHighlightColor = "transparent";
+          g.appendChild(fo);
+
+          const reactRoot: Root = createRoot(fo as any);
+          reactRoot.render(<TimelineCard ev={ev as TimelineEvent} />);
+          reactRootsRef.current.push({ root: reactRoot, index: idx });
+
+          nodes.push({
+            len,
+            pt,
+            baseCircle,
+            ringBg,
+            ringReveal,
+            fo,
+            visible: false,
+            reactRoot,
+            side: ev.side,
           });
+        });
 
-          const MIN_GAP_LEN = 90;
-          lengthsForEvents = enforceMinSpacingByLength(
-            lengthsForEvents,
-            MIN_GAP_LEN,
-            pathLen
+        // --- ANIMACIÓN DE REVEAL Y EVENTOS ---
+        const proxy = { len: lenAtCenter };
+        let prevLen = lenAtCenter;
+        const activationOffset = 6;
+        const hideThreshold = 24;
+
+        const updateRevealAndTranslate = () => {
+          const curLen = proxy.len;
+          const delta = curLen - prevLen;
+          revealPath.setAttribute(
+            "stroke-dashoffset",
+            `${Math.max(0, pathLen - curLen)}`,
           );
+          const centeredPt = revealPath.getPointAtLength(curLen);
+          const translateY = viewportCenter - centeredPt.y;
+          g.setAttribute("transform", `translate(0, ${translateY})`);
 
-          lengthsForEvents = enforceMinVerticalSpacing(
-            revealPathEl,
-            lengthsForEvents,
-            /*minYGap=*/ 110
-          );
-
-          // prepare nodes using these lengths
-          type Node = {
-            len: number;
-            pt: { x: number; y: number };
-            baseCircle: SVGCircleElement;
-            ringBg: SVGCircleElement;
-            ringReveal: SVGCircleElement;
-            fo: SVGForeignObjectElement;
-            visible: boolean;
-            reactRoot?: Root;
-            side?: "left" | "right" | "center";
-          };
-          const nodes: Node[] = [];
-
-          // creación de nodos
-          lengthsForEvents.forEach((len, idx) => {
-            const ev = TIMELINE_EVENTS[idx];
-            const pt = revealPathEl.getPointAtLength(len);
-
-            const dotR = 5;
-            const ringStroke = isMobile ? 3 : 4;
-            const ringR = dotR + Math.max(1, Math.floor(ringStroke / 1.7));
-            const BG_COLOR = "#333";
-
-            const nodeGroup = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "g"
-            );
-            nodeGroup.setAttribute("class", "timeline-node");
-
-            const baseCircle = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "circle"
-            ) as SVGCircleElement;
-            baseCircle.setAttribute("cx", `${pt.x}`);
-            baseCircle.setAttribute("cy", `${pt.y}`);
-            baseCircle.setAttribute("r", `${dotR}`);
-            baseCircle.setAttribute("fill", "#111");
-            baseCircle.setAttribute("stroke", "none");
-
-            const ringBg = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "circle"
-            ) as SVGCircleElement;
-            ringBg.setAttribute("cx", `${pt.x}`);
-            ringBg.setAttribute("cy", `${pt.y}`);
-            ringBg.setAttribute("r", `${ringR}`);
-            ringBg.setAttribute("fill", "none");
-            ringBg.setAttribute("stroke-linecap", "round");
-            ringBg.setAttribute("stroke-linejoin", "round");
-            ringBg.setAttribute("stroke-width", `${ringStroke}`);
-            ringBg.setAttribute("stroke", BG_COLOR);
-            ringBg.style.opacity = "1";
-
-            const ringReveal = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "circle"
-            ) as SVGCircleElement;
-            ringReveal.setAttribute("cx", `${pt.x}`);
-            ringReveal.setAttribute("cy", `${pt.y}`);
-            ringReveal.setAttribute("r", `${ringR}`);
-            ringReveal.setAttribute("fill", "none");
-            ringReveal.setAttribute("stroke-linecap", "round");
-            ringReveal.setAttribute("stroke-linejoin", "round");
-            ringReveal.setAttribute("stroke-width", `${ringStroke}`);
-            ringReveal.setAttribute("stroke", "url(#traceGradient)");
-            ringReveal.style.opacity = "0";
-            ringReveal.style.visibility = "visible";
-
-            nodeGroup.appendChild(baseCircle);
-            nodeGroup.appendChild(ringBg);
-            nodeGroup.appendChild(ringReveal);
-            gEl.appendChild(nodeGroup);
-
-            // foreignObject
-            const fo = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "foreignObject"
-            ) as SVGForeignObjectElement;
-            fo.setAttribute("class", "timeline-node");
-            const boxW = isMobile ? 250 : isLaptop ? 325 : 500;
-            const boxH = isMobile ? 300 : isLaptop ? 325 : 500;
-            const offsetX = 14;
-            let foX: number;
-
-// case: center -> centrar horizontalmente el box en el punto
-if (ev.side === "center") {
-  foX = pt.x - boxW / 2;
-} else if (ev.side === "left") {
-  foX = pt.x - offsetX - boxW;
-} else {
-  // right
-  foX = pt.x + offsetX;
-}
-            foX = Math.max(6, Math.min(window.innerWidth - boxW - 6, foX));
-
-            // --- aquí: top align (la card inicia al mismo nivel del punto) ---
-            // antes: const foY = pt.y - boxH / 2;
-            const foY = pt.y; // top-aligned
-
-            fo.setAttribute("x", `${foX}`);
-            fo.setAttribute("y", `${foY}`);
-            fo.setAttribute("width", `${boxW}`);
-            fo.setAttribute("height", `${boxH}`);
-            fo.setAttribute("tabindex", "-1");
-            fo.setAttribute("focusable", "false");
-            (fo as any).style.outline = "none";
-
-            // Inicialmente invisible y sin pointer-events
-            (fo as any).style.opacity = "0";
-            (fo as any).style.visibility = "visible";
-            (fo as any).style.pointerEvents = "none";
-
-            gEl.appendChild(fo);
-
-            // Mount React component inside foreignObject using createRoot
-            const reactRoot: Root = createRoot(fo as any);
-            reactRoot.render(<TimelineCard ev={ev as TimelineEvent} />);
-
-            (fo as any).__reactRoot = reactRoot;
-
-            // push node including reactRoot and side
-            nodes.push({
-              len,
-              pt: { x: pt.x, y: pt.y },
-              baseCircle,
-              ringBg,
-              ringReveal,
-              fo,
-              visible: false,
-              reactRoot,
-              side: ev.side,
-            });
-          });
-
-          // proxy + update
-          const proxy: { len: number } = { len: lenAtCenter };
-          let prevLen = lenAtCenter;
-          const activationOffset = 6;
-          const hideThreshold = 24;
-
-          const updateRevealAndTranslate = () => {
-            const curLen = proxy.len;
-            const delta = curLen - prevLen;
-            revealPathEl.setAttribute(
-              "stroke-dashoffset",
-              `${Math.max(0, pathLen - curLen)}`
-            );
-            const centeredPt = revealPathEl.getPointAtLength(curLen);
-            const translateY = viewportCenter - centeredPt.y;
-            gEl.setAttribute("transform", `translate(0, ${translateY})`);
-
-            nodes.forEach((node) => {
-              if (!node.visible) {
-                if (delta >= 0 && curLen >= node.len - activationOffset) {
-                  node.visible = true;
-
-                  // mostrar foreignObject + animar progress bar desde 0->100%
-                  gsap.killTweensOf(node.fo);
-                  gsap.to(node.fo, {
-                    autoAlpha: 1,
-                    duration: 0.28,
-                    ease: "power2.out",
-                    onStart: () => {
-                      try {
-                        node.fo.style.pointerEvents = "all";
-                      } catch {}
-                      try {
-                        const bar = (node.fo as Element).querySelector(
-                          ".timeline-progress-bar"
-                        ) as HTMLElement | null;
-                        if (bar) {
-                          gsap.killTweensOf(bar);
-                          // animación de la barra: width 0% -> 100%
-                          gsap.fromTo(
-                            bar,
-                            { width: "0%" },
-                            { width: "100%", duration: 0.6, ease: "power2.out" }
-                          );
-                        }
-                      } catch {}
-                    },
-                  });
-
-                  // Mostrar gradiente del borde mediante opacity (fade-in)
-                  gsap.killTweensOf(node.ringReveal);
-                  gsap.to(node.ringReveal, {
-                    autoAlpha: 1,
-                    duration: 0.35,
-                    ease: "power2.out",
-                  });
-                }
-              } else {
-                // ---------------- ocultado de nodo (reemplaza tu bloque existente) ----------------
-                if (delta < 0 && curLen < node.len - hideThreshold) {
-                  node.visible = false;
-
-                  // Primero animamos la barra de progreso 100% -> 0% (si existe),
-                  // y *al completar* ocultamos la foreignObject.
-                  try {
-                    const bar = (node.fo as Element).querySelector(
-                      ".timeline-progress-bar"
-                    ) as HTMLElement | null;
-
-                    if (bar) {
-                      // asegurarnos de no tener animaciones previas
-                      gsap.killTweensOf(bar);
-                      // animamos la barra hacia 0%
-                      gsap.to(bar, {
-                        width: "0%",
-                        duration: 0.35,
-                        ease: "power2.inOut",
-                        onStart: () => {
-                          // opcional: si quieres que la barra se vea aún al empezar el reverse
-                          // bar.style.willChange = 'width';
-                        },
-                        onComplete: () => {
-                          // al terminar la barra, ocultamos la foreignObject
-                          try {
-                            gsap.killTweensOf(node.fo);
-                            gsap.to(node.fo, {
-                              autoAlpha: 0,
-                              duration: 0.22,
-                              ease: "power2.out",
-                              onComplete: () => {
-                                try {
-                                  node.fo.style.pointerEvents = "none";
-                                } catch {}
-                              },
-                            });
-                          } catch {}
-                        },
-                      });
-                    } else {
-                      // fallback: si no hay barra, ocultar directamente
-                      gsap.killTweensOf(node.fo);
-                      gsap.to(node.fo, {
-                        autoAlpha: 0,
-                        duration: 0.22,
-                        ease: "power2.out",
-                        onComplete: () => {
-                          try {
-                            node.fo.style.pointerEvents = "none";
-                          } catch {}
-                        },
-                      });
-                    }
-                  } catch (e) {
-                    // fallback robusto
-                    try {
-                      gsap.killTweensOf(node.fo);
-                      gsap.to(node.fo, {
-                        autoAlpha: 0,
-                        duration: 0.22,
-                        ease: "power2.out",
-                        onComplete: () => {
-                          try {
-                            node.fo.style.pointerEvents = "none";
-                          } catch {}
-                        },
-                      });
-                    } catch {}
-                  }
-
-                  // Ocultar gradiente del borde mediante opacity (fade-out)
-                  gsap.killTweensOf(node.ringReveal);
-                  gsap.to(node.ringReveal, {
-                    autoAlpha: 0,
-                    duration: 0.25,
-                    ease: "power2.inOut",
-                  });
-
-                  // -------------------------------------------------------------------------------
-                }
-              }
-            });
-
-            prevLen = curLen;
-          };
-
-          // intro reveal
-          await new Promise<void>((resolveIntro) => {
-            const introProxy = { off: pathLen };
-            revealPathEl.setAttribute("stroke-dashoffset", `${pathLen}`);
-            gsap.to(introProxy, {
-              off: pathLen - lenAtCenter,
-              duration: 0.6,
-              ease: "power2.out",
-              onUpdate: () => {
-                revealPathEl.setAttribute(
-                  "stroke-dashoffset",
-                  `${Math.max(0, introProxy.off)}`
-                );
-              },
-              onComplete: () => {
-                proxy.len = lenAtCenter;
-                prevLen = lenAtCenter;
-                resolveIntro();
-              },
-            });
-          });
-
-          // scroll mapping (RAF)
-          let rafId: number | null = null;
-          let lastScroll = -1;
-          let finishTween: gsap.core.Tween | null = null;
-
-          const getScrollTop = () => {
-            const s = smootherRef.current;
-            if (s) {
-              if (typeof s.getScrollTop === "function") return s.getScrollTop();
-              if (typeof s.scrollTop === "number") return s.scrollTop;
-            }
-            return window.scrollY || document.documentElement.scrollTop || 0;
-          };
-
-          const getScrollableTotal = () =>
-            Math.max(
-              1,
-              document.documentElement.scrollHeight - window.innerHeight
-            );
-
-          const onScrollRAF = () => {
-            rafId = null;
-            const st = getScrollTop();
-            if (st === lastScroll) return;
-            lastScroll = st;
-            const total = getScrollableTotal();
-            let p = st / total;
-            p = Math.max(0, Math.min(1, p));
-            proxy.len = lenAtCenter + p * (pathLen - lenAtCenter);
-            updateRevealAndTranslate();
-
-            if (p >= 0.999) {
-              if (proxy.len < pathLen - 0.5 && !finishTween) {
-                finishTween = gsap.to(proxy, {
-                  len: pathLen,
-                  duration: 0.5,
+          nodes.forEach((node) => {
+            if (!node.visible) {
+              if (delta >= 0 && curLen >= node.len - activationOffset) {
+                node.visible = true;
+                gsap.killTweensOf(node.fo);
+                gsap.to(node.fo, {
+                  autoAlpha: 1,
+                  duration: 0.28,
                   ease: "power2.out",
-                  onUpdate: updateRevealAndTranslate,
-                  onComplete: () => {
-                    finishTween = null;
+                  onStart: () => {
+                    try {
+                      node.fo.style.pointerEvents = "all";
+                    } catch {}
+                    const bar = (node.fo as Element).querySelector(
+                      ".timeline-progress-bar",
+                    ) as HTMLElement | null;
+                    if (bar) {
+                      gsap.killTweensOf(bar);
+                      gsap.fromTo(
+                        bar,
+                        { width: "0%" },
+                        { width: "100%", duration: 0.6, ease: "power2.out" },
+                      );
+                    }
                   },
+                });
+                gsap.killTweensOf(node.ringReveal);
+                gsap.to(node.ringReveal, {
+                  autoAlpha: 1,
+                  duration: 0.35,
+                  ease: "power2.out",
                 });
               }
             } else {
-              if (finishTween) {
-                finishTween.kill();
-                finishTween = null;
+              if (delta < 0 && curLen < node.len - hideThreshold) {
+                node.visible = false;
+                const bar = (node.fo as Element).querySelector(
+                  ".timeline-progress-bar",
+                ) as HTMLElement | null;
+                if (bar) {
+                  gsap.killTweensOf(bar);
+                  gsap.to(bar, {
+                    width: "0%",
+                    duration: 0.35,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                      gsap.killTweensOf(node.fo);
+                      gsap.to(node.fo, {
+                        autoAlpha: 0,
+                        duration: 0.22,
+                        ease: "power2.out",
+                        onComplete: () => {
+                          try {
+                            node.fo.style.pointerEvents = "none";
+                          } catch {}
+                        },
+                      });
+                    },
+                  });
+                } else {
+                  gsap.killTweensOf(node.fo);
+                  gsap.to(node.fo, {
+                    autoAlpha: 0,
+                    duration: 0.22,
+                    ease: "power2.out",
+                    onComplete: () => {
+                      try {
+                        node.fo.style.pointerEvents = "none";
+                      } catch {}
+                    },
+                  });
+                }
+                gsap.killTweensOf(node.ringReveal);
+                gsap.to(node.ringReveal, {
+                  autoAlpha: 0,
+                  duration: 0.25,
+                  ease: "power2.inOut",
+                });
               }
             }
-          };
+          });
+          prevLen = curLen;
+        };
 
-          const onScroll = () => {
-            if (rafId) cancelAnimationFrame(rafId);
-            rafId = requestAnimationFrame(onScrollRAF);
-          };
-
-          window.addEventListener("scroll", onScroll, { passive: true });
-          wrapper.addEventListener("scroll", onScroll, { passive: true });
-
-          // small circles fade (scoped)
-          const circles = content.querySelectorAll(".circle");
-          if (circles && circles.length) {
-            const tl = gsap.timeline({
-              scrollTrigger: {
-                trigger: content,
-                start: "top top",
-                end: `+=${SVG_HEIGHT}`,
-                scrub: 0.7,
-              },
-            });
-            circles.forEach((c) =>
-              tl.to(c, { opacity: 1, duration: 0.2 }, "<")
+        // Intro Reveal síncrona
+        const introProxy = { off: pathLen };
+        revealPath.setAttribute("stroke-dashoffset", `${pathLen}`);
+        gsap.to(introProxy, {
+          off: pathLen - lenAtCenter,
+          duration: 0.6,
+          ease: "power2.out",
+          onUpdate: () => {
+            revealPath.setAttribute(
+              "stroke-dashoffset",
+              `${Math.max(0, introProxy.off)}`,
             );
+          },
+          onComplete: () => {
+            proxy.len = lenAtCenter;
+            prevLen = lenAtCenter;
+          },
+        });
+
+        // Scroll mapping
+        let lastScroll = -1;
+        let finishTween: gsap.core.Tween | null = null;
+
+        const getScrollTop = () => {
+          const s = smootherRef.current;
+          if (s) {
+            if (typeof s.getScrollTop === "function") return s.getScrollTop();
+            if (typeof s.scrollTop === "number") return s.scrollTop;
           }
+          return window.scrollY || document.documentElement.scrollTop || 0;
+        };
 
-          // resize -> rebuild
-          const onResize = () => {
-            if (svgRef.current) {
-              try {
-                svgRef.current.remove();
-              } catch {}
-              svgRef.current = null;
-              revealPathRef.current = null;
-              groupRef.current = null;
+        const getScrollableTotal = () =>
+          Math.max(
+            1,
+            document.documentElement.scrollHeight - window.innerHeight,
+          );
+
+        const onScrollRAF = () => {
+          rafId = null;
+          const st = getScrollTop();
+          if (st === lastScroll) return;
+          lastScroll = st;
+          let p = Math.max(0, Math.min(1, st / getScrollableTotal()));
+          proxy.len = lenAtCenter + p * (pathLen - lenAtCenter);
+          updateRevealAndTranslate();
+
+          if (p >= 0.999) {
+            if (proxy.len < pathLen - 0.5 && !finishTween) {
+              finishTween = gsap.to(proxy, {
+                len: pathLen,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: updateRevealAndTranslate,
+                onComplete: () => {
+                  finishTween = null;
+                },
+              });
             }
-            setTimeout(() => {
-              if (!cancelled) build();
-            }, 60);
-          };
-          window.addEventListener("resize", onResize);
-
-          externalCleanup = () => {
-            window.removeEventListener("resize", onResize);
-            window.removeEventListener("scroll", onScroll);
-            wrapper.removeEventListener("scroll", onScroll);
-            try {
-              if (rafId) cancelAnimationFrame(rafId);
-            } catch {}
+          } else {
             if (finishTween) {
-              try {
-                finishTween.kill();
-              } catch {}
+              finishTween.kill();
               finishTween = null;
             }
-          };
-        })();
-      }, wrapper);
-
-      return () => {
-        cancelled = true;
-        try {
-          ctx.revert();
-        } catch {}
-        try {
-          const content = contentRef.current;
-          const spacer = content?.querySelector(".circle-spacer");
-          if (spacer) spacer.remove();
-        } catch {}
-        try {
-          const existing = document.getElementById(SVG_ID);
-          if (existing && existing.parentNode)
-            existing.parentNode.removeChild(existing);
-        } catch {}
-        try {
-          if (
-            smootherRef.current &&
-            typeof smootherRef.current.kill === "function"
-          ) {
-            smootherRef.current.kill();
           }
-          smootherRef.current = null;
-        } catch {}
-        if (typeof externalCleanup === "function") externalCleanup();
-      };
-    }; // end build
+        };
 
-    let cleanupFn: (() => void) | null = null;
-    let mounted = true;
-    (async () => {
-      const fn = await build();
-      if (!mounted) {
-        try {
-          fn();
-        } catch {}
-      } else {
-        cleanupFn = fn;
+        const onScroll = () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(onScrollRAF);
+        };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        wrapper.addEventListener("scroll", onScroll, { passive: true });
+
+        // Circles fade timeline
+        const circles = content.querySelectorAll(".circle");
+        if (circles && circles.length) {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: content,
+              start: "top top",
+              end: `+=${SVG_HEIGHT}`,
+              scrub: 0.7,
+            },
+          });
+          circles.forEach((c) => tl.to(c, { opacity: 1, duration: 0.2 }, "<"));
+        }
+
+        // Asignamos las funciones de limpieza
+        externalCleanup = () => {
+          window.removeEventListener("scroll", onScroll);
+          wrapper.removeEventListener("scroll", onScroll);
+          if (rafId) cancelAnimationFrame(rafId);
+          if (finishTween) {
+            try {
+              finishTween.kill();
+            } catch {}
+          }
+        };
+      }, wrapper);
+    };
+
+    // Lanzamos la función principal
+    run();
+
+    // Resize global, le damos un debounce y volvemos a correr todo
+    let lastWidth = window.innerWidth;
+
+    // Resize global con validación de ancho
+    const onResize = () => {
+      const currentWidth = window.innerWidth;
+
+      // LA MAGIA: Si el ancho es exactamente igual, fue la barra del navegador
+      // ocultándose/mostrándose. Ignoramos este resize para no romper la animación.
+      if (currentWidth === lastWidth) {
+        return;
       }
-    })();
+
+      // Si el ancho sí cambió (ej. el usuario rotó el celular), actualizamos y reconstruimos
+      lastWidth = currentWidth;
+
+      setTimeout(() => {
+        if (!cancelled) run();
+      }, 60);
+    };
+    window.addEventListener("resize", onResize);
 
     return () => {
-      mounted = false;
+      cancelled = true;
+      window.removeEventListener("resize", onResize);
+      if (ctx) ctx.revert();
+      if (externalCleanup) externalCleanup();
+
       try {
-        if (cleanupFn) cleanupFn();
+        const spacer = contentRef.current?.querySelector(".circle-spacer");
+        if (spacer) spacer.remove();
       } catch {}
+
+      try {
+        const existing = document.getElementById(SVG_ID);
+        if (existing && existing.parentNode)
+          existing.parentNode.removeChild(existing);
+      } catch {}
+
+      if (reactRootsRef.current.length > 0) {
+        reactRootsRef.current.forEach(({ root }) => {
+          try {
+            root.unmount();
+          } catch (e) {}
+        });
+        reactRootsRef.current = [];
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLaptop, isMobile]);
 
   const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    // Recorremos los roots guardados y los re-renderizamos con los datos actualizados
+    reactRootsRef.current.forEach(({ root, index }) => {
+      if (TIMELINE_EVENTS[index]) {
+        root.render(
+          <TimelineCard ev={TIMELINE_EVENTS[index] as TimelineEvent} />,
+        );
+      }
+    });
+  }, [i18n.language, mounted]);
+
   useEffect(() => setMounted(true), []);
 
   const raysRef = useRef<HTMLDivElement | null>(null);
@@ -1085,8 +975,8 @@ if (ev.side === "center") {
                 0,
                 Math.min(
                   1,
-                  (scale - moveStartScale) / (maxScale - moveStartScale)
-                )
+                  (scale - moveStartScale) / (maxScale - moveStartScale),
+                ),
               );
               const extra = 80; // margen extra para asegurar que salga
               const translateY = -t * (overlayH + extra);
@@ -1342,7 +1232,7 @@ if (ev.side === "center") {
             filter: "blur(0px)",
             ease: "power2.out",
           },
-          "+=0.12"
+          "+=0.12",
         );
       }
 
@@ -1351,7 +1241,7 @@ if (ev.side === "center") {
           mi,
           { y: 12, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, duration: 0.5, ease: "power2.out" },
-          "+=0.12"
+          "+=0.12",
         );
       }
     }, delayMs);

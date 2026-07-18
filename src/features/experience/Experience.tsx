@@ -68,7 +68,7 @@ export const Experience = () => {
 
           <div
             ref={miVidaRef}
-            className="absolute  lg:-bottom-30 text-[#aaa] text-sm xl:text-base font-normal w-[100px] text-center leading-4.5 xl:leading-5 opacity-0"
+            className="absolute  lg:-bottom-30 text-[#aaa] text-sm xl:text-base font-normal w-[125px] text-center leading-4.5 xl:leading-5 opacity-0"
           >
             {t('Mi Vida Profesional')}
           </div>

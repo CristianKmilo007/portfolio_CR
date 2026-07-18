@@ -186,7 +186,7 @@ const MenuOverlay = ({
                     download=""
                   >
                     <span className="text-lg font-medium block lg:-mt-[2px]">
-                      CV
+                      {t('CV')}
                     </span>
                   </a>
                 </div>

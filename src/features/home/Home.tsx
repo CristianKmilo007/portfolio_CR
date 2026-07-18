@@ -16,7 +16,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTranslation } from "react-i18next";
 gsap.registerPlugin(ScrollTrigger);
 
+ScrollTrigger.config({ 
+  ignoreMobileResize: true 
+});
+
 export const Home = () => {
+  const { t, i18n } = useTranslation();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -27,9 +32,9 @@ export const Home = () => {
       try {
         ScrollTrigger.refresh && ScrollTrigger.refresh();
       } catch {}
-    }, 1500);
+    }, i18n.language ? 500 : 1500);
     return () => clearTimeout(id);
-  }, [mounted]);
+  }, [i18n.language, mounted]);
 
   const {
     rootRef,
@@ -43,7 +48,6 @@ export const Home = () => {
     cards,
   } = useHome({ ready: mounted });
 
-  const { t } = useTranslation();
 
   return (
     <div ref={rootRef}>
@@ -112,7 +116,7 @@ export const Home = () => {
                       <TextType
                         text={[
                           t("Desarrollador Frontend"),
-                          t("Desarrollador Frontend"),
+                          t("Desarrollador Backend"),
                           t("Desarrollador Full Stack"),
                           t("Diseñador UI/UX"),
                           t("Programador"),
@@ -212,11 +216,7 @@ export const Home = () => {
                 >
                   <div className="max-w-[400px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] text-center">
                     <p className="text-white font-crimson italic font-normal text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] leading-9 sm:leading-10 lg:leading-12">
-                      {t(`Desarrollador de aplicaciones web full stack, con amplio
-                      conocimiento y solida experiencia, trabajando con
-                      tecnologías modernas de diseño frontend y arquitectura
-                      backend, escribiendo código limpio y entregando un trabajo
-                      de calidad.`)}
+                      {t("Desarrollador de aplicaciones web full stack, con amplio conocimiento y solida experiencia, trabajando con tecnologías modernas de diseño frontend y arquitectura backend, escribiendo código limpio y entregando un trabajo de calidad.")}
                     </p>
                   </div>
                 </div>
