@@ -82,7 +82,7 @@ export const Home = () => {
                       className="w-full h-full"
                     >
                       <img
-                        src="/home/top-left-img.png"
+                        src="/home/top-left-img.webp"
                         alt=""
                         className="w-full h-full object-contain object-left-top"
                       />
@@ -174,7 +174,7 @@ export const Home = () => {
                         className="w-full h-full"
                       >
                         <img
-                          src="/home/bg-explosion.png"
+                          src="/home/bg-explosion.webp"
                           alt=""
                           className="w-full h-full object-cover object-[80%_25px] sm:object-right"
                         />
@@ -199,7 +199,7 @@ export const Home = () => {
                       delay={0}
                     >
                       <img
-                        src={"/home/hero-img.png"}
+                        src={"/home/hero-img.webp"}
                         width={isTablet ? 450 : isLaptop ? 500 : 737}
                         height={isTablet ? 400 : isLaptop ? 450 : 678}
                         alt="hero"

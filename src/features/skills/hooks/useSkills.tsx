@@ -182,7 +182,7 @@ export const useSkills = () => {
     {
       tecnology: "TanStack Query",
       percentage: 75,
-      icon: "/skills/splash-light.png",
+      icon: "/skills/splash-light.webp",
     },
     {
       tecnology: "React",

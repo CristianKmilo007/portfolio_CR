@@ -3,6 +3,8 @@ import SlideImages from "../projects/components/SlidesImages";
 import { projectData } from "../projects/data";
 import { useResponsive } from "../../hooks/useMediaQuery";
 import { useTranslation } from "react-i18next";
+import { Button } from "@heroui/react";
+import { PiLinkBold } from "react-icons/pi";
 
 // 1. Extraemos la tarjeta a un componente independiente
 const ProjectCard = ({
@@ -94,7 +96,27 @@ const ProjectCard = ({
           <SlideImages slides={slides} thumbs={false} isAllProjects />
         </div>
         <div className="w-full flex flex-col gap-2">
-          <h2 className="text-xl font-semibold text-white">{project.name}</h2>
+          <div className="w-full flex gap-2 items-center">
+            <h2 className="text-xl font-semibold text-white">{project.name}</h2>
+          {project.link && (
+            <a
+              href={project?.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Abrir ${project.name} en nueva pestaña`}
+              className="cursor-none"
+            >
+              <Button
+                isIconOnly
+                size="sm"
+                radius="full"
+                className="bg-[#00000046] mt-1 cursor-none button-link h-7 w-7 min-w-7"
+              >
+                <PiLinkBold color="#fff" size={15} />
+              </Button>
+            </a>
+          )}
+          </div>
           <div className="text-white text-sm">{t(project.description)}</div>
           <div className="flex flex-wrap gap-1 mt-2">
             {project.technologies.map((t: any) => (
@@ -185,7 +207,7 @@ export const AllProjects = () => {
             transition: scrollProgress === 0 ? "opacity 1.5s ease-out" : "none",
           }}
         >
-          {t('Todos los proyectos')}
+          {t("Todos los proyectos")}
         </h1>
       </div>
 

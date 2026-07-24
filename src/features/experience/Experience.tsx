@@ -35,7 +35,7 @@ export const Experience = () => {
           initialBorderWidth={isMobile ? 2 : 3}
           duration={2}
           expandDuration={1.5}
-          backgroundImage="/experience/img2.jpg"
+          backgroundImage="/experience/img2.webp"
           maxScale={5.5}
         />
       </div>

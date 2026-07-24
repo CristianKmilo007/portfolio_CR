@@ -41,43 +41,43 @@ export const useHero = ({
 
   const IMAGES = [
     {
-      url: "/projects/eranpay/img1.png",
+      url: "/projects/eranpay/img1.webp",
       className:
         "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[10px] lg:top-[-22px] left-[140px] lg:left-[175px] rotate-8",
       isContain: isLaptop ? true : false,
     },
     {
-      url: "/projects/distripharmacias-del-llano/img1.png",
+      url: "/projects/distripharmacias-del-llano/img1.webp",
       className:
         "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[70px] left-[-70px] lg:left-[-80px] rotate-[-2deg]",
       isContain: isLaptop ? true : false,
     },
     {
-      url: "/projects/tododomi/img1.png",
+      url: "/projects/tododomi/img1.webp",
       className:
         "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[130px] lg:top-[173px] left-[175px] lg:left-[250px] rotate-3",
       isContain: isLaptop ? true : false,
     },
     {
-      url: "/projects/shepwashi-dashboard/img13.png",
+      url: "/projects/shepwashi-dashboard/img13.webp",
       className:
         "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[175px] lg:top-[250px] left-[0px] rotate-6",
       isContain: isLaptop ? true : false,
     },
     {
-      url: "/projects/eranpay/img5.png",
+      url: "/projects/eranpay/img5.webp",
       className:
         "w-[280px] lg:w-[350px] h-[140px] lg:h-[200px] top-[250px] lg:top-[368px] left-[180px] sm:left-[230px] md:left-[180px] lg:left-[215px] rotate-[-1deg]",
       isContain: isLaptop ? true : false,
     },
     {
-      url: "/projects/eranpay/img27.png",
+      url: "/projects/eranpay/img27.webp",
       className:
         "w-[80px] lg:w-[103px] h-[156px] lg:h-[200px] top-[225px] lg:top-[310px] left-[-40px] lg:left-[-57px] rotate-[-7deg]",
       isContain: true,
     },
     {
-      url: "/projects/shepwashi/img11.png",
+      url: "/projects/shepwashi/img11.webp",
       className:
         "w-[80px] lg:w-[103px] h-[156px] lg:h-[200px] top-[260px] lg:top-[385px] left-[25px] lg:left-[40px] rotate-1",
       isContain: true,
