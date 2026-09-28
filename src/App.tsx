@@ -19,13 +19,28 @@ import { AllProjectsPage } from "./pages/AllProjectsPage";
 export const App: React.FC = () => {
   const location = useLocation();
   const { isMobile } = useResponsive();
-  const [isLoading, setIsLoading] = useState(true);
+  // El loader solo se muestra la primera vez por sesión, para no hacer esperar
+  // a quien vuelve a entrar o recarga la página.
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return window.sessionStorage.getItem("loaderShown") !== "1";
+    } catch {
+      return true;
+    }
+  });
 
   // Esta clave se incrementa cuando entramos a "/" -> fuerza remount del Home
   const [homeKey, setHomeKey] = useState(0);
 
   // Control de carga
-  const handleLoadComplete = () => setIsLoading(false);
+  const handleLoadComplete = () => {
+    try {
+      window.sessionStorage.setItem("loaderShown", "1");
+    } catch {
+      /* ignore */
+    }
+    setIsLoading(false);
+  };
 
   // Incrementar solo cuando la ruta es "/" (no depende de homeKey para evitar bucles)
   useEffect(() => {

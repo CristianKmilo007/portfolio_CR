@@ -14,6 +14,7 @@ import { useHome } from "./hooks/useHome";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTranslation } from "react-i18next";
+import CustomLink from "../../layout/menu/components/CustomLink";
 gsap.registerPlugin(ScrollTrigger);
 
 ScrollTrigger.config({ 
@@ -115,9 +116,8 @@ export const Home = () => {
                     <div className="h-[70px] sm:h-[100px]">
                       <TextType
                         text={[
-                          t("Desarrollador Frontend"),
-                          t("Desarrollador Backend"),
                           t("Desarrollador Full Stack"),
+                          t("Desarrollador Frontend"),
                           t("Diseñador UI/UX"),
                           t("Programador"),
                         ]}
@@ -128,7 +128,25 @@ export const Home = () => {
                       />
                     </div>
 
-                    <div className="w-[100px] sm:w-[125px] lg:w-[150px] h-[100px] sm:h-[125px] lg:h-[150px] relative flex justify-center items-center p-2 mt-0 lg:mt-20">
+                    {/* Accesos directos para reclutadores: proyectos y CV sin tener que hacer scroll */}
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 sm:mt-6 lg:mt-8">
+                      <CustomLink
+                        to="/projects"
+                        className="group inline-flex items-center gap-2 rounded-full bg-white text-[#111] font-semibold text-sm sm:text-base px-5 sm:px-7 py-2.5 sm:py-3 transition-transform duration-300 hover:scale-105 cursor-none"
+                      >
+                        {t("Ver proyectos")}
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </CustomLink>
+                      <a
+                        href={i18n.language?.startsWith("en") ? "/CV_Cristian_Rojas_EN.pdf" : "/CV_Cristian_Rojas.pdf"}
+                        download
+                        className="inline-flex items-center gap-2 rounded-full border border-white/40 text-white font-semibold text-sm sm:text-base px-5 sm:px-7 py-2.5 sm:py-3 backdrop-blur-sm transition-colors duration-300 hover:bg-white/10 hover:border-white cursor-none"
+                      >
+                        {t("Descargar CV")}
+                      </a>
+                    </div>
+
+                    <div className="w-[100px] sm:w-[125px] lg:w-[150px] h-[100px] sm:h-[125px] lg:h-[150px] relative flex justify-center items-center p-2 mt-4 lg:mt-12">
                       <div className="w-full h-full absolute">
                         <img
                           src="/home/circle-star.svg"
@@ -216,7 +234,7 @@ export const Home = () => {
                 >
                   <div className="max-w-[400px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] text-center">
                     <p className="text-white font-crimson italic font-normal text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] leading-9 sm:leading-10 lg:leading-12">
-                      {t("Desarrollador de aplicaciones web full stack, con amplio conocimiento y solida experiencia, trabajando con tecnologías modernas de diseño frontend y arquitectura backend, escribiendo código limpio y entregando un trabajo de calidad.")}
+                      {t("Desarrollador Full Stack con más de 5 años de experiencia, especializado en frontend con React, Next.js y TypeScript. Construyo dashboards, plataformas de ventas y e-commerce para empresas de fintech, seguros y banca, con interfaces rápidas, animadas y cuidadas al detalle.")}
                     </p>
                   </div>
                 </div>

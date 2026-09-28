@@ -10,16 +10,16 @@ interface PageLoaderProps {
 }
 
 /* timing tunables */
-const EXIT_DUR = 0.25;
-const ENTER_DUR = 0.3;
+const EXIT_DUR = 0.18;
+const ENTER_DUR = 0.2;
 const STAGGER = 60; // ms between column animations (visual offset)
-const BREATHING = 0.12;
-const INITIAL_SHOW_MS = 250;
+const BREATHING = 0.05;
+const INITIAL_SHOW_MS = 150;
 const LINE_LEAD_MS = 200; // ms before line animation to hide counter parent
 
 export default function PageLoader({
   onComplete,
-  segments = [0, 42, 79, 100],
+  segments = [0, 57, 100],
 }: PageLoaderProps) {
   // Always two columns: tens (0..10) and units (0..9)
   const tensValues = Array.from({ length: 11 }, (_, i) => String(i)); // 0..10
@@ -218,7 +218,7 @@ export default function PageLoader({
 
           // fade final lento (quede apagado)
           if (logoRef.current || counterWrapperRef.current) {
-            const finalFadeDur = 0.8; // segundos, ajustable
+            const finalFadeDur = 0.4; // segundos, ajustable
             tl.to([logoRef.current, counterWrapperRef.current], {
               opacity: 0,
               duration: finalFadeDur,
@@ -231,17 +231,17 @@ export default function PageLoader({
             gsap.set(line, { scaleX: 0, transformOrigin: "center center" });
             tl.to(
               line,
-              { scaleX: 1, duration: 0.5, ease: "power3.inOut" },
+              { scaleX: 1, duration: 0.35, ease: "power3.inOut" },
               "+=0.05"
             );
             tl.to(
               line,
-              { height: "100vh", duration: 0.6, ease: "power4.inOut" },
+              { height: "100vh", duration: 0.45, ease: "power4.inOut" },
               "+=0.08"
             );
             tl.to(
               line,
-              { background: '#111', duration: 0.6, ease: "power4.inOut" },
+              { background: '#111', duration: 0.3, ease: "power4.inOut" },
 
             );
           } else {

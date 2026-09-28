@@ -24,7 +24,7 @@ const MenuOverlay = ({
   closeMenu,
 }: MenuOverlayProps) => {
   const textContainersRef = useRef<HTMLDivElement[]>([]);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (!gsap || !SplitText) return;
@@ -181,7 +181,7 @@ const MenuOverlay = ({
                 </div>
                 <div className="menu-tag overflow-hidden border border-white !size-10 rounded-full">
                   <a
-                    href="CV_Cristian_Rojas.pdf"
+                    href={i18n.language?.startsWith("en") ? "/CV_Cristian_Rojas_EN.pdf" : "/CV_Cristian_Rojas.pdf"}
                     className="w-full h-full flex items-center justify-center cursor-none"
                     download=""
                   >

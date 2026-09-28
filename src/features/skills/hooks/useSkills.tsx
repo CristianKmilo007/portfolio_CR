@@ -105,13 +105,13 @@ export const useSkills = () => {
       icon: <FaCss3Alt size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
-      tecnology: "Javascript",
-      percentage: 75,
+      tecnology: "JavaScript",
+      percentage: 85,
       icon: <IoLogoJavascript size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
-      tecnology: "Typescript",
-      percentage: 75,
+      tecnology: "TypeScript",
+      percentage: 85,
       icon: (
         <Icon
           icon="vscode-icons:file-type-typescript"
@@ -137,12 +137,12 @@ export const useSkills = () => {
       icon: <RiTailwindCssFill size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
-      tecnology: "Github",
+      tecnology: "GitHub",
       percentage: 80,
       icon: <FaGithub size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
-      tecnology: "Gsap",
+      tecnology: "GSAP",
       percentage: 60,
       icon: (
         <Icon
@@ -186,7 +186,7 @@ export const useSkills = () => {
     },
     {
       tecnology: "React",
-      percentage: 85,
+      percentage: 90,
       icon: <FaReact size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
@@ -195,7 +195,7 @@ export const useSkills = () => {
       icon: <SiVite size={isMobile ? 20 : 28} color="#fff" />,
     },
     {
-      tecnology: "Next JS",
+      tecnology: "Next.js",
       percentage: 80,
       icon: (
         <Icon
@@ -241,7 +241,7 @@ export const useSkills = () => {
       icon: <FaPhp size={isMobile ? 26 : 34} color="#fff" />,
     },
     {
-      tecnology: "Node Js",
+      tecnology: "Node.js",
       percentage: 60,
       icon: <FaNodeJs size={isMobile ? 22 : 30} color="#fff" />,
     },
@@ -273,22 +273,22 @@ export const useSkills = () => {
       icon: <TbBrandSocketIo size={isMobile ? 27 : 35} color="#fff" />,
     },
     {
-      tecnology: "Postgress",
+      tecnology: "PostgreSQL",
       percentage: 65,
       icon: <BiLogoPostgresql size={isMobile ? 25 : 33} color="#fff" />,
     },
     {
-      tecnology: "Mongo DB",
+      tecnology: "MongoDB",
       percentage: 50,
       icon: <SiMongodb size={isMobile ? 25 : 33} color="#fff" />,
     },
     {
-      tecnology: "Type ORM",
+      tecnology: "TypeORM",
       percentage: 65,
       icon: <SiTypeorm size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
-      tecnology: "Nest JS",
+      tecnology: "NestJS",
       percentage: 75,
       icon: <SiNestjs size={isMobile ? 22 : 30} color="#fff" />,
     },
@@ -306,7 +306,7 @@ export const useSkills = () => {
       icon: <SiAdobeillustrator size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
-      tecnology: "Corel Draw",
+      tecnology: "CorelDRAW",
       percentage: 45,
       icon: <SiCoreldraw size={isMobile ? 22 : 30} color="#fff" />,
     },
@@ -375,7 +375,7 @@ export const useSkills = () => {
                 </Button>
               )}
               <span className="text-xl text-[#888] font-medium w-full sm:w-max">
-                (+4 {t('años')})
+                (+5 {t('años')})
               </span>
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">
@@ -416,7 +416,7 @@ export const useSkills = () => {
                   variant="bordered"
                   className="border-1 text-white text-sm font-medium"
                   onPress={() => {
-                    setIsItems(dataFrontItems);
+                    setIsItems(dataBackItems);
                     onOpen();
                   }}
                 >
@@ -428,7 +428,7 @@ export const useSkills = () => {
               </span>
             </div>
             <div className="hidden lg:flex flex-col gap-3 font-crimson italic">
-              {dataFrontItems.map((item) => (
+              {dataBackItems.map((item) => (
                 <div className="flex justify-end gap-2" key={item}>
                   <span className="text-xl leading-6">{item}</span>
                   <TbPointFilled className="mt-1 size-4 min-w-4" />

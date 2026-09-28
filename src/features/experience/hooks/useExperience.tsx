@@ -43,120 +43,90 @@ export const useExperience = () => {
     )
   > = [
     {
-      year: "2019 - 2021",
-      title: t("Tecnico en Sistemas"),
-      desc: t("Instituto Politecnico Agroindustrial"),
-      functions: [
-        t(
-          "Soporte técnico y mantenimiento del hardware y softwaredel computador",
-        ),
-      ],
+      year: "2020 - 2022",
+      title: t("Técnico Laboral en Sistemas"),
+      desc: t("Instituto Politécnico Agroindustrial"),
+      functions: [t("Soporte técnico y mantenimiento de hardware y software")],
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       img: "/experience/cert_1.webp",
       type: "education",
       progress: isMobile ? 0.37 : 0.33,
     },
     {
-      year: "2021 - 2022",
-      title: t("Web Designer"),
-      desc: "Udemy",
+      year: "2021 - 2023",
+      title: "Freelance",
+      desc: t("Desarrollador Full Stack · Remoto"),
       functions: [
-        t("Máster en Diseño Web, enfoque UX/UI y desarrollo front-end"),
+        t("E-commerce de Distripharmacias del Llano con Angular, MongoDB y Socket.io"),
+        t("APIs REST con Node.js, Express y MongoDB"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
-      img: "/experience/cert_2.webp",
-      type: "education",
+      type: "job",
       progress: isMobile ? 0.45 : 0.41,
     },
     {
-      year: "2021 - 2022",
-      title: t("Web Developer Full Stack"),
+      year: "2022",
+      title: t("Bootcamp Desarrollo Web Full Stack"),
       desc: t("Universidad Iberoamericana"),
       type: "education",
       functions: [
-        t(
-          "Desarrollar aplicaciones completas usando JavaScript, Node.js y Angular",
-        ),
+        t("Aplicaciones completas con JavaScript, Node.js y Angular (300 h)"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_3.webp",
       progress: isMobile ? 0.53 : 0.49,
     },
     {
-      year: "2021 - 2023",
-      title: "Full Stack Developer Freelance",
-      desc: t("Villavicencio - Remoto"),
+      year: "2023 - 2024",
+      title: "TodoServy",
+      desc: t("Frontend Developer · Remoto · Medellín"),
       functions: [
-        t(
-          "Desarrollar interfaces web responsivas usando Angular, HTML5, CSS3 y frameworks de diseño modernos",
-        ),
-        t(
-          "Implementar APIs RESTful y endpoints backend seguros con Node.js y Express",
-        ),
-        t(
-          "Participar en revisiones de código, aplicando buenas prácticas y patrones de diseño",
-        ),
+        t("Frontend de TodoDomi, la primera app de delivery de Galápagos"),
+        t("Vistas del directorio TodoServy integradas con el backend en Laravel"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
       progress: isMobile ? 0.61 : 0.57,
     },
     {
-      year: "2023 - 2024",
-      title: "TodoServy",
-      desc: t("Villavicencio - Remoto"),
+      year: t("2024 - Actualidad"),
+      title: "Shepwashi",
+      desc: t("Senior Frontend Developer · Remoto · Weston, Florida (EE. UU.)"),
       functions: [
-        t(
-          "Implementar componentes reutilizables y modulares respetando patrones de diseño y buenas prácticas",
-        ),
-        t(
-          "Revisar código mediante pull requests y participar activamente en code reviews del equipo",
-        ),
+        t("Frontend de dashboards para Labreicis, Banco Bolivariano y Ecuasuiza"),
+        t("Arquitectura frontend con React, TypeScript, Zustand y TanStack Query"),
+        t("Trabajo con el equipo de backend: APIs REST, code reviews y pull requests"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: isMobile ? 0.69 : 0.65,
     },
     {
-      year: "2024-2025",
-      title: "Shepwashi",
-      desc: t("Villavicencio - Remoto"),
-      functions: [
-        t(
-          "Desarrollar interfaces web responsivas con HTML5, CSS3 y Typescript moderno",
-        ),
-        t(
-          "Implementar componentes reutilizables usando frameworks como React, Nest Js o Vite",
-        ),
-        t(
-          "Integrar APIs REST gestionando estado de la aplicación de forma eficiente",
-        ),
-        t(
-          "Definir arquitectura frontend escalable y guiar al equipo en buenas prácticas",
-        ),
-      ],
-      type: "job",
+      year: "2025",
+      title: t("Backend con NestJS"),
+      desc: "DevTalles",
+      type: "education",
+      functions: [t("NestJS, TypeORM, PostgreSQL y Docker en proyectos prácticos")],
+      img: "/experience/cert_4.webp",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: isMobile ? 0.77 : 0.73,
     },
     {
       year: "2025",
-      title: "Backend Dev. Nest JS",
-      desc: "DevTalles",
-      type: "education",
+      title: "Eranpay",
+      desc: t("Frontend Developer · Freelance"),
       functions: [
-        t(
-          "Uso de Git, Docker y bases de datos SQL/NoSQL en proyectos reales con Nest JS, TypeORM y PostgresSQL",
-        ),
+        t("Dashboard fintech con React, TypeScript, TanStack Query y Zustand"),
+        t("Multi-idioma, tema claro/oscuro, mapas y actualizaciones en tiempo real"),
       ],
-      img: "/experience/cert_4.webp",
+      type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: isMobile ? 0.85 : 0.81,
     },
     {
-      year: "2026...",
-      title: t("Crecimiento profesional"),
-      desc: t("Constante aprendizaje y fortalecimiento de mis habilidades..."),
+      year: "2026",
+      title: t("Desarrollo con IA"),
+      desc: t("Spec-Driven Development (SDD) y agentes de IA aplicados a mis proyectos"),
       type: "education",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: 1,
@@ -1204,12 +1174,17 @@ export const useExperience = () => {
     blockScroll();
 
     let tl: gsap.core.Timeline | null = null;
-    const delayMs = 3500;
+    // Antes 3500 ms: se acorta la espera y el scroll se libera apenas empiezan
+    // a aparecer los textos, para no dejar al visitante bloqueado ~6 segundos.
+    const delayMs = 2000;
     const timeoutId = window.setTimeout(() => {
       // arrancar la secuencia de texto (siempre con scroll bloqueado)
       tl = gsap.timeline({
+        onStart: () => {
+          unblockScroll();
+        },
         onComplete: () => {
-          // cuando termina la secuencia (miVidaRef ya se mostró), desbloqueamos
+          // por seguridad, si algo quedó bloqueado
           unblockScroll();
         },
       });

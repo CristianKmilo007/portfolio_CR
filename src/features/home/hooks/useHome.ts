@@ -261,7 +261,9 @@ export const useHome = ({ ready }: useHomeProps) => {
   }, [isLaptop, isMobile]);
 
   // ---- Resto del hook: timeline / scrolltrigger (igual que antes) ----
-  const SPEED = 2;
+  // Antes era 2 (10 pantallas de scroll). Con 1.2 la animación es la misma
+  // pero se recorre en ~6 pantallas, para no cansar a quien revisa el portafolio.
+  const SPEED = 1.2;
 
   useEffect(() => {
     if (!ready) return;
