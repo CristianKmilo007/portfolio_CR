@@ -81,7 +81,7 @@ export const useExperience = () => {
       title: "TodoServy",
       desc: t("Frontend Developer · Remoto · Medellín"),
       functions: [
-        t("Frontend de TodoDomi, la primera app de delivery de Galápagos"),
+        t("TodoDomi, la primera app de delivery de Galápagos"),
         t("Vistas del directorio TodoServy integradas con el backend en Laravel"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
@@ -93,7 +93,7 @@ export const useExperience = () => {
       title: "Shepwashi",
       desc: t("Senior Frontend Developer · Remoto · Weston, Florida (EE. UU.)"),
       functions: [
-        t("Frontend de dashboards para Labreicis, Banco Bolivariano y Ecuasuiza"),
+        t("Dashboards para Labreicis, Banco Bolivariano y Ecuasuiza"),
         t("Arquitectura frontend con React, TypeScript, Zustand y TanStack Query"),
         t("Trabajo con el equipo de backend: APIs REST, code reviews y pull requests"),
       ],

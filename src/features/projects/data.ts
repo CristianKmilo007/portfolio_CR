@@ -4,7 +4,7 @@ export const projectData: Project[] = [
   {
     name: "Labreicis",
     description:
-      "Frontend del dashboard para gestionar la producción de camarón: fases, parámetros, insumos, tareas, bodegas, ventas y reportes. Desarrollado en Shepwashi (2025 – 2026).",
+      "Dashboard para gestionar la producción de camarón: fases, parámetros, insumos, tareas, bodegas, ventas y reportes. Shepwashi, 2025 – 2026.",
     technologies: [
       "React",
       "Vite",
@@ -31,7 +31,7 @@ export const projectData: Project[] = [
   {
     name: "Eranpay",
     description:
-      "Dashboard fintech para gestionar transacciones, tarjetas, empresas, e-commerce, órdenes y soporte, con multi-idioma, tema claro/oscuro, mapas y actualizaciones en tiempo real. Proyecto freelance (2025).",
+      "Plataforma fintech para gestionar transacciones, tarjetas, empresas, e-commerce, órdenes y soporte, con multi-idioma, tema claro/oscuro, mapas y datos en tiempo real. Proyecto freelance, 2025.",
     technologies: [
       "React",
       "Vite",
@@ -112,7 +112,7 @@ export const projectData: Project[] = [
   {
     name: "Shepwashi Dashboard",
     description:
-      "Frontend del dashboard interno para gestionar proyectos, empleados, comisiones, gastos, tipos de contrato y rentabilidad. Desarrollado en Shepwashi (2025).",
+      "Herramienta interna para controlar proyectos, empleados, comisiones, gastos, tipos de contrato y rentabilidad de la empresa. Shepwashi, 2025.",
     technologies: [
       "React",
       "Vite",
@@ -182,7 +182,7 @@ export const projectData: Project[] = [
   {
     name: "Banco Bolivariano",
     description:
-      "Frontend del dashboard para gestionar pólizas, usuarios, oficinas y clientes, con estadísticas y módulos para controlar las ventas. Desarrollado en Shepwashi (2025).",
+      "Dashboard de pólizas, usuarios, oficinas y clientes, con estadísticas y módulos para seguir las ventas. Shepwashi, 2025.",
     technologies: [
       "React",
       "Vite",
@@ -231,7 +231,7 @@ export const projectData: Project[] = [
   {
     name: "Ecuasuiza Agentes",
     description:
-      "Frontend del módulo administrativo para gestionar usuarios, corporaciones, compañías, campañas, productos, planes y órdenes, con drag & drop. Desarrollado en Shepwashi (2025).",
+      "Panel administrativo para agentes de seguros: usuarios, corporaciones, compañías, campañas, productos, planes y órdenes, con drag & drop. Shepwashi, 2025.",
     technologies: [
       "React",
       "Vite",
@@ -290,7 +290,7 @@ export const projectData: Project[] = [
   {
     name: "Ecuasuiza Ventas",
     description:
-      "Frontend del sitio de venta de seguros de Ecuasuiza, con secciones por banco y diseño responsivo. Desarrollado en Shepwashi (2024).",
+      "Sitio de venta de seguros con secciones por banco y diseño responsivo. Shepwashi, 2024.",
     technologies: [
       "React",
       "Vite",
@@ -339,7 +339,7 @@ export const projectData: Project[] = [
   {
     name: "Shepwashi",
     description:
-      "Sitio web corporativo de Shepwashi con animaciones en GSAP y Framer Motion, diseño responsivo y SEO on-page (2024).",
+      "Sitio web corporativo con animaciones en GSAP y Framer Motion, diseño responsivo y SEO on-page. 2024.",
     technologies: [
       "Next.js",
       "JavaScript",
@@ -369,7 +369,7 @@ export const projectData: Project[] = [
   {
     name: "TodoDomi",
     description:
-      "Frontend de la primera app de delivery de Galápagos, pensada para turistas y comunidad local. Desarrollado en TodoServy (2024).",
+      "La primera app de delivery de Galápagos, pensada para turistas y comunidad local. TodoServy, 2024.",
     technologies: ["React", "JavaScript", "SASS", "Bootstrap"],
     slides: [
       { type: "image", src: "/projects/tododomi/img1.webp" },
@@ -392,7 +392,7 @@ export const projectData: Project[] = [
   {
     name: "TodoServy",
     description:
-      "Frontend del directorio verificado de servicios, profesionales y empresas, integrado con el backend del equipo. Desarrollado en TodoServy (2023).",
+      "Directorio verificado de servicios, profesionales y empresas. TodoServy, 2023.",
     technologies: [
       "HTML",
       "CSS",
@@ -418,7 +418,7 @@ export const projectData: Project[] = [
   {
     name: "Distripharmacias del Llano",
     description:
-      "E-commerce de medicamentos con ventas, órdenes, pagos e inventario. Proyecto freelance full stack (2023).",
+      "E-commerce de medicamentos con ventas, órdenes, pagos e inventario, desarrollado de punta a punta (frontend y backend). Proyecto freelance, 2023.",
     technologies: [
       "Angular",
       "JavaScript",
