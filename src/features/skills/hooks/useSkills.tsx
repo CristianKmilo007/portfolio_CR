@@ -75,6 +75,7 @@ export const useSkills = () => {
     t("Consumo de APIs y manejo eficiente del estado global con Axios / Zustand."),
     t("Animaciones fluidas e interactivas con GSAP / Framer Motion."),
     t("Optimización del rendimiento y buenas prácticas de accesibilidad."),
+    t("Desarrollo asistido por IA con Claude Code, Codex, Gemini y OpenCode."),
   ];
 
   const dataBackItems: string[] = [

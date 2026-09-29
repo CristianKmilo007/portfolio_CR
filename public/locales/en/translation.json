@@ -115,7 +115,6 @@
   "Dashboard fintech con React, TypeScript, TanStack Query y Zustand": "Fintech dashboard with React, TypeScript, TanStack Query and Zustand",
   "Multi-idioma, tema claro/oscuro, mapas y actualizaciones en tiempo real": "Multi-language, light/dark theme, maps and real-time updates",
   "Desarrollo con IA": "AI-assisted development",
-  "Spec-Driven Development (SDD) y agentes de IA aplicados a mis proyectos": "Spec-Driven Development (SDD) and AI agents applied to my projects",
   "años": "years",
   "año": "year",
   "Frontend": "Frontend",
@@ -134,5 +133,7 @@
   "E-commerce de medicamentos con ventas, órdenes, pagos e inventario, desarrollado de punta a punta (frontend y backend). Proyecto freelance, 2023.": "Pharmacy e-commerce with sales, orders, payments and inventory, built end to end (frontend and backend). Freelance project, 2023.",
   "TodoDomi, la primera app de delivery de Galápagos": "TodoDomi, the first delivery app in the Galápagos",
   "Dashboards para Labreicis, Banco Bolivariano y Ecuasuiza": "Dashboards for Labreicis, Banco Bolivariano and Ecuasuiza",
-  "Desarrollador Full Stack con más de 5 años creando dashboards, plataformas de ventas y e-commerce para empresas de fintech, seguros y banca. Me apasiona construir interfaces rápidas, animadas y cuidadas al detalle.": "Full Stack Developer with 5+ years building dashboards, sales platforms and e-commerce for fintech, insurance and banking companies. I love crafting fast, animated and carefully detailed interfaces."
+  "Desarrollador Full Stack con más de 5 años creando dashboards, plataformas de ventas y e-commerce para empresas de fintech, seguros y banca. Me apasiona construir interfaces rápidas, animadas y cuidadas al detalle.": "Full Stack Developer with 5+ years building dashboards, sales platforms and e-commerce for fintech, insurance and banking companies. I love crafting fast, animated and carefully detailed interfaces.",
+  "Uso Claude Code, Codex, Gemini y OpenCode con Spec-Driven Development (SDD) para acelerar el desarrollo": "I use Claude Code, Codex, Gemini and OpenCode with Spec-Driven Development (SDD) to speed up development",
+  "Desarrollo asistido por IA con Claude Code, Codex, Gemini y OpenCode.": "AI-assisted development with Claude Code, Codex, Gemini and OpenCode."
 }

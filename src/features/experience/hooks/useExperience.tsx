@@ -126,7 +126,7 @@ export const useExperience = () => {
     {
       year: "2026",
       title: t("Desarrollo con IA"),
-      desc: t("Spec-Driven Development (SDD) y agentes de IA aplicados a mis proyectos"),
+      desc: t("Uso Claude Code, Codex, Gemini y OpenCode con Spec-Driven Development (SDD) para acelerar el desarrollo"),
       type: "education",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
       progress: 1,
