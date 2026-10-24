@@ -57,8 +57,9 @@ export const useExperience = () => {
       title: "Freelance",
       desc: t("Full Stack Developer · Remoto"),
       functions: [
-        t("E-commerce de Distripharmacias del Llano de punta a punta con Angular, Node.js y MongoDB"),
-        t("APIs REST con Node.js, Express y MongoDB"),
+        t("E-commerce de medicamentos para Distripharmacias del Llano, de punta a punta: ventas, órdenes, pagos e inventario"),
+        t("APIs REST con Node.js, Express y MongoDB, y Socket.io para tiempo real"),
+        t("Interfaces responsivas con Angular y Bootstrap"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
@@ -81,8 +82,9 @@ export const useExperience = () => {
       title: "TodoServy",
       desc: t("Frontend Developer · Remoto · Medellín"),
       functions: [
-        t("TodoDomi, la primera app de delivery de Galápagos"),
+        t("Frontend de TodoDomi, la primera app de delivery de Galápagos, para turistas y comunidad local"),
         t("Vistas del directorio TodoServy integradas con el backend en Laravel"),
+        t("Parte del flujo de code reviews y pull requests del equipo"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
@@ -93,9 +95,11 @@ export const useExperience = () => {
       title: "Shepwashi",
       desc: t("Full Stack Developer · Remoto · Weston, Florida (EE. UU.)"),
       functions: [
-        t("Dashboard de Banco Bolivariano con la visibilidad de ventas por oficina"),
+        t("Dashboard de Banco Bolivariano que por primera vez les mostró las ventas por oficina"),
         t("Venta de seguros en línea de Ecuasuiza y su panel para agentes con drag & drop"),
-        t("Dashboard de rentabilidad por proyecto y sitio corporativo con Next.js, GSAP y SEO"),
+        t("Dashboard interno de proyectos, empleados, comisiones, gastos y rentabilidad"),
+        t("Sitio corporativo en Next.js con animaciones en GSAP y Framer Motion y SEO on-page"),
+        t("Integración de APIs REST con el equipo de backend, code reviews y pull requests"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -116,8 +120,9 @@ export const useExperience = () => {
       title: "Eranpay",
       desc: t("Senior Frontend Developer · Remoto"),
       functions: [
-        t("Dashboard fintech con React, TypeScript, TanStack Query y tiempo real con Socket.io"),
-        t("Multi-idioma, tema claro/oscuro, mapas y actualizaciones en tiempo real"),
+        t("Frontend completo de un dashboard fintech: transacciones, tarjetas, empresas, órdenes y soporte"),
+        t("Datos en tiempo real con Socket.io y caché de consultas con TanStack Query"),
+        t("Multi-idioma con i18next, tema claro/oscuro y mapas con Mapbox"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -128,8 +133,9 @@ export const useExperience = () => {
       title: "Luntriqa",
       desc: t("Senior Full Stack Developer · Remoto · Guayaquil (Ecuador)"),
       functions: [
-        t("Lideré el dashboard de Labreicis, que digitalizó la operación completa de una camaronera"),
-        t("Arquitectura del equipo con Zustand y TanStack Query, y contrato de APIs REST con backend"),
+        t("Lidero el dashboard de Labreicis, con el que una camaronera maneja toda su operación en un solo lugar"),
+        t("Arquitectura frontend del equipo a mi cargo: componentes reutilizables, Zustand y TanStack Query"),
+        t("Con backend definimos el contrato de las APIs REST antes de construir cada módulo"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "right" : "left",
@@ -140,8 +146,9 @@ export const useExperience = () => {
       title: "Rapidex",
       desc: t("Proyecto personal · NestJS, Drizzle, PostgreSQL y Redis"),
       functions: [
-        t("API de transportadora multi-comercio con guías, envíos y rastreo en vivo con SSE y WebSockets"),
-        t("Webhooks con patrón outbox, firma HMAC y reintentos; llaves de API y JWT con 2FA"),
+        t("Plataforma para transportadoras: los comercios crean envíos por API y sus clientes rastrean el paquete en tiempo real"),
+        t("Rastreo en vivo del paquete y del mensajero con Redis y WebSockets"),
+        t("Avisos confiables a los comercios con reintentos automáticos, y accesos por rol con 2FA"),
       ],
       type: "project",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -152,8 +159,9 @@ export const useExperience = () => {
       title: "Mercadex",
       desc: t("Proyecto personal · NestJS, Drizzle, PostgreSQL y React"),
       functions: [
-        t("Marketplace con catálogo, carrito, checkout, devoluciones y panel de vendedor"),
-        t("Login con Google y 2FA; envíos integrados con Rapidex por API y webhooks firmados"),
+        t("Marketplace estilo Mercado Libre de punta a punta: búsqueda, carrito, checkout, cupones, reseñas y devoluciones"),
+        t("Panel de vendedores con ventas y liquidaciones"),
+        t("Cada compra cotiza y crea el envío en Rapidex automáticamente; login con Google y 2FA"),
       ],
       type: "project",
       side: isMobile ? "center" : isLaptop ? "right" : "left",
@@ -164,8 +172,9 @@ export const useExperience = () => {
       title: "OpenSeat",
       desc: t("Proyecto personal · NestJS, Prisma, PostgreSQL y React"),
       functions: [
-        t("SaaS multi-organización para gestionar las sillas de asambleas con acceso por PIN o QR"),
-        t("~1.300 tests con Vitest y CI en GitHub Actions; PIN cifrado con AES-256-GCM"),
+        t("SaaS multi-organización para organizar las sillas de asambleas, con acceso por código + PIN o QR"),
+        t("Editor visual de distribución de sillas con drag & drop"),
+        t("Seguridad desde el diseño y cerca de 1.300 tests automatizados con CI en GitHub Actions"),
       ],
       type: "project",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
@@ -612,7 +621,9 @@ export const useExperience = () => {
           );
           fo.setAttribute("class", "timeline-node");
           const boxW = isMobile ? 250 : isLaptop ? 325 : 500;
-          const boxH = isMobile ? 300 : isLaptop ? 325 : 500;
+          // Tall enough for the longest card (5 bullets or an image) without clipping,
+          // and still shorter than the vertical gap between consecutive nodes.
+          const boxH = isMobile ? 400 : isLaptop ? 520 : 500;
           const offsetX = 14;
           let foX =
             ev.side === "center"

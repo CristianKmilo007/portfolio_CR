@@ -30,6 +30,8 @@ Personal projects appear only as timeline cards; project gallery cards wait unti
 - [x] T5 Replace CV PDFs with the updated versions — route: inline
 - [x] T6 Verify build, lint and pages in the browser — route: inline
 - [x] T7 Add Rapidex, Mercadex and OpenSeat as "project" cards in the experience timeline (no images or links, user request) — route: inline (mechanical, already understood)
+- [x] T8 Expand experience bullets to match LinkedIn (natural tone, user-approved) — route: delegated writer
+- [x] T9 Recruiter-focused bullets for personal project cards (user-approved) — route: delegated writer
 
 ## Acceptance criteria
 - Every role, date and bullet in the timeline matches the CV.
@@ -45,6 +47,8 @@ Personal projects appear only as timeline cards; project gallery cards wait unti
 - T5 done: public CV PDFs replaced with C:/Users/HOME/Documents/CRISTIAN/CV Cristian ES|EN.pdf (content checked, same as the CV reviewed).
 - T6 done in browser (localhost:5173): home hero/about/counters render; the counter cards overlapping the about text at 800x600 also happens on the live site, so it is pre-existing animation behavior, not a regression. Experience: 9 cards, ~570 px apart, card height 325 px, no overlap; Luntriqa card checked visually. Skills at 1366x768: backend list shows AWS, GitHub Actions, Redis, Prisma, Vitest and 7 service bullets without overflow. en/zh proper nouns verified.
 - T7 done: new `project` type with a code icon in TimelineCard; 12 events re-spaced and SVG_HEIGHT raised to 7500/10000 (mobile/desktop). `npm run build` passes. Browser: all 12 cards reveal at 1024 px and 375x812, min vertical gap 126 px on mobile, no overlap. 9 keys added to es/en/zh.
+- T8 done: functions rewritten for Luntriqa (3), Shepwashi (5), Eranpay (3), TodoServy (3), Freelance (3). 15 keys added and 9 removed per locale (es 158, en/zh 156 keys). `npm run build` passes; locale script confirms every `t("...")` literal in useExperience.tsx exists in es/en/zh (0 missing).
+- T9 done: functions rewritten for Rapidex (3), Mercadex (3), OpenSeat (3). 9 keys added and 6 removed per locale (es 161, en/zh 159 keys). `npm run build` passes; locale script confirms every `t("...")` literal in useExperience.tsx exists in es/en/zh (0 missing).
 
 ## Next step
 User decides on commit. Project gallery cards for the personal projects wait until they are public.

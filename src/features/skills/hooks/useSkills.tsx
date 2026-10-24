@@ -26,6 +26,7 @@ import {
 import { IoLogoJavascript } from "react-icons/io";
 import { RiTailwindCssFill } from "react-icons/ri";
 import {
+  SiAdobeaftereffects,
   SiAdobeillustrator,
   SiAdobephotoshop,
   SiCoreldraw,
@@ -34,10 +35,11 @@ import {
   SiMongodb,
   SiNestjs,
   SiPrisma,
+  SiRailway,
   SiRedis,
   SiTypeorm,
+  SiVercel,
   SiVite,
-  SiVitest,
 } from "react-icons/si";
 import { PiFramerLogoFill } from "react-icons/pi";
 import { Icon } from "@iconify/react";
@@ -46,6 +48,7 @@ import { BiLogoPostgresql } from "react-icons/bi";
 import { Button, useDisclosure } from "@heroui/react";
 import { useResponsive } from "../../../hooks/useMediaQuery";
 import SlidersSkills, { type dataSkills } from "../components/SlidersSkills";
+import { HiggsfieldIcon, MeshyIcon } from "../components/BrandIcons";
 import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -108,17 +111,17 @@ export const useSkills = () => {
     },
     {
       tecnology: "CSS",
-      percentage: 85,
+      percentage: 87,
       icon: <FaCss3Alt size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "JavaScript",
-      percentage: 85,
+      percentage: 82,
       icon: <IoLogoJavascript size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "TypeScript",
-      percentage: 85,
+      percentage: 81,
       icon: (
         <Icon
           icon="vscode-icons:file-type-typescript"
@@ -130,27 +133,27 @@ export const useSkills = () => {
     },
     {
       tecnology: "SASS",
-      percentage: 75,
+      percentage: 92,
       icon: <FaSass size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Bootstrap",
-      percentage: 50,
+      percentage: 94,
       icon: <FaBootstrap size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Tailwind CSS",
-      percentage: 85,
+      percentage: 94,
       icon: <RiTailwindCssFill size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "GitHub",
-      percentage: 80,
+      percentage: 92,
       icon: <FaGithub size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "GSAP",
-      percentage: 60,
+      percentage: 90,
       icon: (
         <Icon
           icon="simple-icons:gsap"
@@ -161,12 +164,12 @@ export const useSkills = () => {
     },
     {
       tecnology: "Framer Motion",
-      percentage: 60,
+      percentage: 95,
       icon: <PiFramerLogoFill size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Zustand",
-      percentage: 75,
+      percentage: 95,
       icon: (
         <Icon
           icon="devicon-plain:zustand"
@@ -177,7 +180,7 @@ export const useSkills = () => {
     },
     {
       tecnology: "Axios",
-      percentage: 70,
+      percentage: 85,
       icon: (
         <Icon
           icon="simple-icons:axios"
@@ -188,22 +191,22 @@ export const useSkills = () => {
     },
     {
       tecnology: "TanStack Query",
-      percentage: 75,
+      percentage: 81,
       icon: "/skills/splash-light.webp",
     },
     {
       tecnology: "React",
-      percentage: 90,
+      percentage: 84,
       icon: <FaReact size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Vite",
-      percentage: 85,
+      percentage: 88,
       icon: <SiVite size={isMobile ? 20 : 28} color="#fff" />,
     },
     {
       tecnology: "Next.js",
-      percentage: 80,
+      percentage: 86,
       icon: (
         <Icon
           icon="material-icon-theme:next"
@@ -214,12 +217,12 @@ export const useSkills = () => {
     },
     {
       tecnology: "Angular",
-      percentage: 60,
+      percentage: 91,
       icon: <FaAngular size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Laravel",
-      percentage: 50,
+      percentage: 92,
       icon: <FaLaravel size={isMobile ? 20 : 28} color="#fff" />,
     },
   ];
@@ -227,7 +230,7 @@ export const useSkills = () => {
   const dataBack: dataSkills[] = [
     {
       tecnology: "TypeScript",
-      percentage: 70,
+      percentage: 88,
       icon: (
         <Icon
           icon="vscode-icons:file-type-typescript"
@@ -239,27 +242,27 @@ export const useSkills = () => {
     },
     {
       tecnology: "Python",
-      percentage: 50,
+      percentage: 82,
       icon: <FaPython size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "PHP",
-      percentage: 45,
+      percentage: 93,
       icon: <FaPhp size={isMobile ? 26 : 34} color="#fff" />,
     },
     {
       tecnology: "Node.js",
-      percentage: 60,
+      percentage: 90,
       icon: <FaNodeJs size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Express",
-      percentage: 55,
+      percentage: 84,
       icon: <SiExpress size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "JWT",
-      percentage: 50,
+      percentage: 85,
       icon: (
         <Icon
           icon="logos:jwt-icon"
@@ -271,80 +274,100 @@ export const useSkills = () => {
     },
     {
       tecnology: "Docker",
-      percentage: 50,
+      percentage: 94,
       icon: <FaDocker size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "AWS",
-      percentage: 50,
+      percentage: 82,
       icon: <FaAws size={isMobile ? 24 : 32} color="#fff" />,
     },
     {
       tecnology: "GitHub Actions",
-      percentage: 55,
+      percentage: 91,
       icon: <SiGithubactions size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
+      tecnology: "Vercel",
+      percentage: 85,
+      icon: <SiVercel size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
+      tecnology: "Railway",
+      percentage: 87,
+      icon: <SiRailway size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
       tecnology: "Socket.IO",
-      percentage: 45,
+      percentage: 90,
       icon: <TbBrandSocketIo size={isMobile ? 27 : 35} color="#fff" />,
     },
     {
       tecnology: "PostgreSQL",
-      percentage: 65,
+      percentage: 84,
       icon: <BiLogoPostgresql size={isMobile ? 25 : 33} color="#fff" />,
     },
     {
       tecnology: "MongoDB",
-      percentage: 50,
+      percentage: 90,
       icon: <SiMongodb size={isMobile ? 25 : 33} color="#fff" />,
     },
     {
       tecnology: "Redis",
-      percentage: 50,
+      percentage: 84,
       icon: <SiRedis size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "TypeORM",
-      percentage: 65,
+      percentage: 90,
       icon: <SiTypeorm size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Prisma",
-      percentage: 65,
+      percentage: 91,
       icon: <SiPrisma size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "NestJS",
-      percentage: 75,
+      percentage: 88,
       icon: <SiNestjs size={isMobile ? 22 : 30} color="#fff" />,
-    },
-    {
-      tecnology: "Vitest",
-      percentage: 55,
-      icon: <SiVitest size={isMobile ? 22 : 30} color="#fff" />,
     },
   ];
 
   const dataDesigner: dataSkills[] = [
     {
+      tecnology: "Higgsfield AI",
+      percentage: 75,
+      icon: <HiggsfieldIcon size={isMobile ? 20 : 28} />,
+    },
+    {
+      tecnology: "Meshy AI",
+      percentage: 74,
+      icon: <MeshyIcon size={isMobile ? 24 : 32} />,
+    },
+    {
       tecnology: "Photoshop",
-      percentage: 50,
+      percentage: 68,
       icon: <SiAdobephotoshop size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Illustrator",
-      percentage: 45,
+      percentage: 60,
       icon: <SiAdobeillustrator size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
+      tecnology: "After Effects",
+      percentage: 67,
+      icon: <SiAdobeaftereffects size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
       tecnology: "CorelDRAW",
-      percentage: 45,
+      percentage: 64,
       icon: <SiCoreldraw size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
       tecnology: "Figma",
-      percentage: 45,
+      percentage: 60,
       icon: <FaFigma size={isMobile ? 20 : 28} color="#fff" />,
     },
   ];

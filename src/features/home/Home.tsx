@@ -235,7 +235,7 @@ export const Home = () => {
                 >
                   <div className="max-w-[400px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] text-center">
                     <p className="text-white font-crimson italic font-normal text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] leading-9 sm:leading-10 lg:leading-12">
-                      {t("Senior Full Stack Developer con más de 5 años ayudando a empresas de seguros, banca y fintech de EE. UU., Ecuador y Colombia a pasar de procesos manuales a plataformas web. Trabajo de punta a punta con React, NestJS y PostgreSQL, y potencio mi desarrollo con IA para entregar en menos tiempo con código mantenible.")}
+                      {t("Senior Full Stack Developer con más de 5 años convirtiendo procesos manuales en plataformas web para empresas de seguros, banca y fintech. Trabajo de punta a punta con React, NestJS y PostgreSQL, y uso IA para entregar más rápido sin perder calidad.")}
                     </p>
                   </div>
                 </div>
