@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   FaAngular,
+  FaAws,
   FaBootstrap,
   FaCss3Alt,
   FaDocker,
@@ -29,10 +30,14 @@ import {
   SiAdobephotoshop,
   SiCoreldraw,
   SiExpress,
+  SiGithubactions,
   SiMongodb,
   SiNestjs,
+  SiPrisma,
+  SiRedis,
   SiTypeorm,
   SiVite,
+  SiVitest,
 } from "react-icons/si";
 import { PiFramerLogoFill } from "react-icons/pi";
 import { Icon } from "@iconify/react";
@@ -80,11 +85,12 @@ export const useSkills = () => {
 
   const dataBackItems: string[] = [
     t("Construcción de APIs sólidas y escalables en Node.js / TypeScript."),
-    t("Modelado y gestión de bases de datos con Postgres / MongoDB."),
+    t("Modelado y gestión de bases de datos con PostgreSQL, Prisma, MongoDB y Redis."),
     t("Implementación de autenticación segura con JWT y validación robusta."),
-    t("Arquitecturas eficientes con Docker y control de versiones."),
+    t("Despliegues con Docker, AWS y CI/CD en GitHub Actions."),
     t("Monitoreo, logs y manejo de errores para sistemas confiables."),
     t("Diseño de lógica de negocio clara, mantenible y orientada al rendimiento."),
+    t("Testing con Vitest y TDD para APIs confiables."),
   ];
 
   const dataDesignItems: string[] = [
@@ -269,6 +275,16 @@ export const useSkills = () => {
       icon: <FaDocker size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
+      tecnology: "AWS",
+      percentage: 50,
+      icon: <FaAws size={isMobile ? 24 : 32} color="#fff" />,
+    },
+    {
+      tecnology: "GitHub Actions",
+      percentage: 55,
+      icon: <SiGithubactions size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
       tecnology: "Socket.IO",
       percentage: 45,
       icon: <TbBrandSocketIo size={isMobile ? 27 : 35} color="#fff" />,
@@ -284,14 +300,29 @@ export const useSkills = () => {
       icon: <SiMongodb size={isMobile ? 25 : 33} color="#fff" />,
     },
     {
+      tecnology: "Redis",
+      percentage: 50,
+      icon: <SiRedis size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
       tecnology: "TypeORM",
       percentage: 65,
       icon: <SiTypeorm size={isMobile ? 22 : 30} color="#fff" />,
     },
     {
+      tecnology: "Prisma",
+      percentage: 65,
+      icon: <SiPrisma size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
       tecnology: "NestJS",
       percentage: 75,
       icon: <SiNestjs size={isMobile ? 22 : 30} color="#fff" />,
+    },
+    {
+      tecnology: "Vitest",
+      percentage: 55,
+      icon: <SiVitest size={isMobile ? 22 : 30} color="#fff" />,
     },
   ];
 

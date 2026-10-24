@@ -506,7 +506,7 @@ export const useHome = ({ ready }: useHomeProps) => {
       );
       tl.to(
         count3,
-        { val: 3, duration: 1 * SPEED, ease: "none", onUpdate: update3 },
+        { val: 4, duration: 1 * SPEED, ease: "none", onUpdate: update3 },
         "<",
       );
 

@@ -118,8 +118,9 @@ export const Home = () => {
                         text={[
                           t("Desarrollador Full Stack"),
                           t("Desarrollador Frontend"),
+                          t("Desarrollador Backend"),
+                          t("DevOps"),
                           t("Diseñador UI/UX"),
-                          t("Programador"),
                         ]}
                         typingSpeed={75}
                         pauseDuration={1500}
@@ -234,7 +235,7 @@ export const Home = () => {
                 >
                   <div className="max-w-[400px] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] text-center">
                     <p className="text-white font-crimson italic font-normal text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] leading-9 sm:leading-10 lg:leading-12">
-                      {t("Desarrollador Full Stack con más de 5 años creando dashboards, plataformas de ventas y e-commerce para empresas de fintech, seguros y banca. Me apasiona construir interfaces rápidas, animadas y cuidadas al detalle.")}
+                      {t("Senior Full Stack Developer con más de 5 años ayudando a empresas de seguros, banca y fintech de EE. UU., Ecuador y Colombia a pasar de procesos manuales a plataformas web. Trabajo de punta a punta con React, NestJS y PostgreSQL, y potencio mi desarrollo con IA para entregar en menos tiempo con código mantenible.")}
                     </p>
                   </div>
                 </div>

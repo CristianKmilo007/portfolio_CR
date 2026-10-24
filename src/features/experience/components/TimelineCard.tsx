@@ -1,7 +1,7 @@
 // src/components/TimelineCard.tsx
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { FaBriefcase, FaGraduationCap } from "react-icons/fa6";
+import { FaBriefcase, FaCode, FaGraduationCap } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { useResponsive } from "../../../hooks/useMediaQuery";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ export type TimelineEvent = {
   desc: string;
   functions: Array<string>;
   side: "left" | "right";
-  type: "education" | "job";
+  type: "education" | "job" | "project";
   img?: string;
 };
 
@@ -169,6 +169,11 @@ const TimelineCard: React.FC<Props> = ({ ev }) => {
               <FaGraduationCap
                 size={isMobile ? 19 : isLaptop ? 22 : 25}
                 className="mt-[2px] sm:mt-[4px]"
+              />
+            ) : ev.type === "project" ? (
+              <FaCode
+                size={isMobile ? 17 : isLaptop ? 20 : 23}
+                className="mt-[2px] sm:mt-[4px] min-w-[21px]"
               />
             ) : (
               <FaBriefcase

@@ -4,7 +4,7 @@ export const projectData: Project[] = [
   {
     name: "Labreicis",
     description:
-      "Dashboard para gestionar la producción de camarón: fases, parámetros, insumos, tareas, bodegas, ventas y reportes. Shepwashi, 2025 – 2026.",
+      "Dashboard para gestionar la producción de camarón: fases, parámetros, insumos, tareas, bodegas, ventas y reportes. Luntriqa, 2026.",
     technologies: [
       "React",
       "Vite",

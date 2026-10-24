@@ -34,7 +34,7 @@ export const useExperience = () => {
       desc: string;
       functions?: Array<string>;
       side: "left" | "right" | "center";
-      type: "education" | "job";
+      type: "education" | "job" | "project";
       img?: string;
     } & (
       | { y?: never; progress?: never }
@@ -55,14 +55,14 @@ export const useExperience = () => {
     {
       year: "2021 - 2023",
       title: "Freelance",
-      desc: t("Desarrollador Full Stack · Remoto"),
+      desc: t("Full Stack Developer · Remoto"),
       functions: [
-        t("E-commerce de Distripharmacias del Llano con Angular, MongoDB y Socket.io"),
+        t("E-commerce de Distripharmacias del Llano de punta a punta con Angular, Node.js y MongoDB"),
         t("APIs REST con Node.js, Express y MongoDB"),
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
-      progress: isMobile ? 0.45 : 0.41,
+      progress: isMobile ? 0.427 : 0.391,
     },
     {
       year: "2022",
@@ -74,7 +74,7 @@ export const useExperience = () => {
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       img: "/experience/cert_3.webp",
-      progress: isMobile ? 0.53 : 0.49,
+      progress: isMobile ? 0.484 : 0.452,
     },
     {
       year: "2023 - 2024",
@@ -86,20 +86,20 @@ export const useExperience = () => {
       ],
       side: isMobile ? "center" : isLaptop ? "right" : "left",
       type: "job",
-      progress: isMobile ? 0.61 : 0.57,
+      progress: isMobile ? 0.541 : 0.513,
     },
     {
-      year: t("2024 - Actualidad"),
+      year: "2024 - 2025",
       title: "Shepwashi",
-      desc: t("Senior Frontend Developer · Remoto · Weston, Florida (EE. UU.)"),
+      desc: t("Full Stack Developer · Remoto · Weston, Florida (EE. UU.)"),
       functions: [
-        t("Dashboards para Labreicis, Banco Bolivariano y Ecuasuiza"),
-        t("Arquitectura frontend con React, TypeScript, Zustand y TanStack Query"),
-        t("Trabajo con el equipo de backend: APIs REST, code reviews y pull requests"),
+        t("Dashboard de Banco Bolivariano con la visibilidad de ventas por oficina"),
+        t("Venta de seguros en línea de Ecuasuiza y su panel para agentes con drag & drop"),
+        t("Dashboard de rentabilidad por proyecto y sitio corporativo con Next.js, GSAP y SEO"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
-      progress: isMobile ? 0.69 : 0.65,
+      progress: isMobile ? 0.598 : 0.574,
     },
     {
       year: "2025",
@@ -109,26 +109,74 @@ export const useExperience = () => {
       functions: [t("NestJS, TypeORM, PostgreSQL y Docker en proyectos prácticos")],
       img: "/experience/cert_4.webp",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
-      progress: isMobile ? 0.77 : 0.73,
+      progress: isMobile ? 0.655 : 0.635,
     },
     {
       year: "2025",
       title: "Eranpay",
-      desc: t("Frontend Developer · Freelance"),
+      desc: t("Senior Frontend Developer · Remoto"),
       functions: [
-        t("Dashboard fintech con React, TypeScript, TanStack Query y Zustand"),
+        t("Dashboard fintech con React, TypeScript, TanStack Query y tiempo real con Socket.io"),
         t("Multi-idioma, tema claro/oscuro, mapas y actualizaciones en tiempo real"),
       ],
       type: "job",
       side: isMobile ? "center" : isLaptop ? "left" : "right",
-      progress: isMobile ? 0.85 : 0.81,
+      progress: isMobile ? 0.712 : 0.696,
+    },
+    {
+      year: t("2026 - Actualidad"),
+      title: "Luntriqa",
+      desc: t("Senior Full Stack Developer · Remoto · Guayaquil (Ecuador)"),
+      functions: [
+        t("Lideré el dashboard de Labreicis, que digitalizó la operación completa de una camaronera"),
+        t("Arquitectura del equipo con Zustand y TanStack Query, y contrato de APIs REST con backend"),
+      ],
+      type: "job",
+      side: isMobile ? "center" : isLaptop ? "right" : "left",
+      progress: isMobile ? 0.769 : 0.757,
+    },
+    {
+      year: "2026",
+      title: "Rapidex",
+      desc: t("Proyecto personal · NestJS, Drizzle, PostgreSQL y Redis"),
+      functions: [
+        t("API de transportadora multi-comercio con guías, envíos y rastreo en vivo con SSE y WebSockets"),
+        t("Webhooks con patrón outbox, firma HMAC y reintentos; llaves de API y JWT con 2FA"),
+      ],
+      type: "project",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
+      progress: isMobile ? 0.826 : 0.818,
+    },
+    {
+      year: "2026",
+      title: "Mercadex",
+      desc: t("Proyecto personal · NestJS, Drizzle, PostgreSQL y React"),
+      functions: [
+        t("Marketplace con catálogo, carrito, checkout, devoluciones y panel de vendedor"),
+        t("Login con Google y 2FA; envíos integrados con Rapidex por API y webhooks firmados"),
+      ],
+      type: "project",
+      side: isMobile ? "center" : isLaptop ? "right" : "left",
+      progress: isMobile ? 0.883 : 0.879,
+    },
+    {
+      year: "2026",
+      title: "OpenSeat",
+      desc: t("Proyecto personal · NestJS, Prisma, PostgreSQL y React"),
+      functions: [
+        t("SaaS multi-organización para gestionar las sillas de asambleas con acceso por PIN o QR"),
+        t("~1.300 tests con Vitest y CI en GitHub Actions; PIN cifrado con AES-256-GCM"),
+      ],
+      type: "project",
+      side: isMobile ? "center" : isLaptop ? "left" : "right",
+      progress: isMobile ? 0.94 : 0.94,
     },
     {
       year: "2026",
       title: t("Desarrollo con IA"),
       desc: t("Uso Claude Code, Codex, Gemini y OpenCode con Spec-Driven Development (SDD) para acelerar el desarrollo"),
       type: "education",
-      side: isMobile ? "center" : isLaptop ? "left" : "right",
+      side: isMobile ? "center" : isLaptop ? "right" : "left",
       progress: 1,
     },
   ];
@@ -316,7 +364,7 @@ export const useExperience = () => {
         }
 
         // --- CREACIÓN DEL SVG ---
-        const SVG_HEIGHT = isMobile ? 6000 : 8000;
+        const SVG_HEIGHT = isMobile ? 7500 : 10000;
         const amplitude = isMobile ? 75 : 100;
 
         svgEl = document.createElementNS("http://www.w3.org/2000/svg", "svg");
