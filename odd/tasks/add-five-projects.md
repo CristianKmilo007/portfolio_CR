@@ -41,6 +41,8 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
   - [x] T3d Luntriqa Broker: screenshots 2026-11-19 122147..123143 (11: 6 desktop, 5 mobile with isContain), cover img1, link https://broker.shepwashi.com/ (HTTP 200) — commit 94476a2
   - [x] T3e Luntriqa Seguros: screenshots 2026-11-19 123606..125524 (18: 12 desktop, 6 mobile with isContain), cover img1, link https://sales.shepwashi.com/ (HTTP 200; user corrected an initial duplicate of the Ventas URL) — commit 7298f20 — checked on /projects/all via DOM (cover decodes 1916x943, counter 1/18, link present, 18 files 200 image/webp)
 
+- [x] T4 Featured order requested by the user: first five (home slider) Labreicis, Eranpay, Shepwashi (corporate site), Luntriqa Seguros, TodoDomi; rest keep relative order — route: inline (scripted block move, verified line-identical) — commit 118a1a3 — browser-checked /projects slider shows exactly those five
+
 ## Acceptance criteria
 - Five entries render in the projects slider with translated descriptions in es/en/zh.
 - `tsc -b` passes.
