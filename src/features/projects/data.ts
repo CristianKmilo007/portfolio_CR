@@ -295,7 +295,7 @@ export const projectData: Project[] = [
   {
     name: "Banco Bolivariano",
     description:
-      "Dashboard de pólizas, usuarios, oficinas y clientes, con estadísticas y módulos para seguir las ventas.",
+      "Venta de seguros desde las oficinas del banco: el asesor busca al cliente, elige el plan, registra beneficiarios y valida la firma con un código por correo, con estadísticas de ventas, metas y aseguradoras.",
     technologies: [
       "React",
       "Vite",
