@@ -33,12 +33,12 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - [x] T2b Copy refresh requested by the user: rewrite Luntriqa Ventas/Broker openings, expand TodoDomi/TodoServy/Ecuasuiza Ventas from their screenshots, drop "<Company>, <Year>." from all 15 descriptions in es/en/zh — route: inline (scripted key rename, dry-run reviewed) — commit 8b8427f
 - [x] T2c Expand Banco Bolivariano description (was too short after the suffix removal), based on its screenshots — route: inline — commit e9fc496
 - [x] T2d Expand Shepwashi description from its screenshots — route: inline — commit 4f760f6
-- [ ] T3 Sort screenshots from Pictures/Screenshots per project, convert to webp, wire `slides` and `image` — route: inline, one project at a time as the user assigns screenshot ranges
+- [x] T3 Sort screenshots from Pictures/Screenshots per project, convert to webp, wire `slides` and `image` — route: inline, one project at a time as the user assigns screenshot ranges
   - [x] T3a Sony WH-1000XM6: screenshots 2026-11-19 132501..133422 (18: 9 desktop, 9 mobile with isContain), cover img1 — commit e196935 — browser-checked on /projects/all (cover + 1/18)
   - [x] T3b Qorsu: screenshots 2026-11-19 131025..131913 (13: 7 desktop, 6 mobile with isContain), cover img1 — commit 0f4d47e — checked on /projects/all via DOM (cover loaded 1917x942, counter 1/13, all 13 files 200 image/webp)
   - [x] T3f Live links: Sony https://sony-landing-production.up.railway.app/ and Qorsu https://qorsu.com/ (both HTTP 200) — commit 55bbe3f
   - [x] T3c Luntriqa Ventas: screenshots 2026-11-19 125850..130754 with 130045 first (13: 8 desktop, 5 mobile with isContain), cover img1, link https://wlfloorsale.shepwashi.com/ (HTTP 200) — commit 33f27ee — checked on /projects/all via DOM (cover loaded, counter 1/13, link present, 13 files 200 image/webp)
-  - [ ] T3d Luntriqa Broker
+  - [x] T3d Luntriqa Broker: screenshots 2026-11-19 122147..123143 (11: 6 desktop, 5 mobile with isContain), cover img1, link https://broker.shepwashi.com/ (HTTP 200) — commit 94476a2
   - [x] T3e Luntriqa Seguros: screenshots 2026-11-19 123606..125524 (18: 12 desktop, 6 mobile with isContain), cover img1, link https://sales.shepwashi.com/ (HTTP 200; user corrected an initial duplicate of the Ventas URL) — commit 7298f20 — checked on /projects/all via DOM (cover decodes 1916x943, counter 1/18, link present, 18 files 200 image/webp)
 
 ## Acceptance criteria
@@ -60,5 +60,11 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - Language switch checked in the browser (dev server, /projects): descriptions switch es -> en correctly; the user's report was a stale locale file in their browser, no code change needed.
 - Note: the home slider renders only projectData.slice(0, 5); with the new order it shows Labreicis, Luntriqa Ventas/Broker/Seguros and Qorsu. Sony and the rest appear under "Ver más proyectos".
 
+## Final verification
+- All 15 projects have slides and a cover; 219 referenced assets exist on disk; `npx tsc -b` exit 0.
+- /projects/all (DOM): the five new cards show cover, counter (13/11/18/13/18) and live link; no "Producto sin imágenes" card left.
+- /projects slider shows Labreicis, Luntriqa Ventas, Luntriqa Broker, Luntriqa Seguros, Qorsu; no 4xx on /projects/ assets.
+- All 73 screenshots from 2026-11-19 assigned (Broker 11, Seguros 18, Ventas 13, Qorsu 13, Sony 18).
+
 ## Next step
-T3d: wait for the user to assign the screenshot range for Luntriqa Broker (11 screenshots left, 2026-11-19 122147..123143).
+Feature complete on branch feat/add-five-projects. Push / PR / merge are the user's decision.
