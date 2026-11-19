@@ -452,7 +452,7 @@ export const projectData: Project[] = [
   {
     name: "Shepwashi",
     description:
-      "Sitio web corporativo con animaciones en GSAP y Framer Motion, diseño responsivo y SEO on-page.",
+      "Sitio corporativo de una empresa de tecnología para aseguradoras: páginas de servicio animadas con GSAP y Framer Motion (insurtech, IA, UX/UI, ciberseguridad), blog, portafolio, solicitud de cotización y SEO on-page.",
     technologies: [
       "Next.js",
       "JavaScript",
