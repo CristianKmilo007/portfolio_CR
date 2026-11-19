@@ -33,7 +33,12 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - [x] T2b Copy refresh requested by the user: rewrite Luntriqa Ventas/Broker openings, expand TodoDomi/TodoServy/Ecuasuiza Ventas from their screenshots, drop "<Company>, <Year>." from all 15 descriptions in es/en/zh — route: inline (scripted key rename, dry-run reviewed) — commit 8b8427f
 - [x] T2c Expand Banco Bolivariano description (was too short after the suffix removal), based on its screenshots — route: inline — commit e9fc496
 - [x] T2d Expand Shepwashi description from its screenshots — route: inline — commit 4f760f6
-- [ ] T3 Sort screenshots from Pictures/Screenshots per project, convert to webp, wire `slides` and `image` — route: TBD (next phase, user-driven)
+- [ ] T3 Sort screenshots from Pictures/Screenshots per project, convert to webp, wire `slides` and `image` — route: inline, one project at a time as the user assigns screenshot ranges
+  - [x] T3a Sony WH-1000XM6: screenshots 2026-11-19 132501..133422 (18: 9 desktop, 9 mobile with isContain), cover img1 — commit e196935 — browser-checked on /projects/all (cover + 1/18)
+  - [ ] T3b Qorsu
+  - [ ] T3c Luntriqa Ventas
+  - [ ] T3d Luntriqa Broker
+  - [ ] T3e Luntriqa Seguros
 
 ## Acceptance criteria
 - Five entries render in the projects slider with translated descriptions in es/en/zh.
@@ -55,4 +60,4 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - Note: the home slider renders only projectData.slice(0, 5); with the new order it shows Labreicis, Luntriqa Ventas/Broker/Seguros and Qorsu. Sony and the rest appear under "Ver más proyectos".
 
 ## Next step
-T3: sort the 73 screenshots in Pictures/Screenshots by project.
+T3b–T3e: wait for the user to assign screenshot ranges for the remaining four projects (55 screenshots left, 2026-11-19 122147..131913).
