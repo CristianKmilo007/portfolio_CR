@@ -36,6 +36,7 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - [ ] T3 Sort screenshots from Pictures/Screenshots per project, convert to webp, wire `slides` and `image` — route: inline, one project at a time as the user assigns screenshot ranges
   - [x] T3a Sony WH-1000XM6: screenshots 2026-11-19 132501..133422 (18: 9 desktop, 9 mobile with isContain), cover img1 — commit e196935 — browser-checked on /projects/all (cover + 1/18)
   - [x] T3b Qorsu: screenshots 2026-11-19 131025..131913 (13: 7 desktop, 6 mobile with isContain), cover img1 — commit 0f4d47e — checked on /projects/all via DOM (cover loaded 1917x942, counter 1/13, all 13 files 200 image/webp)
+  - [x] T3f Live links: Sony https://sony-landing-production.up.railway.app/ and Qorsu https://qorsu.com/ (both HTTP 200) — commit 55bbe3f
   - [ ] T3c Luntriqa Ventas
   - [ ] T3d Luntriqa Broker
   - [ ] T3e Luntriqa Seguros
