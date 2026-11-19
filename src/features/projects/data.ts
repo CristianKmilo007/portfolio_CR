@@ -4,7 +4,7 @@ export const projectData: Project[] = [
   {
     name: "Labreicis",
     description:
-      "Dashboard para gestionar la producción de camarón: fases, parámetros, insumos, tareas, bodegas, ventas y reportes. Luntriqa, 2026.",
+      "Dashboard para gestionar la producción de camarón: fases, parámetros, insumos, tareas, bodegas, ventas y reportes.",
     technologies: [
       "React",
       "Vite",
@@ -62,7 +62,7 @@ export const projectData: Project[] = [
   {
     name: "Luntriqa Ventas",
     description:
-      "Consola interna de venta de seguros: cotizador que compara varias aseguradoras y emite la póliza, órdenes, comisiones, siniestros, formularios dinámicos y carga masiva, con marca blanca. Luntriqa, 2026.",
+      "Cotizador de seguros donde el asesor compara varias aseguradoras, elige la mejor opción y emite la póliza en un solo flujo, con órdenes, comisiones, siniestros y marca blanca.",
     technologies: [
       "React",
       "Vite",
@@ -81,7 +81,7 @@ export const projectData: Project[] = [
   {
     name: "Luntriqa Broker",
     description:
-      "Portal para corredores de seguros: cartera, usuarios y corporaciones, estados de cuenta, comisiones y emisión masiva de pólizas. Luntriqa, 2026.",
+      "Todo lo que un corredor de seguros necesita en un solo lugar: su cartera, clientes y corporaciones, estados de cuenta, comisiones y emisión masiva de pólizas.",
     technologies: [
       "React",
       "Vite",
@@ -98,7 +98,7 @@ export const projectData: Project[] = [
   {
     name: "Luntriqa Seguros",
     description:
-      "Tienda de seguros en línea para clientes finales: compra guiada por pasos con verificación OTP y pago con tarjeta, gestión de pólizas y reporte de siniestros. Luntriqa, 2026.",
+      "Tienda de seguros en línea para clientes finales: compra guiada por pasos con verificación OTP y pago con tarjeta, gestión de pólizas y reporte de siniestros.",
     technologies: [
       "React",
       "Vite",
@@ -115,7 +115,7 @@ export const projectData: Project[] = [
   {
     name: "Qorsu",
     description:
-      "Landing bilingüe para una marca de lujo, turismo y hospitalidad, con intro cinematográfica, secuencias de imágenes con el scroll, parallax y textos animados. Shepwashi, 2026.",
+      "Landing bilingüe para una marca de lujo, turismo y hospitalidad, con intro cinematográfica, secuencias de imágenes con el scroll, parallax y textos animados.",
     technologies: [
       "Astro",
       "TypeScript",
@@ -130,7 +130,7 @@ export const projectData: Project[] = [
   {
     name: "Sony WH-1000XM6",
     description:
-      "Landing conceptual para el lanzamiento de unos audífonos: al hacer scroll el producto se reproduce cuadro a cuadro, tiene visor 3D con cambio de color y un simulador de cancelación de ruido. Prototipo personal, 2026.",
+      "Landing conceptual para el lanzamiento de unos audífonos: al hacer scroll el producto se reproduce cuadro a cuadro, tiene visor 3D con cambio de color y un simulador de cancelación de ruido.",
     technologies: [
       "Next.js",
       "React",
@@ -144,7 +144,7 @@ export const projectData: Project[] = [
   {
     name: "Eranpay",
     description:
-      "Plataforma fintech para gestionar transacciones, tarjetas, empresas, e-commerce, órdenes y soporte, con multi-idioma, tema claro/oscuro, mapas y datos en tiempo real. Proyecto freelance, 2025.",
+      "Plataforma fintech para gestionar transacciones, tarjetas, empresas, e-commerce, órdenes y soporte, con multi-idioma, tema claro/oscuro, mapas y datos en tiempo real.",
     technologies: [
       "React",
       "Vite",
@@ -225,7 +225,7 @@ export const projectData: Project[] = [
   {
     name: "Shepwashi Dashboard",
     description:
-      "Herramienta interna para controlar proyectos, empleados, comisiones, gastos, tipos de contrato y rentabilidad de la empresa. Shepwashi, 2025.",
+      "Herramienta interna para controlar proyectos, empleados, comisiones, gastos, tipos de contrato y rentabilidad de la empresa.",
     technologies: [
       "React",
       "Vite",
@@ -295,7 +295,7 @@ export const projectData: Project[] = [
   {
     name: "Banco Bolivariano",
     description:
-      "Dashboard de pólizas, usuarios, oficinas y clientes, con estadísticas y módulos para seguir las ventas. Shepwashi, 2025.",
+      "Dashboard de pólizas, usuarios, oficinas y clientes, con estadísticas y módulos para seguir las ventas.",
     technologies: [
       "React",
       "Vite",
@@ -344,7 +344,7 @@ export const projectData: Project[] = [
   {
     name: "Ecuasuiza Agentes",
     description:
-      "Panel administrativo para agentes de seguros: usuarios, corporaciones, compañías, campañas, productos, planes y órdenes, con drag & drop. Shepwashi, 2025.",
+      "Panel administrativo para agentes de seguros: usuarios, corporaciones, compañías, campañas, productos, planes y órdenes, con drag & drop.",
     technologies: [
       "React",
       "Vite",
@@ -403,7 +403,7 @@ export const projectData: Project[] = [
   {
     name: "Ecuasuiza Ventas",
     description:
-      "Sitio de venta de seguros con secciones por banco y diseño responsivo. Shepwashi, 2024.",
+      "Sitio de venta de seguros en línea con secciones y campañas por banco: el cliente compara planes, registra a sus beneficiarios, confirma con un código de verificación, paga con tarjeta y descarga su póliza.",
     technologies: [
       "React",
       "Vite",
@@ -452,7 +452,7 @@ export const projectData: Project[] = [
   {
     name: "Shepwashi",
     description:
-      "Sitio web corporativo con animaciones en GSAP y Framer Motion, diseño responsivo y SEO on-page. 2024.",
+      "Sitio web corporativo con animaciones en GSAP y Framer Motion, diseño responsivo y SEO on-page.",
     technologies: [
       "Next.js",
       "JavaScript",
@@ -482,7 +482,7 @@ export const projectData: Project[] = [
   {
     name: "TodoDomi",
     description:
-      "La primera app de delivery de Galápagos, pensada para turistas y comunidad local. TodoServy, 2024.",
+      "La primera app de delivery de Galápagos, pensada para turistas y comunidad local: pedidos a restaurantes y supermercados con búsqueda por categorías, carrito por local, cupones, propina y pago en pocos pasos.",
     technologies: ["React", "JavaScript", "SASS", "Bootstrap"],
     slides: [
       { type: "image", src: "/projects/tododomi/img1.webp" },
@@ -505,7 +505,7 @@ export const projectData: Project[] = [
   {
     name: "TodoServy",
     description:
-      "Directorio verificado de servicios, profesionales y empresas. TodoServy, 2023.",
+      "Directorio verificado de negocios y profesionales en Colombia, con perfiles con fotos, reseñas y ubicación, una ruta turística por regiones, blog y planes de suscripción para que cada negocio se destaque.",
     technologies: [
       "HTML",
       "CSS",
@@ -531,7 +531,7 @@ export const projectData: Project[] = [
   {
     name: "Distripharmacias del Llano",
     description:
-      "E-commerce de medicamentos con ventas, órdenes, pagos e inventario, desarrollado de punta a punta (frontend y backend). Proyecto freelance, 2023.",
+      "E-commerce de medicamentos con ventas, órdenes, pagos e inventario, desarrollado de punta a punta (frontend y backend).",
     technologies: [
       "Angular",
       "JavaScript",
