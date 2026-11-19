@@ -31,6 +31,7 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - [x] T1 Add the five entries (name, description, technologies) to data.ts after Labreicis — route: inline (single mechanical file) — commit f81ea3f
 - [x] T2 Add name and description keys to es/en/zh locales — route: inline (mechanical JSON) — commit f81ea3f
 - [x] T2b Copy refresh requested by the user: rewrite Luntriqa Ventas/Broker openings, expand TodoDomi/TodoServy/Ecuasuiza Ventas from their screenshots, drop "<Company>, <Year>." from all 15 descriptions in es/en/zh — route: inline (scripted key rename, dry-run reviewed) — commit 8b8427f
+- [x] T2c Expand Banco Bolivariano description (was too short after the suffix removal), based on its screenshots — route: inline — commit e9fc496
 - [ ] T3 Sort screenshots from Pictures/Screenshots per project, convert to webp, wire `slides` and `image` — route: TBD (next phase, user-driven)
 
 ## Acceptance criteria
