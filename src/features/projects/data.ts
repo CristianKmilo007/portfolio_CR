@@ -60,6 +60,88 @@ export const projectData: Project[] = [
     link: "https://app.labreicis.com/",
   },
   {
+    name: "Luntriqa Ventas",
+    description:
+      "Consola interna de venta de seguros: cotizador que compara varias aseguradoras y emite la póliza, órdenes, comisiones, siniestros, formularios dinámicos y carga masiva, con marca blanca. Luntriqa, 2026.",
+    technologies: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Tailwind CSS",
+      "HeroUI",
+      "Ant Design",
+      "ApexCharts",
+      "Recharts",
+      "Dnd kit",
+      "Zustand",
+      "Axios",
+      "ExcelJS",
+    ],
+  },
+  {
+    name: "Luntriqa Broker",
+    description:
+      "Portal para corredores de seguros: cartera, usuarios y corporaciones, estados de cuenta, comisiones y emisión masiva de pólizas. Luntriqa, 2026.",
+    technologies: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Tailwind CSS",
+      "HeroUI",
+      "Ant Design",
+      "Framer Motion",
+      "Recharts",
+      "Zustand",
+      "Axios",
+    ],
+  },
+  {
+    name: "Luntriqa Seguros",
+    description:
+      "Tienda de seguros en línea para clientes finales: compra guiada por pasos con verificación OTP y pago con tarjeta, gestión de pólizas y reporte de siniestros. Luntriqa, 2026.",
+    technologies: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Tailwind CSS",
+      "HeroUI",
+      "Ant Design",
+      "Framer Motion",
+      "Zustand",
+      "Axios",
+      "Nuvei",
+    ],
+  },
+  {
+    name: "Qorsu",
+    description:
+      "Landing bilingüe para una marca de lujo, turismo y hospitalidad, con intro cinematográfica, secuencias de imágenes con el scroll, parallax y textos animados. Shepwashi, 2026.",
+    technologies: [
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "GSAP",
+      "ScrollTrigger",
+      "SplitText",
+      "Lenis",
+      "Playwright",
+    ],
+  },
+  {
+    name: "Sony WH-1000XM6",
+    description:
+      "Landing conceptual para el lanzamiento de unos audífonos: al hacer scroll el producto se reproduce cuadro a cuadro, tiene visor 3D con cambio de color y un simulador de cancelación de ruido. Prototipo personal, 2026.",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Model Viewer",
+      "Canvas API",
+    ],
+  },
+  {
     name: "Eranpay",
     description:
       "Plataforma fintech para gestionar transacciones, tarjetas, empresas, e-commerce, órdenes y soporte, con multi-idioma, tema claro/oscuro, mapas y datos en tiempo real. Proyecto freelance, 2025.",
