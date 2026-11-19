@@ -39,7 +39,7 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
   - [x] T3f Live links: Sony https://sony-landing-production.up.railway.app/ and Qorsu https://qorsu.com/ (both HTTP 200) — commit 55bbe3f
   - [x] T3c Luntriqa Ventas: screenshots 2026-11-19 125850..130754 with 130045 first (13: 8 desktop, 5 mobile with isContain), cover img1, link https://wlfloorsale.shepwashi.com/ (HTTP 200) — commit 33f27ee — checked on /projects/all via DOM (cover loaded, counter 1/13, link present, 13 files 200 image/webp)
   - [ ] T3d Luntriqa Broker
-  - [ ] T3e Luntriqa Seguros
+  - [x] T3e Luntriqa Seguros: screenshots 2026-11-19 123606..125524 (18: 12 desktop, 6 mobile with isContain), cover img1, link https://sales.shepwashi.com/ (HTTP 200; user corrected an initial duplicate of the Ventas URL) — commit 7298f20 — checked on /projects/all via DOM (cover decodes 1916x943, counter 1/18, link present, 18 files 200 image/webp)
 
 ## Acceptance criteria
 - Five entries render in the projects slider with translated descriptions in es/en/zh.
@@ -61,4 +61,4 @@ The portfolio does not show the owner's 2026 work: the Sony and Qorsu landings a
 - Note: the home slider renders only projectData.slice(0, 5); with the new order it shows Labreicis, Luntriqa Ventas/Broker/Seguros and Qorsu. Sony and the rest appear under "Ver más proyectos".
 
 ## Next step
-T3d–T3e: wait for the user to assign screenshot ranges for Luntriqa Broker and Luntriqa Seguros (29 screenshots left, 2026-11-19 122147..125524).
+T3d: wait for the user to assign the screenshot range for Luntriqa Broker (11 screenshots left, 2026-11-19 122147..123143).
