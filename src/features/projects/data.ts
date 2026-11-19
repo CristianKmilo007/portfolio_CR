@@ -142,6 +142,7 @@ export const projectData: Project[] = [
       { type: "image", src: "/projects/qorsu/img13.webp", isContain: true },
     ],
     image: "/projects/qorsu/img1.webp",
+    link: "https://qorsu.com/",
   },
   {
     name: "Sony WH-1000XM6",
@@ -177,6 +178,7 @@ export const projectData: Project[] = [
       { type: "image", src: "/projects/sony-wh-1000xm6/img18.webp", isContain: true },
     ],
     image: "/projects/sony-wh-1000xm6/img1.webp",
+    link: "https://sony-landing-production.up.railway.app/",
   },
   {
     name: "Eranpay",
